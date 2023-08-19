@@ -13,5 +13,11 @@ unwrapNullable :: forall t a b. Newtype t a => t -> (a -> Nullable b) -> Maybe b
 unwrapNullable = ((<<<) toMaybe) <<< unwrapGet
 infixl 9 unwrapNullable as ~.
 
+-- Unsafe
+foreign import setProp :: forall a b. a -> String -> b -> b
+
+cancelEvent :: forall a. a -> Boolean
+cancelEvent e = setProp e "cancel" true
+
 run :: forall a. a -> Effect Unit
 run x = void $ pure x

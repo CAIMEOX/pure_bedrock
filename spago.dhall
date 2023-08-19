@@ -1,7 +1,10 @@
-{ name = "my-project"
+{ name = "pure_bedrock"
 , dependencies =
   [ "aff-promise"
+  , "control"
   , "effect"
+  , "integers"
+  , "lists"
   , "maybe"
   , "newtype"
   , "nullable"

@@ -8,7 +8,9 @@
 /.purs*
 /.psa*
 /.spago
+/meta
 *.json
 *.js
+!gen.js
 !/src/*.js
 pnpm-lock.yaml

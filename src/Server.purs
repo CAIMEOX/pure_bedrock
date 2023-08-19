@@ -27,86 +27,86 @@ data SignSide = SignSide String
 data TimeOfDay = TimeOfDay Number
 data WatchdogTerminateReason = WatchdogTerminateReason String
 data WeatherType = WeatherType String
-newtype BlockFillOptions = BlockFillOptions {
+type BlockFillOptions = {
   matchingBlock :: Nullable (BlockPermutation)
 }
-newtype BlockHitInformation = BlockHitInformation {
+type BlockHitInformation = {
   block :: Block,
   face :: Direction,
   faceLocation :: Vector3
 }
-newtype BlockRaycastHit = BlockRaycastHit {
+type BlockRaycastHit = {
   block :: Block,
   face :: Direction,
   faceLocation :: Vector3
 }
-newtype BlockRaycastOptions = BlockRaycastOptions {
+type BlockRaycastOptions = {
   includeLiquidBlocks :: Nullable (Boolean),
   includePassableBlocks :: Nullable (Boolean),
   maxDistance :: Nullable (Number)
 }
-newtype BlockVolume = BlockVolume {
+type BlockVolume = {
   from :: Vector3,
   to :: Vector3
 }
-newtype BoundingBox = BoundingBox {
+type BoundingBox = {
   max :: Vector3,
   min :: Vector3
 }
-newtype CameraEaseOptions = CameraEaseOptions {
+type CameraEaseOptions = {
   easeTime :: Nullable (Number),
   easeType :: Nullable (EasingType)
 }
-newtype CameraFadeOptions = CameraFadeOptions {
+type CameraFadeOptions = {
   fadeColor :: Nullable (RGB),
   fadeTime :: Nullable (CameraFadeTimeOptions)
 }
-newtype CameraFadeTimeOptions = CameraFadeTimeOptions {
+type CameraFadeTimeOptions = {
   fadeInTime :: Number,
   fadeOutTime :: Number,
   holdTime :: Number
 }
-newtype CompoundBlockVolumeItem = CompoundBlockVolumeItem {
+type CompoundBlockVolumeItem = {
   action :: Nullable (CompoundBlockVolumeAction),
   locationRelativity :: Nullable (CompoundBlockVolumePositionRelativity),
   volume :: BlockVolume
 }
-newtype DimensionLocation = DimensionLocation {
+type DimensionLocation = {
   dimension :: Dimension,
   x :: Number,
   y :: Number,
   z :: Number
 }
-newtype EntityApplyDamageByProjectileOptions = EntityApplyDamageByProjectileOptions {
+type EntityApplyDamageByProjectileOptions = {
   damagingEntity :: Nullable (Entity),
   damagingProjectile :: Entity
 }
-newtype EntityApplyDamageOptions = EntityApplyDamageOptions {
+type EntityApplyDamageOptions = {
   cause :: EntityDamageCause,
   damagingEntity :: Nullable (Entity)
 }
-newtype EntityDamageSource = EntityDamageSource {
+type EntityDamageSource = {
   cause :: EntityDamageCause,
   damagingEntity :: Nullable (Entity),
   damagingProjectile :: Nullable (Entity)
 }
-newtype EntityDataDrivenTriggerEventOptions = EntityDataDrivenTriggerEventOptions {
+type EntityDataDrivenTriggerEventOptions = {
   entities :: Nullable (Array (Entity)),
   entityTypes :: Nullable (Array (String)),
   eventTypes :: Nullable (Array (String))
 }
-newtype EntityEffectOptions = EntityEffectOptions {
+type EntityEffectOptions = {
   amplifier :: Nullable (Number),
   showParticles :: Nullable (Boolean)
 }
-newtype EntityEventOptions = EntityEventOptions {
+type EntityEventOptions = {
   entities :: Nullable (Array (Entity)),
   entityTypes :: Nullable (Array (String))
 }
-newtype EntityHitInformation = EntityHitInformation {
+type EntityHitInformation = {
   entity :: Entity
 }
-newtype EntityQueryOptions = EntityQueryOptions {
+type EntityQueryOptions = {
   closest :: Nullable (Number),
   excludeFamilies :: Nullable (Array (String)),
   excludeGameModes :: Nullable (Array (GameMode)),
@@ -131,41 +131,41 @@ newtype EntityQueryOptions = EntityQueryOptions {
   "type" :: Nullable (String),
   volume :: Nullable (BlockAreaSize)
 }
-newtype EntityQueryScoreOptions = EntityQueryScoreOptions {
+type EntityQueryScoreOptions = {
   exclude :: Nullable (Boolean),
   maxScore :: Nullable (Number),
   minScore :: Nullable (Number),
   objective :: Nullable (String)
 }
-newtype EntityRaycastHit = EntityRaycastHit {
+type EntityRaycastHit = {
   distance :: Number,
   entity :: Entity
 }
-newtype EntityRaycastOptions = EntityRaycastOptions {
+type EntityRaycastOptions = {
   maxDistance :: Nullable (Number)
 }
-newtype ExplosionOptions = ExplosionOptions {
+type ExplosionOptions = {
   allowUnderwater :: Nullable (Boolean),
   breaksBlocks :: Nullable (Boolean),
   causesFire :: Nullable (Boolean),
   source :: Nullable (Entity)
 }
-newtype MusicOptions = MusicOptions {
+type MusicOptions = {
   fade :: Nullable (Number),
   loop :: Nullable (Boolean),
   volume :: Nullable (Number)
 }
-newtype NumberRange = NumberRange {
+type NumberRange = {
   max :: Number,
   min :: Number
 }
-newtype PlayAnimationOptions = PlayAnimationOptions {
+type PlayAnimationOptions = {
   blendOutTime :: Nullable (Number),
   controller :: Nullable (String),
   nextState :: Nullable (String),
   stopExpression :: Nullable (String)
 }
-newtype PlayerSoundOptions = PlayerSoundOptions {
+type PlayerSoundOptions = {
   location :: Nullable (Vector3),
   pitch :: Nullable (Number),
   volume :: Nullable (Number)
@@ -177,80 +177,80 @@ newtype RawMessage = RawMessage {
   translate :: Nullable (String),
   with :: Nullable ((Array (String) |+| RawMessage))
 }
-newtype RawMessageScore = RawMessageScore {
+type RawMessageScore = {
   name :: Nullable (String),
   objective :: Nullable (String)
 }
-newtype RawText = RawText {
+type RawText = {
   rawtext :: Nullable (Array (RawMessage))
 }
-newtype RGB = RGB {
+type RGB = {
   blue :: Number,
   green :: Number,
   red :: Number
 }
-newtype RGBA = RGBA {
+type RGBA = {
   alpha :: Number,
   blue :: Number,
   green :: Number,
   red :: Number
 }
-newtype ScoreboardObjectiveDisplayOptions = ScoreboardObjectiveDisplayOptions {
+type ScoreboardObjectiveDisplayOptions = {
   objective :: ScoreboardObjective,
   sortOrder :: Nullable (ObjectiveSortOrder)
 }
-newtype ScriptCameraDefaultOptions = ScriptCameraDefaultOptions {
+type ScriptCameraDefaultOptions = {
   easeOptions :: CameraEaseOptions
 }
-newtype ScriptCameraSetFacingOptions = ScriptCameraSetFacingOptions {
+type ScriptCameraSetFacingOptions = {
   easeOptions :: Nullable (CameraEaseOptions),
   facingEntity :: Entity,
   location :: Nullable (Vector3)
 }
-newtype ScriptCameraSetLocationOptions = ScriptCameraSetLocationOptions {
+type ScriptCameraSetLocationOptions = {
   easeOptions :: Nullable (CameraEaseOptions),
   location :: Vector3
 }
-newtype ScriptCameraSetPosOptions = ScriptCameraSetPosOptions {
+type ScriptCameraSetPosOptions = {
   easeOptions :: Nullable (CameraEaseOptions),
   facingLocation :: Vector3,
   location :: Nullable (Vector3)
 }
-newtype ScriptCameraSetRotOptions = ScriptCameraSetRotOptions {
+type ScriptCameraSetRotOptions = {
   easeOptions :: Nullable (CameraEaseOptions),
   location :: Nullable (Vector3),
   rotation :: Vector2
 }
-newtype ScriptEventMessageFilterOptions = ScriptEventMessageFilterOptions {
+type ScriptEventMessageFilterOptions = {
   namespaces :: Array (String)
 }
-newtype TeleportOptions = TeleportOptions {
+type TeleportOptions = {
   checkForBlocks :: Nullable (Boolean),
   dimension :: Nullable (Dimension),
   facingLocation :: Nullable (Vector3),
   keepVelocity :: Nullable (Boolean),
   rotation :: Nullable (Vector2)
 }
-newtype TitleDisplayOptions = TitleDisplayOptions {
+type TitleDisplayOptions = {
   fadeInDuration :: Number,
   fadeOutDuration :: Number,
   stayDuration :: Number,
   subtitle :: Nullable ((Array ((RawMessage |+| String)) |+| RawMessage |+| String))
 }
-newtype Vector2 = Vector2 {
+type Vector2 = {
   x :: Number,
   y :: Number
 }
-newtype Vector3 = Vector3 {
+type Vector3 = {
   x :: Number,
   y :: Number,
   z :: Number
 }
-newtype WorldSoundOptions = WorldSoundOptions {
+type WorldSoundOptions = {
   pitch :: Nullable (Number),
   volume :: Nullable (Number)
 }
-newtype Block = Block {
+type Block = {
   dimension :: Dimension,
   isAir :: Boolean,
   isLiquid :: Boolean,
@@ -264,66 +264,66 @@ newtype Block = Block {
   y :: Number,
   z :: Number
 }
-derive instance newtypeBlock :: Newtype Block _
-newtype BlockAreaSize = BlockAreaSize {
+
+type BlockAreaSize = {
   x :: Number,
   y :: Number,
   z :: Number
 }
-derive instance newtypeBlockAreaSize :: Newtype BlockAreaSize _
-newtype BlockBreakAfterEvent = BlockBreakAfterEvent {
+
+type BlockBreakAfterEvent = {
   brokenBlockPermutation :: BlockPermutation,
   player :: Player,
   block :: Block,
   dimension :: Dimension
 }
-derive instance newtypeBlockBreakAfterEvent :: Newtype BlockBreakAfterEvent _
+
 data BlockBreakAfterEventSignal = BlockBreakAfterEventSignal
 
-newtype BlockComponent = BlockComponent {
+type BlockComponent = {
   block :: Block,
   typeId :: String
 }
-derive instance newtypeBlockComponent :: Newtype BlockComponent _
-newtype BlockEvent = BlockEvent {
+
+type BlockEvent = {
   block :: Block,
   dimension :: Dimension
 }
-derive instance newtypeBlockEvent :: Newtype BlockEvent _
-newtype BlockExplodeAfterEvent = BlockExplodeAfterEvent {
+
+type BlockExplodeAfterEvent = {
   explodedBlockPermutation :: BlockPermutation,
   source :: Nullable (Entity),
   block :: Block,
   dimension :: Dimension
 }
-derive instance newtypeBlockExplodeAfterEvent :: Newtype BlockExplodeAfterEvent _
+
 data BlockExplodeAfterEventSignal = BlockExplodeAfterEventSignal
 
-newtype BlockInventoryComponent = BlockInventoryComponent {
+type BlockInventoryComponent = {
   container :: Container,
   block :: Block,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeBlockInventoryComponent :: Newtype BlockInventoryComponent _
-newtype BlockLavaContainerComponent = BlockLavaContainerComponent {
+
+type BlockLavaContainerComponent = {
   fillLevel :: Number,
   componentId :: String
 }
-derive instance newtypeBlockLavaContainerComponent :: Newtype BlockLavaContainerComponent _
-newtype BlockLiquidContainerComponent = BlockLiquidContainerComponent {
+
+type BlockLiquidContainerComponent = {
   fillLevel :: Number,
   block :: Block,
   typeId :: String
 }
-derive instance newtypeBlockLiquidContainerComponent :: Newtype BlockLiquidContainerComponent _
+
 data BlockLocationIterator = BlockLocationIterator
 
-newtype BlockPermutation = BlockPermutation {
+type BlockPermutation = {
   "type" :: BlockType
 }
-derive instance newtypeBlockPermutation :: Newtype BlockPermutation _
-newtype BlockPistonComponent = BlockPistonComponent {
+
+type BlockPistonComponent = {
   isExpanded :: Boolean,
   isExpanding :: Boolean,
   isMoving :: Boolean,
@@ -333,113 +333,113 @@ newtype BlockPistonComponent = BlockPistonComponent {
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeBlockPistonComponent :: Newtype BlockPistonComponent _
-newtype BlockPlaceAfterEvent = BlockPlaceAfterEvent {
+
+type BlockPlaceAfterEvent = {
   player :: Player,
   block :: Block,
   dimension :: Dimension
 }
-derive instance newtypeBlockPlaceAfterEvent :: Newtype BlockPlaceAfterEvent _
+
 data BlockPlaceAfterEventSignal = BlockPlaceAfterEventSignal
 
-newtype BlockPotionContainerComponent = BlockPotionContainerComponent {
+type BlockPotionContainerComponent = {
   fillLevel :: Number,
   block :: Block,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeBlockPotionContainerComponent :: Newtype BlockPotionContainerComponent _
-newtype BlockRecordPlayerComponent = BlockRecordPlayerComponent {
+
+type BlockRecordPlayerComponent = {
   block :: Block,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeBlockRecordPlayerComponent :: Newtype BlockRecordPlayerComponent _
-newtype BlockSignComponent = BlockSignComponent {
+
+type BlockSignComponent = {
   isWaxed :: Boolean,
   block :: Block,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeBlockSignComponent :: Newtype BlockSignComponent _
-newtype BlockSnowContainerComponent = BlockSnowContainerComponent {
+
+type BlockSnowContainerComponent = {
   fillLevel :: Number,
   block :: Block,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeBlockSnowContainerComponent :: Newtype BlockSnowContainerComponent _
+
 data BlockStates = BlockStates
 
-newtype BlockStateType = BlockStateType {
+type BlockStateType = {
   id :: String,
   validValues :: Array ((Boolean |+| Number |+| String))
 }
-derive instance newtypeBlockStateType :: Newtype BlockStateType _
-newtype BlockType = BlockType {
+
+type BlockType = {
   canBeWaterlogged :: Boolean,
   id :: String
 }
-derive instance newtypeBlockType :: Newtype BlockType _
+
 data BlockTypes = BlockTypes
 
 data BlockVolumeUtils = BlockVolumeUtils
 
-newtype BlockWaterContainerComponent = BlockWaterContainerComponent {
+type BlockWaterContainerComponent = {
   fillLevel :: Number,
   block :: Block,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeBlockWaterContainerComponent :: Newtype BlockWaterContainerComponent _
+
 data BoundingBoxUtils = BoundingBoxUtils
 
-newtype ButtonPushAfterEvent = ButtonPushAfterEvent {
+type ButtonPushAfterEvent = {
   source :: Entity,
   block :: Block,
   dimension :: Dimension
 }
-derive instance newtypeButtonPushAfterEvent :: Newtype ButtonPushAfterEvent _
+
 data ButtonPushAfterEventSignal = ButtonPushAfterEventSignal
 
 data Camera = Camera
 
-newtype ChatSendAfterEvent = ChatSendAfterEvent {
+type ChatSendAfterEvent = {
   message :: String,
   sender :: Player,
   sendToTargets :: Boolean
 }
-derive instance newtypeChatSendAfterEvent :: Newtype ChatSendAfterEvent _
+
 data ChatSendAfterEventSignal = ChatSendAfterEventSignal
 
-newtype ChatSendBeforeEvent = ChatSendBeforeEvent {
+type ChatSendBeforeEvent = {
   cancel :: Boolean,
   message :: String,
   sender :: Player,
   sendToTargets :: Boolean
 }
-derive instance newtypeChatSendBeforeEvent :: Newtype ChatSendBeforeEvent _
+
 data ChatSendBeforeEventSignal = ChatSendBeforeEventSignal
 
-newtype CommandResult = CommandResult {
+type CommandResult = {
   successCount :: Number
 }
-derive instance newtypeCommandResult :: Newtype CommandResult _
-newtype Component = Component {
+
+type Component = {
   typeId :: String
 }
-derive instance newtypeComponent :: Newtype Component _
-newtype CompoundBlockVolume = CompoundBlockVolume {
+
+type CompoundBlockVolume = {
   capacity :: Number,
   volumeCount :: Number
 }
-derive instance newtypeCompoundBlockVolume :: Newtype CompoundBlockVolume _
-newtype Container = Container {
+
+type Container = {
   emptySlotsCount :: Number,
   size :: Number
 }
-derive instance newtypeContainer :: Newtype Container _
-newtype ContainerSlot = ContainerSlot {
+
+type ContainerSlot = {
   amount :: Number,
   isStackable :: Boolean,
   keepOnDeath :: Boolean,
@@ -449,65 +449,65 @@ newtype ContainerSlot = ContainerSlot {
   "type" :: ItemType,
   typeId :: Nullable (String)
 }
-derive instance newtypeContainerSlot :: Newtype ContainerSlot _
-newtype DataDrivenEntityTriggerAfterEvent = DataDrivenEntityTriggerAfterEvent {
+
+type DataDrivenEntityTriggerAfterEvent = {
   entity :: Entity,
   id :: String
 }
-derive instance newtypeDataDrivenEntityTriggerAfterEvent :: Newtype DataDrivenEntityTriggerAfterEvent _
+
 data DataDrivenEntityTriggerAfterEventSignal = DataDrivenEntityTriggerAfterEventSignal
 
-newtype DataDrivenEntityTriggerBeforeEvent = DataDrivenEntityTriggerBeforeEvent {
+type DataDrivenEntityTriggerBeforeEvent = {
   cancel :: Boolean,
   entity :: Entity,
   id :: String
 }
-derive instance newtypeDataDrivenEntityTriggerBeforeEvent :: Newtype DataDrivenEntityTriggerBeforeEvent _
+
 data DataDrivenEntityTriggerBeforeEventSignal = DataDrivenEntityTriggerBeforeEventSignal
 
 data DefinitionModifier = DefinitionModifier
 
-newtype Dimension = Dimension {
+type Dimension = {
   id :: String
 }
-derive instance newtypeDimension :: Newtype Dimension _
-newtype DimensionType = DimensionType {
+
+type DimensionType = {
   typeId :: String
 }
-derive instance newtypeDimensionType :: Newtype DimensionType _
+
 data DimensionTypes = DimensionTypes
 
 data DynamicPropertiesDefinition = DynamicPropertiesDefinition
 
-newtype Effect = Effect {
+type Effect = {
   amplifier :: Number,
   displayName :: String,
   duration :: Number,
   typeId :: String
 }
-derive instance newtypeEffect :: Newtype Effect _
-newtype EffectAddAfterEvent = EffectAddAfterEvent {
+
+type EffectAddAfterEvent = {
   effect :: Effect,
   effectState :: Number,
   entity :: Entity
 }
-derive instance newtypeEffectAddAfterEvent :: Newtype EffectAddAfterEvent _
+
 data EffectAddAfterEventSignal = EffectAddAfterEventSignal
 
 data EffectType = EffectType
 
 data EffectTypes = EffectTypes
 
-newtype Enchantment = Enchantment {
+type Enchantment = {
   level :: Number,
   "type" :: EnchantmentType
 }
-derive instance newtypeEnchantment :: Newtype Enchantment _
-newtype EnchantmentList = EnchantmentList {
+
+type EnchantmentList = {
   slot :: Number
 }
-derive instance newtypeEnchantmentList :: Newtype EnchantmentList _
-newtype EnchantmentSlot = EnchantmentSlot {
+
+type EnchantmentSlot = {
   all :: Number,
   armorFeet :: Number,
   armorHead :: Number,
@@ -533,12 +533,12 @@ newtype EnchantmentSlot = EnchantmentSlot {
   spear :: Number,
   sword :: Number
 }
-derive instance newtypeEnchantmentSlot :: Newtype EnchantmentSlot _
-newtype EnchantmentType = EnchantmentType {
+
+type EnchantmentType = {
   id :: String,
   maxLevel :: Number
 }
-derive instance newtypeEnchantmentType :: Newtype EnchantmentType _
+
 data EnchantmentTypes = EnchantmentTypes
 
 newtype Entity = Entity {
@@ -560,34 +560,34 @@ newtype Entity = Entity {
   typeId :: String
 }
 derive instance newtypeEntity :: Newtype Entity _
-newtype EntityAddRiderComponent = EntityAddRiderComponent {
+type EntityAddRiderComponent = {
   entityType :: String,
   spawnEvent :: String,
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityAddRiderComponent :: Newtype EntityAddRiderComponent _
-newtype EntityAgeableComponent = EntityAgeableComponent {
+
+type EntityAgeableComponent = {
   duration :: Number,
   growUp :: Trigger,
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityAgeableComponent :: Newtype EntityAgeableComponent _
-newtype EntityAttributeComponent = EntityAttributeComponent {
+
+type EntityAttributeComponent = {
   currentValue :: Number,
   defaultValue :: Number,
   effectiveMax :: Number,
   effectiveMin :: Number,
   entity :: Entity
 }
-derive instance newtypeEntityAttributeComponent :: Newtype EntityAttributeComponent _
-newtype EntityBaseMovementComponent = EntityBaseMovementComponent {
+
+type EntityBaseMovementComponent = {
   maxTurn :: Number,
   entity :: Entity
 }
-derive instance newtypeEntityBaseMovementComponent :: Newtype EntityBaseMovementComponent _
-newtype EntityBreathableComponent = EntityBreathableComponent {
+
+type EntityBreathableComponent = {
   breathesAir :: Boolean,
   breathesLava :: Boolean,
   breathesSolids :: Boolean,
@@ -599,101 +599,101 @@ newtype EntityBreathableComponent = EntityBreathableComponent {
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityBreathableComponent :: Newtype EntityBreathableComponent _
-newtype EntityCanClimbComponent = EntityCanClimbComponent {
+
+type EntityCanClimbComponent = {
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityCanClimbComponent :: Newtype EntityCanClimbComponent _
-newtype EntityCanFlyComponent = EntityCanFlyComponent {
+
+type EntityCanFlyComponent = {
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityCanFlyComponent :: Newtype EntityCanFlyComponent _
-newtype EntityCanPowerJumpComponent = EntityCanPowerJumpComponent {
+
+type EntityCanPowerJumpComponent = {
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityCanPowerJumpComponent :: Newtype EntityCanPowerJumpComponent _
-newtype EntityColorComponent = EntityColorComponent {
+
+type EntityColorComponent = {
   value :: Number,
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityColorComponent :: Newtype EntityColorComponent _
-newtype EntityComponent = EntityComponent {
+
+type EntityComponent = {
   entity :: Entity,
   typeId :: String
 }
-derive instance newtypeEntityComponent :: Newtype EntityComponent _
-newtype EntityDefinitionFeedItem = EntityDefinitionFeedItem {
+
+type EntityDefinitionFeedItem = {
   growth :: Number,
   item :: String
 }
-derive instance newtypeEntityDefinitionFeedItem :: Newtype EntityDefinitionFeedItem _
-newtype EntityDieAfterEvent = EntityDieAfterEvent {
+
+type EntityDieAfterEvent = {
   damageSource :: EntityDamageSource,
   deadEntity :: Entity
 }
-derive instance newtypeEntityDieAfterEvent :: Newtype EntityDieAfterEvent _
+
 data EntityDieAfterEventSignal = EntityDieAfterEventSignal
 
-newtype EntityEquippableComponent = EntityEquippableComponent {
+type EntityEquippableComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityEquippableComponent :: Newtype EntityEquippableComponent _
-newtype EntityFireImmuneComponent = EntityFireImmuneComponent {
+
+type EntityFireImmuneComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityFireImmuneComponent :: Newtype EntityFireImmuneComponent _
-newtype EntityFloatsInLiquidComponent = EntityFloatsInLiquidComponent {
+
+type EntityFloatsInLiquidComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityFloatsInLiquidComponent :: Newtype EntityFloatsInLiquidComponent _
-newtype EntityFlyingSpeedComponent = EntityFlyingSpeedComponent {
+
+type EntityFlyingSpeedComponent = {
   value :: Number,
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityFlyingSpeedComponent :: Newtype EntityFlyingSpeedComponent _
-newtype EntityFrictionModifierComponent = EntityFrictionModifierComponent {
+
+type EntityFrictionModifierComponent = {
   value :: Number,
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityFrictionModifierComponent :: Newtype EntityFrictionModifierComponent _
-newtype EntityGroundOffsetComponent = EntityGroundOffsetComponent {
+
+type EntityGroundOffsetComponent = {
   value :: Number,
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityGroundOffsetComponent :: Newtype EntityGroundOffsetComponent _
-newtype EntityHealableComponent = EntityHealableComponent {
+
+type EntityHealableComponent = {
   filters :: FilterGroup,
   forceUse :: Boolean,
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityHealableComponent :: Newtype EntityHealableComponent _
-newtype EntityHealthChangedAfterEvent = EntityHealthChangedAfterEvent {
+
+type EntityHealthChangedAfterEvent = {
   entity :: Entity,
   newValue :: Number,
   oldValue :: Number
 }
-derive instance newtypeEntityHealthChangedAfterEvent :: Newtype EntityHealthChangedAfterEvent _
+
 data EntityHealthChangedAfterEventSignal = EntityHealthChangedAfterEventSignal
 
-newtype EntityHealthComponent = EntityHealthComponent {
+type EntityHealthComponent = {
   currentValue :: Number,
   defaultValue :: Number,
   effectiveMax :: Number,
@@ -701,31 +701,31 @@ newtype EntityHealthComponent = EntityHealthComponent {
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityHealthComponent :: Newtype EntityHealthComponent _
-newtype EntityHitBlockAfterEvent = EntityHitBlockAfterEvent {
+
+type EntityHitBlockAfterEvent = {
   blockFace :: Direction,
   damagingEntity :: Entity,
   hitBlock :: Block
 }
-derive instance newtypeEntityHitBlockAfterEvent :: Newtype EntityHitBlockAfterEvent _
+
 data EntityHitBlockAfterEventSignal = EntityHitBlockAfterEventSignal
 
-newtype EntityHitEntityAfterEvent = EntityHitEntityAfterEvent {
+type EntityHitEntityAfterEvent = {
   damagingEntity :: Entity,
   hitEntity :: Entity
 }
-derive instance newtypeEntityHitEntityAfterEvent :: Newtype EntityHitEntityAfterEvent _
+
 data EntityHitEntityAfterEventSignal = EntityHitEntityAfterEventSignal
 
-newtype EntityHurtAfterEvent = EntityHurtAfterEvent {
+type EntityHurtAfterEvent = {
   damage :: Number,
   damageSource :: EntityDamageSource,
   hurtEntity :: Entity
 }
-derive instance newtypeEntityHurtAfterEvent :: Newtype EntityHurtAfterEvent _
+
 data EntityHurtAfterEventSignal = EntityHurtAfterEventSignal
 
-newtype EntityInventoryComponent = EntityInventoryComponent {
+type EntityInventoryComponent = {
   additionalSlotsPerStrength :: Number,
   canBeSiphonedFrom :: Boolean,
   container :: Container,
@@ -737,95 +737,95 @@ newtype EntityInventoryComponent = EntityInventoryComponent {
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityInventoryComponent :: Newtype EntityInventoryComponent _
-newtype EntityIsBabyComponent = EntityIsBabyComponent {
+
+type EntityIsBabyComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityIsBabyComponent :: Newtype EntityIsBabyComponent _
-newtype EntityIsChargedComponent = EntityIsChargedComponent {
+
+type EntityIsChargedComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityIsChargedComponent :: Newtype EntityIsChargedComponent _
-newtype EntityIsChestedComponent = EntityIsChestedComponent {
+
+type EntityIsChestedComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityIsChestedComponent :: Newtype EntityIsChestedComponent _
-newtype EntityIsDyeableComponent = EntityIsDyeableComponent {
+
+type EntityIsDyeableComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityIsDyeableComponent :: Newtype EntityIsDyeableComponent _
-newtype EntityIsHiddenWhenInvisibleComponent = EntityIsHiddenWhenInvisibleComponent {
+
+type EntityIsHiddenWhenInvisibleComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityIsHiddenWhenInvisibleComponent :: Newtype EntityIsHiddenWhenInvisibleComponent _
-newtype EntityIsIgnitedComponent = EntityIsIgnitedComponent {
+
+type EntityIsIgnitedComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityIsIgnitedComponent :: Newtype EntityIsIgnitedComponent _
-newtype EntityIsIllagerCaptainComponent = EntityIsIllagerCaptainComponent {
+
+type EntityIsIllagerCaptainComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityIsIllagerCaptainComponent :: Newtype EntityIsIllagerCaptainComponent _
-newtype EntityIsSaddledComponent = EntityIsSaddledComponent {
+
+type EntityIsSaddledComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityIsSaddledComponent :: Newtype EntityIsSaddledComponent _
-newtype EntityIsShakingComponent = EntityIsShakingComponent {
+
+type EntityIsShakingComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityIsShakingComponent :: Newtype EntityIsShakingComponent _
-newtype EntityIsShearedComponent = EntityIsShearedComponent {
+
+type EntityIsShearedComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityIsShearedComponent :: Newtype EntityIsShearedComponent _
-newtype EntityIsStackableComponent = EntityIsStackableComponent {
+
+type EntityIsStackableComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityIsStackableComponent :: Newtype EntityIsStackableComponent _
-newtype EntityIsStunnedComponent = EntityIsStunnedComponent {
+
+type EntityIsStunnedComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityIsStunnedComponent :: Newtype EntityIsStunnedComponent _
-newtype EntityIsTamedComponent = EntityIsTamedComponent {
+
+type EntityIsTamedComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityIsTamedComponent :: Newtype EntityIsTamedComponent _
-newtype EntityItemComponent = EntityItemComponent {
+
+type EntityItemComponent = {
   itemStack :: ItemStack,
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityItemComponent :: Newtype EntityItemComponent _
+
 data EntityIterator = EntityIterator
 
-newtype EntityLavaMovementComponent = EntityLavaMovementComponent {
+type EntityLavaMovementComponent = {
   currentValue :: Number,
   defaultValue :: Number,
   effectiveMax :: Number,
@@ -833,40 +833,40 @@ newtype EntityLavaMovementComponent = EntityLavaMovementComponent {
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityLavaMovementComponent :: Newtype EntityLavaMovementComponent _
-newtype EntityLeashableComponent = EntityLeashableComponent {
+
+type EntityLeashableComponent = {
   softDistance :: Number,
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityLeashableComponent :: Newtype EntityLeashableComponent _
-newtype EntityMarkVariantComponent = EntityMarkVariantComponent {
+
+type EntityMarkVariantComponent = {
   value :: Number,
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityMarkVariantComponent :: Newtype EntityMarkVariantComponent _
-newtype EntityMountTamingComponent = EntityMountTamingComponent {
+
+type EntityMountTamingComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityMountTamingComponent :: Newtype EntityMountTamingComponent _
-newtype EntityMovementAmphibiousComponent = EntityMovementAmphibiousComponent {
+
+type EntityMovementAmphibiousComponent = {
   maxTurn :: Number,
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityMovementAmphibiousComponent :: Newtype EntityMovementAmphibiousComponent _
-newtype EntityMovementBasicComponent = EntityMovementBasicComponent {
+
+type EntityMovementBasicComponent = {
   maxTurn :: Number,
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityMovementBasicComponent :: Newtype EntityMovementBasicComponent _
-newtype EntityMovementComponent = EntityMovementComponent {
+
+type EntityMovementComponent = {
   currentValue :: Number,
   defaultValue :: Number,
   effectiveMax :: Number,
@@ -874,54 +874,54 @@ newtype EntityMovementComponent = EntityMovementComponent {
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityMovementComponent :: Newtype EntityMovementComponent _
-newtype EntityMovementFlyComponent = EntityMovementFlyComponent {
+
+type EntityMovementFlyComponent = {
   maxTurn :: Number,
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityMovementFlyComponent :: Newtype EntityMovementFlyComponent _
-newtype EntityMovementGenericComponent = EntityMovementGenericComponent {
+
+type EntityMovementGenericComponent = {
   maxTurn :: Number,
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityMovementGenericComponent :: Newtype EntityMovementGenericComponent _
-newtype EntityMovementGlideComponent = EntityMovementGlideComponent {
+
+type EntityMovementGlideComponent = {
   speedWhenTurning :: Number,
   startSpeed :: Number,
   maxTurn :: Number,
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityMovementGlideComponent :: Newtype EntityMovementGlideComponent _
-newtype EntityMovementHoverComponent = EntityMovementHoverComponent {
+
+type EntityMovementHoverComponent = {
   maxTurn :: Number,
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityMovementHoverComponent :: Newtype EntityMovementHoverComponent _
-newtype EntityMovementJumpComponent = EntityMovementJumpComponent {
+
+type EntityMovementJumpComponent = {
   maxTurn :: Number,
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityMovementJumpComponent :: Newtype EntityMovementJumpComponent _
-newtype EntityMovementSkipComponent = EntityMovementSkipComponent {
+
+type EntityMovementSkipComponent = {
   maxTurn :: Number,
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityMovementSkipComponent :: Newtype EntityMovementSkipComponent _
-newtype EntityMovementSwayComponent = EntityMovementSwayComponent {
+
+type EntityMovementSwayComponent = {
   swayAmplitude :: Number,
   swayFrequency :: Number,
   maxTurn :: Number,
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityMovementSwayComponent :: Newtype EntityMovementSwayComponent _
-newtype EntityNavigationClimbComponent = EntityNavigationClimbComponent {
+
+type EntityNavigationClimbComponent = {
   avoidDamageBlocks :: Boolean,
   avoidPortals :: Boolean,
   avoidSun :: Boolean,
@@ -943,8 +943,8 @@ newtype EntityNavigationClimbComponent = EntityNavigationClimbComponent {
   isAmphibious :: Boolean,
   componentId :: String
 }
-derive instance newtypeEntityNavigationClimbComponent :: Newtype EntityNavigationClimbComponent _
-newtype EntityNavigationComponent = EntityNavigationComponent {
+
+type EntityNavigationComponent = {
   avoidDamageBlocks :: Boolean,
   avoidPortals :: Boolean,
   avoidSun :: Boolean,
@@ -967,8 +967,8 @@ newtype EntityNavigationComponent = EntityNavigationComponent {
   entity :: Entity,
   typeId :: String
 }
-derive instance newtypeEntityNavigationComponent :: Newtype EntityNavigationComponent _
-newtype EntityNavigationFloatComponent = EntityNavigationFloatComponent {
+
+type EntityNavigationFloatComponent = {
   avoidDamageBlocks :: Boolean,
   avoidPortals :: Boolean,
   avoidSun :: Boolean,
@@ -992,8 +992,8 @@ newtype EntityNavigationFloatComponent = EntityNavigationFloatComponent {
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityNavigationFloatComponent :: Newtype EntityNavigationFloatComponent _
-newtype EntityNavigationFlyComponent = EntityNavigationFlyComponent {
+
+type EntityNavigationFlyComponent = {
   avoidDamageBlocks :: Boolean,
   avoidPortals :: Boolean,
   avoidSun :: Boolean,
@@ -1017,8 +1017,8 @@ newtype EntityNavigationFlyComponent = EntityNavigationFlyComponent {
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityNavigationFlyComponent :: Newtype EntityNavigationFlyComponent _
-newtype EntityNavigationGenericComponent = EntityNavigationGenericComponent {
+
+type EntityNavigationGenericComponent = {
   avoidDamageBlocks :: Boolean,
   avoidPortals :: Boolean,
   avoidSun :: Boolean,
@@ -1042,8 +1042,8 @@ newtype EntityNavigationGenericComponent = EntityNavigationGenericComponent {
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityNavigationGenericComponent :: Newtype EntityNavigationGenericComponent _
-newtype EntityNavigationHoverComponent = EntityNavigationHoverComponent {
+
+type EntityNavigationHoverComponent = {
   avoidDamageBlocks :: Boolean,
   avoidPortals :: Boolean,
   avoidSun :: Boolean,
@@ -1067,8 +1067,8 @@ newtype EntityNavigationHoverComponent = EntityNavigationHoverComponent {
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityNavigationHoverComponent :: Newtype EntityNavigationHoverComponent _
-newtype EntityNavigationWalkComponent = EntityNavigationWalkComponent {
+
+type EntityNavigationWalkComponent = {
   avoidDamageBlocks :: Boolean,
   avoidPortals :: Boolean,
   avoidSun :: Boolean,
@@ -1092,28 +1092,28 @@ newtype EntityNavigationWalkComponent = EntityNavigationWalkComponent {
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityNavigationWalkComponent :: Newtype EntityNavigationWalkComponent _
-newtype EntityOnFireComponent = EntityOnFireComponent {
+
+type EntityOnFireComponent = {
   onFireTicksRemaining :: Number,
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityOnFireComponent :: Newtype EntityOnFireComponent _
-newtype EntityPushThroughComponent = EntityPushThroughComponent {
+
+type EntityPushThroughComponent = {
   value :: Number,
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityPushThroughComponent :: Newtype EntityPushThroughComponent _
-newtype EntityRemovedAfterEvent = EntityRemovedAfterEvent {
+
+type EntityRemovedAfterEvent = {
   removedEntity :: String
 }
-derive instance newtypeEntityRemovedAfterEvent :: Newtype EntityRemovedAfterEvent _
+
 data EntityRemovedAfterEventSignal = EntityRemovedAfterEventSignal
 
-newtype EntityRideableComponent = EntityRideableComponent {
+type EntityRideableComponent = {
   controllingSeat :: Number,
   crouchingSkipInteract :: Boolean,
   interactText :: String,
@@ -1124,58 +1124,58 @@ newtype EntityRideableComponent = EntityRideableComponent {
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityRideableComponent :: Newtype EntityRideableComponent _
-newtype EntityRidingComponent = EntityRidingComponent {
+
+type EntityRidingComponent = {
   entityRidingOn :: Entity,
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityRidingComponent :: Newtype EntityRidingComponent _
-newtype EntityScaleComponent = EntityScaleComponent {
+
+type EntityScaleComponent = {
   value :: Number,
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityScaleComponent :: Newtype EntityScaleComponent _
-newtype EntitySkinIdComponent = EntitySkinIdComponent {
+
+type EntitySkinIdComponent = {
   value :: Number,
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntitySkinIdComponent :: Newtype EntitySkinIdComponent _
-newtype EntitySpawnAfterEvent = EntitySpawnAfterEvent {
+
+type EntitySpawnAfterEvent = {
   entity :: Entity
 }
-derive instance newtypeEntitySpawnAfterEvent :: Newtype EntitySpawnAfterEvent _
+
 data EntitySpawnAfterEventSignal = EntitySpawnAfterEventSignal
 
-newtype EntityStrengthComponent = EntityStrengthComponent {
+type EntityStrengthComponent = {
   max :: Number,
   value :: Number,
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityStrengthComponent :: Newtype EntityStrengthComponent _
-newtype EntityTameableComponent = EntityTameableComponent {
+
+type EntityTameableComponent = {
   probability :: Number,
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityTameableComponent :: Newtype EntityTameableComponent _
-newtype EntityType = EntityType {
+
+type EntityType = {
   id :: String
 }
-derive instance newtypeEntityType :: Newtype EntityType _
+
 data EntityTypeIterator = EntityTypeIterator
 
 data EntityTypes = EntityTypes
 
-newtype EntityUnderwaterMovementComponent = EntityUnderwaterMovementComponent {
+type EntityUnderwaterMovementComponent = {
   currentValue :: Number,
   defaultValue :: Number,
   effectiveMax :: Number,
@@ -1183,54 +1183,54 @@ newtype EntityUnderwaterMovementComponent = EntityUnderwaterMovementComponent {
   entity :: Entity,
   componentId :: String
 }
-derive instance newtypeEntityUnderwaterMovementComponent :: Newtype EntityUnderwaterMovementComponent _
-newtype EntityVariantComponent = EntityVariantComponent {
+
+type EntityVariantComponent = {
   value :: Number,
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityVariantComponent :: Newtype EntityVariantComponent _
-newtype EntityWantsJockeyComponent = EntityWantsJockeyComponent {
+
+type EntityWantsJockeyComponent = {
   entity :: Entity,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeEntityWantsJockeyComponent :: Newtype EntityWantsJockeyComponent _
-newtype ExplosionAfterEvent = ExplosionAfterEvent {
+
+type ExplosionAfterEvent = {
   dimension :: Dimension,
   source :: Nullable (Entity)
 }
-derive instance newtypeExplosionAfterEvent :: Newtype ExplosionAfterEvent _
+
 data ExplosionAfterEventSignal = ExplosionAfterEventSignal
 
-newtype ExplosionBeforeEvent = ExplosionBeforeEvent {
+type ExplosionBeforeEvent = {
   cancel :: Boolean,
   dimension :: Dimension,
   source :: Nullable (Entity)
 }
-derive instance newtypeExplosionBeforeEvent :: Newtype ExplosionBeforeEvent _
+
 data ExplosionBeforeEventSignal = ExplosionBeforeEventSignal
 
-newtype FeedItem = FeedItem {
+type FeedItem = {
   healAmount :: Number,
   item :: String
 }
-derive instance newtypeFeedItem :: Newtype FeedItem _
-newtype FeedItemEffect = FeedItemEffect {
+
+type FeedItemEffect = {
   amplifier :: Number,
   chance :: Number,
   duration :: Number,
   name :: String
 }
-derive instance newtypeFeedItemEffect :: Newtype FeedItemEffect _
+
 data FilterGroup = FilterGroup
 
-newtype FluidContainer = FluidContainer {
+type FluidContainer = {
   maxFillLevel :: Number,
   minFillLevel :: Number
 }
-derive instance newtypeFluidContainer :: Newtype FluidContainer _
+
 data IButtonPushAfterEventSignal = IButtonPushAfterEventSignal
 
 data ILeverActionAfterEventSignal = ILeverActionAfterEventSignal
@@ -1241,56 +1241,56 @@ data IPlayerLeaveAfterEventSignal = IPlayerLeaveAfterEventSignal
 
 data IPlayerSpawnAfterEventSignal = IPlayerSpawnAfterEventSignal
 
-newtype ItemCompleteUseAfterEvent = ItemCompleteUseAfterEvent {
+type ItemCompleteUseAfterEvent = {
   itemStack :: ItemStack,
   source :: Player,
   useDuration :: Number
 }
-derive instance newtypeItemCompleteUseAfterEvent :: Newtype ItemCompleteUseAfterEvent _
+
 data ItemCompleteUseAfterEventSignal = ItemCompleteUseAfterEventSignal
 
-newtype ItemComponent = ItemComponent {
+type ItemComponent = {
   typeId :: String
 }
-derive instance newtypeItemComponent :: Newtype ItemComponent _
-newtype ItemCooldownComponent = ItemCooldownComponent {
+
+type ItemCooldownComponent = {
   cooldownCategory :: String,
   cooldownTicks :: Number,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeItemCooldownComponent :: Newtype ItemCooldownComponent _
+
 data ItemDefinitionAfterEventSignal = ItemDefinitionAfterEventSignal
 
 data ItemDefinitionBeforeEventSignal = ItemDefinitionBeforeEventSignal
 
-newtype ItemDefinitionTriggeredAfterEvent = ItemDefinitionTriggeredAfterEvent {
+type ItemDefinitionTriggeredAfterEvent = {
   eventName :: String,
   itemStack :: ItemStack,
   source :: Player
 }
-derive instance newtypeItemDefinitionTriggeredAfterEvent :: Newtype ItemDefinitionTriggeredAfterEvent _
-newtype ItemDefinitionTriggeredBeforeEvent = ItemDefinitionTriggeredBeforeEvent {
+
+type ItemDefinitionTriggeredBeforeEvent = {
   cancel :: Boolean,
   eventName :: String,
   itemStack :: ItemStack,
   source :: Player
 }
-derive instance newtypeItemDefinitionTriggeredBeforeEvent :: Newtype ItemDefinitionTriggeredBeforeEvent _
-newtype ItemDurabilityComponent = ItemDurabilityComponent {
+
+type ItemDurabilityComponent = {
   damage :: Number,
   maxDurability :: Number,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeItemDurabilityComponent :: Newtype ItemDurabilityComponent _
-newtype ItemEnchantsComponent = ItemEnchantsComponent {
+
+type ItemEnchantsComponent = {
   enchantments :: EnchantmentList,
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeItemEnchantsComponent :: Newtype ItemEnchantsComponent _
-newtype ItemFoodComponent = ItemFoodComponent {
+
+type ItemFoodComponent = {
   canAlwaysEat :: Boolean,
   nutrition :: Number,
   saturationModifier :: Number,
@@ -1298,16 +1298,16 @@ newtype ItemFoodComponent = ItemFoodComponent {
   typeId :: String,
   componentId :: String
 }
-derive instance newtypeItemFoodComponent :: Newtype ItemFoodComponent _
-newtype ItemReleaseUseAfterEvent = ItemReleaseUseAfterEvent {
+
+type ItemReleaseUseAfterEvent = {
   itemStack :: ItemStack,
   source :: Player,
   useDuration :: Number
 }
-derive instance newtypeItemReleaseUseAfterEvent :: Newtype ItemReleaseUseAfterEvent _
+
 data ItemReleaseUseAfterEventSignal = ItemReleaseUseAfterEventSignal
 
-newtype ItemStack = ItemStack {
+type ItemStack = {
   amount :: Number,
   isStackable :: Boolean,
   keepOnDeath :: Boolean,
@@ -1317,72 +1317,72 @@ newtype ItemStack = ItemStack {
   "type" :: ItemType,
   typeId :: String
 }
-derive instance newtypeItemStack :: Newtype ItemStack _
-newtype ItemStartUseAfterEvent = ItemStartUseAfterEvent {
+
+type ItemStartUseAfterEvent = {
   itemStack :: ItemStack,
   source :: Player,
   useDuration :: Number
 }
-derive instance newtypeItemStartUseAfterEvent :: Newtype ItemStartUseAfterEvent _
+
 data ItemStartUseAfterEventSignal = ItemStartUseAfterEventSignal
 
-newtype ItemStartUseOnAfterEvent = ItemStartUseOnAfterEvent {
+type ItemStartUseOnAfterEvent = {
   block :: Block,
   blockFace :: Direction,
   itemStack :: ItemStack,
   source :: Player
 }
-derive instance newtypeItemStartUseOnAfterEvent :: Newtype ItemStartUseOnAfterEvent _
+
 data ItemStartUseOnAfterEventSignal = ItemStartUseOnAfterEventSignal
 
-newtype ItemStopUseAfterEvent = ItemStopUseAfterEvent {
+type ItemStopUseAfterEvent = {
   itemStack :: ItemStack,
   source :: Player,
   useDuration :: Number
 }
-derive instance newtypeItemStopUseAfterEvent :: Newtype ItemStopUseAfterEvent _
+
 data ItemStopUseAfterEventSignal = ItemStopUseAfterEventSignal
 
-newtype ItemStopUseOnAfterEvent = ItemStopUseOnAfterEvent {
+type ItemStopUseOnAfterEvent = {
   block :: Block,
   itemStack :: Nullable (ItemStack),
   source :: Player
 }
-derive instance newtypeItemStopUseOnAfterEvent :: Newtype ItemStopUseOnAfterEvent _
+
 data ItemStopUseOnAfterEventSignal = ItemStopUseOnAfterEventSignal
 
-newtype ItemType = ItemType {
+type ItemType = {
   id :: String
 }
-derive instance newtypeItemType :: Newtype ItemType _
+
 data ItemTypes = ItemTypes
 
-newtype ItemUseAfterEvent = ItemUseAfterEvent {
+type ItemUseAfterEvent = {
   itemStack :: ItemStack,
   source :: Player
 }
-derive instance newtypeItemUseAfterEvent :: Newtype ItemUseAfterEvent _
+
 data ItemUseAfterEventSignal = ItemUseAfterEventSignal
 
-newtype ItemUseBeforeEvent = ItemUseBeforeEvent {
+type ItemUseBeforeEvent = {
   cancel :: Boolean,
   itemStack :: ItemStack,
   source :: Player
 }
-derive instance newtypeItemUseBeforeEvent :: Newtype ItemUseBeforeEvent _
+
 data ItemUseBeforeEventSignal = ItemUseBeforeEventSignal
 
-newtype ItemUseOnAfterEvent = ItemUseOnAfterEvent {
+type ItemUseOnAfterEvent = {
   block :: Block,
   blockFace :: Direction,
   faceLocation :: Vector3,
   itemStack :: ItemStack,
   source :: Player
 }
-derive instance newtypeItemUseOnAfterEvent :: Newtype ItemUseOnAfterEvent _
+
 data ItemUseOnAfterEventSignal = ItemUseOnAfterEventSignal
 
-newtype ItemUseOnBeforeEvent = ItemUseOnBeforeEvent {
+type ItemUseOnBeforeEvent = {
   cancel :: Boolean,
   block :: Block,
   blockFace :: Direction,
@@ -1390,56 +1390,56 @@ newtype ItemUseOnBeforeEvent = ItemUseOnBeforeEvent {
   itemStack :: ItemStack,
   source :: Player
 }
-derive instance newtypeItemUseOnBeforeEvent :: Newtype ItemUseOnBeforeEvent _
+
 data ItemUseOnBeforeEventSignal = ItemUseOnBeforeEventSignal
 
-newtype LeverActionAfterEvent = LeverActionAfterEvent {
+type LeverActionAfterEvent = {
   isPowered :: Boolean,
   player :: Player,
   block :: Block,
   dimension :: Dimension
 }
-derive instance newtypeLeverActionAfterEvent :: Newtype LeverActionAfterEvent _
+
 data LeverActionAfterEventSignal = LeverActionAfterEventSignal
 
-newtype MessageReceiveAfterEvent = MessageReceiveAfterEvent {
+type MessageReceiveAfterEvent = {
   id :: String,
   message :: String,
   player :: Player
 }
-derive instance newtypeMessageReceiveAfterEvent :: Newtype MessageReceiveAfterEvent _
-newtype MinecraftDimensionTypes = MinecraftDimensionTypes {
+
+type MinecraftDimensionTypes = {
   nether :: String,
   overworld :: String,
   theEnd :: String
 }
-derive instance newtypeMinecraftDimensionTypes :: Newtype MinecraftDimensionTypes _
+
 data MolangVariableMap = MolangVariableMap
 
-newtype NavigationResult = NavigationResult {
+type NavigationResult = {
   isFullPath :: Boolean
 }
-derive instance newtypeNavigationResult :: Newtype NavigationResult _
-newtype PistonActivateAfterEvent = PistonActivateAfterEvent {
+
+type PistonActivateAfterEvent = {
   isExpanding :: Boolean,
   piston :: BlockPistonComponent,
   block :: Block,
   dimension :: Dimension
 }
-derive instance newtypePistonActivateAfterEvent :: Newtype PistonActivateAfterEvent _
+
 data PistonActivateAfterEventSignal = PistonActivateAfterEventSignal
 
-newtype PistonActivateBeforeEvent = PistonActivateBeforeEvent {
+type PistonActivateBeforeEvent = {
   cancel :: Boolean,
   isExpanding :: Boolean,
   piston :: BlockPistonComponent,
   block :: Block,
   dimension :: Dimension
 }
-derive instance newtypePistonActivateBeforeEvent :: Newtype PistonActivateBeforeEvent _
+
 data PistonActivateBeforeEventSignal = PistonActivateBeforeEventSignal
 
-newtype Player = Player {
+type Player = {
   camera :: Camera,
   isFlying :: Boolean,
   isGliding :: Boolean,
@@ -1467,92 +1467,92 @@ newtype Player = Player {
   target :: Entity,
   typeId :: String
 }
-derive instance newtypePlayer :: Newtype Player _
+
 data PlayerIterator = PlayerIterator
 
-newtype PlayerJoinAfterEvent = PlayerJoinAfterEvent {
+type PlayerJoinAfterEvent = {
   playerId :: String,
   playerName :: String
 }
-derive instance newtypePlayerJoinAfterEvent :: Newtype PlayerJoinAfterEvent _
+
 data PlayerJoinAfterEventSignal = PlayerJoinAfterEventSignal
 
-newtype PlayerLeaveAfterEvent = PlayerLeaveAfterEvent {
+type PlayerLeaveAfterEvent = {
   playerId :: String,
   playerName :: String
 }
-derive instance newtypePlayerLeaveAfterEvent :: Newtype PlayerLeaveAfterEvent _
+
 data PlayerLeaveAfterEventSignal = PlayerLeaveAfterEventSignal
 
-newtype PlayerSpawnAfterEvent = PlayerSpawnAfterEvent {
+type PlayerSpawnAfterEvent = {
   initialSpawn :: Boolean,
   player :: Player
 }
-derive instance newtypePlayerSpawnAfterEvent :: Newtype PlayerSpawnAfterEvent _
+
 data PlayerSpawnAfterEventSignal = PlayerSpawnAfterEventSignal
 
-newtype PressurePlatePopAfterEvent = PressurePlatePopAfterEvent {
+type PressurePlatePopAfterEvent = {
   previousRedstonePower :: Number,
   redstonePower :: Number,
   block :: Block,
   dimension :: Dimension
 }
-derive instance newtypePressurePlatePopAfterEvent :: Newtype PressurePlatePopAfterEvent _
+
 data PressurePlatePopAfterEventSignal = PressurePlatePopAfterEventSignal
 
-newtype PressurePlatePushAfterEvent = PressurePlatePushAfterEvent {
+type PressurePlatePushAfterEvent = {
   previousRedstonePower :: Number,
   redstonePower :: Number,
   source :: Entity,
   block :: Block,
   dimension :: Dimension
 }
-derive instance newtypePressurePlatePushAfterEvent :: Newtype PressurePlatePushAfterEvent _
+
 data PressurePlatePushAfterEventSignal = PressurePlatePushAfterEventSignal
 
-newtype ProjectileHitBlockAfterEvent = ProjectileHitBlockAfterEvent {
+type ProjectileHitBlockAfterEvent = {
   dimension :: Dimension,
   hitVector :: Vector3,
   location :: Vector3,
   projectile :: Entity,
   source :: Nullable (Entity)
 }
-derive instance newtypeProjectileHitBlockAfterEvent :: Newtype ProjectileHitBlockAfterEvent _
+
 data ProjectileHitBlockAfterEventSignal = ProjectileHitBlockAfterEventSignal
 
-newtype ProjectileHitEntityAfterEvent = ProjectileHitEntityAfterEvent {
+type ProjectileHitEntityAfterEvent = {
   dimension :: Dimension,
   hitVector :: Vector3,
   location :: Vector3,
   projectile :: Entity,
   source :: Nullable (Entity)
 }
-derive instance newtypeProjectileHitEntityAfterEvent :: Newtype ProjectileHitEntityAfterEvent _
+
 data ProjectileHitEntityAfterEventSignal = ProjectileHitEntityAfterEventSignal
 
 data PropertyRegistry = PropertyRegistry
 
 data Scoreboard = Scoreboard
 
-newtype ScoreboardIdentity = ScoreboardIdentity {
+type ScoreboardIdentity = {
   displayName :: String,
   id :: Number,
   "type" :: ScoreboardIdentityType
 }
-derive instance newtypeScoreboardIdentity :: Newtype ScoreboardIdentity _
-newtype ScoreboardObjective = ScoreboardObjective {
+
+type ScoreboardObjective = {
   displayName :: String,
   id :: String
 }
-derive instance newtypeScoreboardObjective :: Newtype ScoreboardObjective _
-newtype ScoreboardScoreInfo = ScoreboardScoreInfo {
+
+type ScoreboardScoreInfo = {
   participant :: ScoreboardIdentity,
   score :: Number
 }
-derive instance newtypeScoreboardScoreInfo :: Newtype ScoreboardScoreInfo _
+
 data ScreenDisplay = ScreenDisplay
 
-newtype ScriptEventCommandMessageAfterEvent = ScriptEventCommandMessageAfterEvent {
+type ScriptEventCommandMessageAfterEvent = {
   id :: String,
   initiator :: Nullable (Entity),
   message :: String,
@@ -1560,33 +1560,33 @@ newtype ScriptEventCommandMessageAfterEvent = ScriptEventCommandMessageAfterEven
   sourceEntity :: Nullable (Entity),
   sourceType :: ScriptEventSource
 }
-derive instance newtypeScriptEventCommandMessageAfterEvent :: Newtype ScriptEventCommandMessageAfterEvent _
+
 data ScriptEventCommandMessageAfterEventSignal = ScriptEventCommandMessageAfterEventSignal
 
-newtype Seat = Seat {
+type Seat = {
   lockRiderRotation :: Number,
   maxRiderCount :: Number,
   minRiderCount :: Number,
   position :: Vector3
 }
-derive instance newtypeSeat :: Newtype Seat _
+
 data ServerMessageAfterEventSignal = ServerMessageAfterEventSignal
 
-newtype System = System {
+type System = {
   afterEvents :: SystemAfterEvents,
   beforeEvents :: SystemBeforeEvents,
   currentTick :: Number
 }
-derive instance newtypeSystem :: Newtype System _
-newtype SystemAfterEvents = SystemAfterEvents {
+
+type SystemAfterEvents = {
   scriptEventReceive :: ScriptEventCommandMessageAfterEventSignal
 }
-derive instance newtypeSystemAfterEvents :: Newtype SystemAfterEvents _
-newtype SystemBeforeEvents = SystemBeforeEvents {
+
+type SystemBeforeEvents = {
   watchdogTerminate :: WatchdogTerminateBeforeEventSignal
 }
-derive instance newtypeSystemBeforeEvents :: Newtype SystemBeforeEvents _
-newtype TargetBlockHitAfterEvent = TargetBlockHitAfterEvent {
+
+type TargetBlockHitAfterEvent = {
   hitVector :: Vector3,
   previousRedstonePower :: Number,
   redstonePower :: Number,
@@ -1594,20 +1594,20 @@ newtype TargetBlockHitAfterEvent = TargetBlockHitAfterEvent {
   block :: Block,
   dimension :: Dimension
 }
-derive instance newtypeTargetBlockHitAfterEvent :: Newtype TargetBlockHitAfterEvent _
+
 data TargetBlockHitAfterEventSignal = TargetBlockHitAfterEventSignal
 
-newtype Trigger = Trigger {
+type Trigger = {
   eventName :: String
 }
-derive instance newtypeTrigger :: Newtype Trigger _
-newtype TripWireTripAfterEvent = TripWireTripAfterEvent {
+
+type TripWireTripAfterEvent = {
   isPowered :: Boolean,
   sources :: Array (Entity),
   block :: Block,
   dimension :: Dimension
 }
-derive instance newtypeTripWireTripAfterEvent :: Newtype TripWireTripAfterEvent _
+
 data TripWireTripAfterEventSignal = TripWireTripAfterEventSignal
 
 newtype Vector = Vector {
@@ -1624,28 +1624,28 @@ newtype Vector = Vector {
   zero :: Vector
 }
 derive instance newtypeVector :: Newtype Vector _
-newtype WatchdogTerminateBeforeEvent = WatchdogTerminateBeforeEvent {
+type WatchdogTerminateBeforeEvent = {
   cancel :: Boolean,
   terminateReason :: WatchdogTerminateReason
 }
-derive instance newtypeWatchdogTerminateBeforeEvent :: Newtype WatchdogTerminateBeforeEvent _
+
 data WatchdogTerminateBeforeEventSignal = WatchdogTerminateBeforeEventSignal
 
-newtype WeatherChangeAfterEvent = WeatherChangeAfterEvent {
+type WeatherChangeAfterEvent = {
   dimension :: String,
   lightning :: Boolean,
   raining :: Boolean
 }
-derive instance newtypeWeatherChangeAfterEvent :: Newtype WeatherChangeAfterEvent _
+
 data WeatherChangeAfterEventSignal = WeatherChangeAfterEventSignal
 
-newtype World = World {
+type World = {
   afterEvents :: WorldAfterEvents,
   beforeEvents :: WorldBeforeEvents,
   scoreboard :: Scoreboard
 }
-derive instance newtypeWorld :: Newtype World _
-newtype WorldAfterEvents = WorldAfterEvents {
+
+type WorldAfterEvents = {
   blockBreak :: BlockBreakAfterEventSignal,
   blockExplode :: BlockExplodeAfterEventSignal,
   blockPlace :: BlockPlaceAfterEventSignal,
@@ -1685,8 +1685,8 @@ newtype WorldAfterEvents = WorldAfterEvents {
   weatherChange :: WeatherChangeAfterEventSignal,
   worldInitialize :: WorldInitializeAfterEventSignal
 }
-derive instance newtypeWorldAfterEvents :: Newtype WorldAfterEvents _
-newtype WorldBeforeEvents = WorldBeforeEvents {
+
+type WorldBeforeEvents = {
   chatSend :: ChatSendBeforeEventSignal,
   dataDrivenEntityTriggerEvent :: DataDrivenEntityTriggerBeforeEventSignal,
   explosion :: ExplosionBeforeEventSignal,
@@ -1695,11 +1695,11 @@ newtype WorldBeforeEvents = WorldBeforeEvents {
   itemUseOn :: ItemUseOnBeforeEventSignal,
   pistonActivate :: PistonActivateBeforeEventSignal
 }
-derive instance newtypeWorldBeforeEvents :: Newtype WorldBeforeEvents _
-newtype WorldInitializeAfterEvent = WorldInitializeAfterEvent {
+
+type WorldInitializeAfterEvent = {
   propertyRegistry :: PropertyRegistry
 }
-derive instance newtypeWorldInitializeAfterEvent :: Newtype WorldInitializeAfterEvent _
+
 data WorldInitializeAfterEventSignal = WorldInitializeAfterEventSignal
 
 foreign import canPlace_Block :: Block -> (BlockPermutation |+| BlockType |+| String) -> Nullable (Direction) -> Boolean
@@ -1712,7 +1712,7 @@ foreign import isValid_Block :: Block -> Boolean
 foreign import setPermutation_Block :: Block -> BlockPermutation -> Eff.Effect Unit
 foreign import setType_Block :: Block -> (BlockType |+| String) -> Eff.Effect Unit
 foreign import trySetPermutation_Block :: Block -> BlockPermutation -> Boolean
-foreign import constructor_BlockAreaSize :: BlockAreaSize -> Number -> Number -> Number -> BlockAreaSize
+foreign import mk_BlockAreaSize :: Number -> Number -> Number -> BlockAreaSize
 foreign import equals_BlockAreaSize :: BlockAreaSize -> BlockAreaSize -> Boolean
 foreign import subscribe_BlockBreakAfterEventSignal :: BlockBreakAfterEventSignal -> (BlockBreakAfterEvent -> Eff.Effect Unit) -> (BlockBreakAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_BlockBreakAfterEventSignal :: BlockBreakAfterEventSignal -> (BlockBreakAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
@@ -1798,7 +1798,7 @@ foreign import subscribe_ChatSendBeforeEventSignal :: ChatSendBeforeEventSignal 
 foreign import unsubscribe_ChatSendBeforeEventSignal :: ChatSendBeforeEventSignal -> (ChatSendBeforeEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import isValid_Component :: Component -> Boolean
 foreign import clear_CompoundBlockVolume :: CompoundBlockVolume -> Eff.Effect Unit
-foreign import constructor_CompoundBlockVolume :: CompoundBlockVolume -> Nullable (Vector3) -> CompoundBlockVolume
+foreign import mk_CompoundBlockVolume :: Nullable (Vector3) -> CompoundBlockVolume
 foreign import getBlockLocationIterator_CompoundBlockVolume :: CompoundBlockVolume -> BlockLocationIterator
 foreign import getBoundingBox_CompoundBlockVolume :: CompoundBlockVolume -> BoundingBox
 foreign import getMax_CompoundBlockVolume :: CompoundBlockVolume -> Vector3
@@ -1838,7 +1838,7 @@ foreign import getModifiers_DataDrivenEntityTriggerBeforeEvent :: DataDrivenEnti
 foreign import setModifiers_DataDrivenEntityTriggerBeforeEvent :: DataDrivenEntityTriggerBeforeEvent -> Array (DefinitionModifier) -> Eff.Effect Unit
 foreign import subscribe_DataDrivenEntityTriggerBeforeEventSignal :: DataDrivenEntityTriggerBeforeEventSignal -> (DataDrivenEntityTriggerBeforeEvent -> Eff.Effect Unit) -> Nullable (EntityDataDrivenTriggerEventOptions) -> (DataDrivenEntityTriggerBeforeEvent -> Eff.Effect Unit)
 foreign import unsubscribe_DataDrivenEntityTriggerBeforeEventSignal :: DataDrivenEntityTriggerBeforeEventSignal -> (DataDrivenEntityTriggerBeforeEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import constructor_DefinitionModifier :: DefinitionModifier -> DefinitionModifier
+foreign import mk_DefinitionModifier :: DefinitionModifier
 foreign import getComponentGroupsToAdd_DefinitionModifier :: DefinitionModifier -> Array (String)
 foreign import getComponentGroupsToRemove_DefinitionModifier :: DefinitionModifier -> Array (String)
 foreign import getTriggers_DefinitionModifier :: DefinitionModifier -> Array (Trigger)
@@ -1861,7 +1861,7 @@ foreign import spawnItem_Dimension :: Dimension -> ItemStack -> Vector3 -> Entit
 foreign import spawnParticle_Dimension :: Dimension -> String -> Vector3 -> Nullable (MolangVariableMap) -> Eff.Effect Unit
 foreign import get_DimensionTypes :: String -> Nullable (DimensionType)
 foreign import getAll_DimensionTypes :: Array (DimensionType)
-foreign import constructor_DynamicPropertiesDefinition :: DynamicPropertiesDefinition -> DynamicPropertiesDefinition
+foreign import mk_DynamicPropertiesDefinition :: DynamicPropertiesDefinition
 foreign import defineBoolean_DynamicPropertiesDefinition :: DynamicPropertiesDefinition -> String -> Nullable (Boolean) -> DynamicPropertiesDefinition
 foreign import defineNumber_DynamicPropertiesDefinition :: DynamicPropertiesDefinition -> String -> Nullable (Number) -> DynamicPropertiesDefinition
 foreign import defineString_DynamicPropertiesDefinition :: DynamicPropertiesDefinition -> String -> Number -> Nullable (String) -> DynamicPropertiesDefinition
@@ -1872,10 +1872,10 @@ foreign import unsubscribe_EffectAddAfterEventSignal :: EffectAddAfterEventSigna
 foreign import getName_EffectType :: EffectType -> String
 foreign import get_EffectTypes :: String -> Nullable (EffectType)
 foreign import getAll_EffectTypes :: Array (EffectType)
-foreign import constructor_Enchantment :: Enchantment -> (EnchantmentType |+| String) -> Number -> Enchantment
+foreign import mk_Enchantment :: (EnchantmentType |+| String) -> Number -> Enchantment
 foreign import addEnchantment_EnchantmentList :: EnchantmentList -> Enchantment -> Boolean
 foreign import canAddEnchantment_EnchantmentList :: EnchantmentList -> Enchantment -> Boolean
-foreign import constructor_EnchantmentList :: EnchantmentList -> Number -> EnchantmentList
+foreign import mk_EnchantmentList :: Number -> EnchantmentList
 foreign import getEnchantment_EnchantmentList :: EnchantmentList -> (EnchantmentType |+| String) -> Nullable (Enchantment)
 foreign import hasEnchantment_EnchantmentList :: EnchantmentList -> (EnchantmentType |+| String) -> Number
 foreign import removeEnchantment_EnchantmentList :: EnchantmentList -> (EnchantmentType |+| String) -> Eff.Effect Unit
@@ -2050,7 +2050,7 @@ foreign import isValid_ItemFoodComponent :: ItemFoodComponent -> Boolean
 foreign import subscribe_ItemReleaseUseAfterEventSignal :: ItemReleaseUseAfterEventSignal -> (ItemReleaseUseAfterEvent -> Eff.Effect Unit) -> (ItemReleaseUseAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ItemReleaseUseAfterEventSignal :: ItemReleaseUseAfterEventSignal -> (ItemReleaseUseAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import clone_ItemStack :: ItemStack -> ItemStack
-foreign import constructor_ItemStack :: ItemStack -> (ItemType |+| String) -> Number -> ItemStack
+foreign import mk_ItemStack :: (ItemType |+| String) -> Number -> ItemStack
 foreign import getComponent_ItemStack :: ItemStack -> String -> Nullable (ItemComponent)
 foreign import getComponents_ItemStack :: ItemStack -> Array (ItemComponent)
 foreign import getLore_ItemStack :: ItemStack -> Array (String)
@@ -2082,7 +2082,7 @@ foreign import subscribe_ItemUseOnBeforeEventSignal :: ItemUseOnBeforeEventSigna
 foreign import unsubscribe_ItemUseOnBeforeEventSignal :: ItemUseOnBeforeEventSignal -> (ItemUseOnBeforeEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import subscribe_LeverActionAfterEventSignal :: LeverActionAfterEventSignal -> (LeverActionAfterEvent -> Eff.Effect Unit) -> (LeverActionAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_LeverActionAfterEventSignal :: LeverActionAfterEventSignal -> (LeverActionAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import constructor_MolangVariableMap :: MolangVariableMap -> MolangVariableMap
+foreign import mk_MolangVariableMap :: MolangVariableMap
 foreign import setColorRGB_MolangVariableMap :: MolangVariableMap -> String -> RGB -> Eff.Effect Unit
 foreign import setColorRGBA_MolangVariableMap :: MolangVariableMap -> String -> RGBA -> Eff.Effect Unit
 foreign import setFloat_MolangVariableMap :: MolangVariableMap -> String -> Number -> Eff.Effect Unit
@@ -2192,11 +2192,11 @@ foreign import runInterval_System :: System -> (Unit -> Eff.Effect Unit) -> Null
 foreign import runTimeout_System :: System -> (Unit -> Eff.Effect Unit) -> Nullable (Number) -> Number
 foreign import subscribe_TargetBlockHitAfterEventSignal :: TargetBlockHitAfterEventSignal -> (TargetBlockHitAfterEvent -> Eff.Effect Unit) -> (TargetBlockHitAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_TargetBlockHitAfterEventSignal :: TargetBlockHitAfterEventSignal -> (TargetBlockHitAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import constructor_Trigger :: Trigger -> String -> Trigger
+foreign import mk_Trigger :: String -> Trigger
 foreign import subscribe_TripWireTripAfterEventSignal :: TripWireTripAfterEventSignal -> (TripWireTripAfterEvent -> Eff.Effect Unit) -> (TripWireTripAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_TripWireTripAfterEventSignal :: TripWireTripAfterEventSignal -> (TripWireTripAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import add_Vector :: Vector3 -> Vector3 -> Vector
-foreign import constructor_Vector :: Vector -> Number -> Number -> Number -> Vector
+foreign import mk_Vector :: Number -> Number -> Number -> Vector
 foreign import cross_Vector :: Vector3 -> Vector3 -> Vector
 foreign import distance_Vector :: Vector3 -> Vector3 -> Number
 foreign import divide_Vector :: Vector3 -> (Number |+| Vector3) -> Vector
