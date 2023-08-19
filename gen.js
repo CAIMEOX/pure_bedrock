@@ -2,12 +2,12 @@ import * as fs from "fs";
 import { join } from "path";
 const table = [
   ["boolean", "Boolean"],
-  ["int32", "Number"],
-  ["int16", "Number"],
+  ["int32", "Int"],
+  ["int16", "Int"],
   ["float", "Number"],
   ["string", "String"],
-  ["int64", "Number"],
-  ["uNumber", "Number"],
+  ["int64", "Int"],
+  ["uInt", "Int"],
   ["undefined", "Eff.Effect Unit"],
 ];
 
@@ -53,7 +53,7 @@ function read_type(o) {
     case "closure":
       return `(${pure_closure(o.closure_type)})`;
     case "promise":
-      return `Promise ${read_type(o.promise_type)}`;
+      return `Promise (${read_type(o.promise_type)})`;
     case "variant":
       return `(${o.variant_types.map(read_type).join(" |+| ")})`;
     case "map":
@@ -69,8 +69,9 @@ function pure_type(s) {
 }
 
 class MetaFunction {
-  constructor(m, cn) {
+  constructor(m, cn, cf) {
     this.name = m.name;
+    this.conflict = cf;
     this.class_name = cn;
     this.args = m.arguments;
     this.static = m.is_static;
@@ -90,13 +91,16 @@ class MetaFunction {
         this.class_name
       }(${args.join(",")})`;
     }
+    const n = this.conflict
+      ? `${this.name}_${this.class_name}`
+      : `${this.name}`;
     return this.static
-      ? `export const ${this.name}_${this.class_name} = ${z} => M.${
-          this.class_name
-        }.${this.name}(${args.join(",")})`
-      : `export const ${this.name}_${this.class_name} = ${z} => a.${
+      ? `export const ${n} = ${z} => M.${this.class_name}.${
           this.name
-        }(${args.slice(1).join(",")})`;
+        }(${args.join(",")})`
+      : `export const ${n} = ${z} => a.${this.name}(${args
+          .slice(1)
+          .join(",")})`;
   }
 
   pure_code() {
@@ -104,9 +108,10 @@ class MetaFunction {
       this.static = true;
       this.name = "mk";
     }
-    return `foreign import ${this.name}_${
-      this.class_name
-    } :: ${this.pure_sign().join(" -> ")}`;
+    const n = this.conflict
+      ? `${this.name}_${this.class_name}`
+      : `${this.name}`;
+    return `foreign import ${n} :: ${this.pure_sign().join(" -> ")}`;
   }
 
   pure_sign() {
@@ -216,13 +221,16 @@ class MetaProp {
 }
 
 function run(path, purs) {
+  const ft = new Map();
   const f = fs.readFileSync(path).toString();
   const g = JSON.parse(f);
+
   const n = g["name"].split("/")[1].split("-").map(cap);
   const headers = {
     js: [`import * as M from "${g["name"]}"`],
     purs: [
       `module Minecraft.${n.join(".")} where`,
+      "import Minecraft.Utils (class Event)",
       "import Prelude",
       "import Data.Map",
       "import Data.Newtype",
@@ -244,6 +252,43 @@ function run(path, purs) {
       }
     });
 
+  if (g["classes"]) {
+    g["classes"].map((x) =>
+      x["functions"].map((y) => {
+        ft.set(y.name, ft.get(y.name) ? ft.get(y.name) + 1 : 1);
+      })
+    );
+  }
+  const is_conflict = (n) => {
+    return ft.get(n) > 1;
+  };
+  function instance_event(name) {
+    const bl = [
+      "EntityRemovedAfterEventSignal",
+      "ScriptEventCommandMessageAfterEventSignal",
+      "EntityHurtAfterEventSignal",
+      "EntityHitEntityAfterEventSignal",
+      "EntityHitBlockAfterEventSignal",
+      "EntityHealthChangedAfterEventSignal",
+      "EntityDieAfterEventSignal",
+      "EffectAddAfterEventSignal",
+      "DataDrivenEntityTriggerBeforeEventSignal",
+      "DataDrivenEntityTriggerAfterEventSignal",
+    ];
+    if (bl.includes(name)) return "";
+    const ev =
+      search_class_by_name(name)["functions"][0].return_type.closure_type
+        .argument_types[0].name;
+    return (
+      `instance Event ${name} ${ev} where\n` +
+      `  subscribe = subscribe_${name}\n` +
+      `  unsubscribe = unsubscribe_${name}\n`
+    );
+  }
+  function instance_is_valid(name) {
+    return `instance Valid ${name} where\n` + `  isValid = isValid_${name}`;
+  }
+
   if (g["enums"])
     g["enums"].forEach((x) => {
       const y = new MetaEnum(x).code();
@@ -263,6 +308,9 @@ function run(path, purs) {
         code.push(y.code());
         code.push(y.deriving());
       }
+      if (purs && x.name.endsWith("EventSignal")) {
+        code.push(instance_event(x.name));
+      }
     });
 
   function search_class_by_name(n) {
@@ -275,10 +323,13 @@ function run(path, purs) {
     g["classes"].forEach((x) => {
       let fns = x["functions"];
       fns.forEach((z) => {
-        const y0 = new MetaFunction(z, x.name);
+        const y0 = new MetaFunction(z, x.name, is_conflict(z.name));
         const y1 = y0.pure_code();
         const y2 = y0.js_code();
         code.push(purs ? y1 : y2);
+        // if (purs && z.name === "isValid") {
+        //   code.push(instance_is_valid(x.name));
+        // }
       });
     });
 

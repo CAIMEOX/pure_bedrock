@@ -1,4 +1,5 @@
 module Minecraft.Server where
+import Minecraft.Utils (class Event)
 import Prelude
 import Data.Map
 import Data.Newtype
@@ -43,7 +44,7 @@ type BlockRaycastHit = {
 type BlockRaycastOptions = {
   includeLiquidBlocks :: Nullable (Boolean),
   includePassableBlocks :: Nullable (Boolean),
-  maxDistance :: Nullable (Number)
+  maxDistance :: Nullable (Int)
 }
 type BlockVolume = {
   from :: Vector3,
@@ -96,7 +97,7 @@ type EntityDataDrivenTriggerEventOptions = {
   eventTypes :: Nullable (Array (String))
 }
 type EntityEffectOptions = {
-  amplifier :: Nullable (Number),
+  amplifier :: Nullable (Int),
   showParticles :: Nullable (Boolean)
 }
 type EntityEventOptions = {
@@ -107,23 +108,23 @@ type EntityHitInformation = {
   entity :: Entity
 }
 type EntityQueryOptions = {
-  closest :: Nullable (Number),
+  closest :: Nullable (Int),
   excludeFamilies :: Nullable (Array (String)),
   excludeGameModes :: Nullable (Array (GameMode)),
   excludeNames :: Nullable (Array (String)),
   excludeTags :: Nullable (Array (String)),
   excludeTypes :: Nullable (Array (String)),
   families :: Nullable (Array (String)),
-  farthest :: Nullable (Number),
+  farthest :: Nullable (Int),
   gameMode :: Nullable (GameMode),
   location :: Nullable (Vector3),
   maxDistance :: Nullable (Number),
   maxHorizontalRotation :: Nullable (Number),
-  maxLevel :: Nullable (Number),
+  maxLevel :: Nullable (Int),
   maxVerticalRotation :: Nullable (Number),
   minDistance :: Nullable (Number),
   minHorizontalRotation :: Nullable (Number),
-  minLevel :: Nullable (Number),
+  minLevel :: Nullable (Int),
   minVerticalRotation :: Nullable (Number),
   name :: Nullable (String),
   scoreOptions :: Nullable (Array (EntityQueryScoreOptions)),
@@ -133,8 +134,8 @@ type EntityQueryOptions = {
 }
 type EntityQueryScoreOptions = {
   exclude :: Nullable (Boolean),
-  maxScore :: Nullable (Number),
-  minScore :: Nullable (Number),
+  maxScore :: Nullable (Int),
+  minScore :: Nullable (Int),
   objective :: Nullable (String)
 }
 type EntityRaycastHit = {
@@ -142,7 +143,7 @@ type EntityRaycastHit = {
   entity :: Entity
 }
 type EntityRaycastOptions = {
-  maxDistance :: Nullable (Number)
+  maxDistance :: Nullable (Int)
 }
 type ExplosionOptions = {
   allowUnderwater :: Nullable (Boolean),
@@ -232,9 +233,9 @@ type TeleportOptions = {
   rotation :: Nullable (Vector2)
 }
 type TitleDisplayOptions = {
-  fadeInDuration :: Number,
-  fadeOutDuration :: Number,
-  stayDuration :: Number,
+  fadeInDuration :: Int,
+  fadeOutDuration :: Int,
+  stayDuration :: Int,
   subtitle :: Nullable ((Array ((RawMessage |+| String)) |+| RawMessage |+| String))
 }
 type Vector2 = {
@@ -260,15 +261,15 @@ type Block = {
   permutation :: BlockPermutation,
   "type" :: BlockType,
   typeId :: String,
-  x :: Number,
-  y :: Number,
-  z :: Number
+  x :: Int,
+  y :: Int,
+  z :: Int
 }
 
 type BlockAreaSize = {
-  x :: Number,
-  y :: Number,
-  z :: Number
+  x :: Int,
+  y :: Int,
+  z :: Int
 }
 
 type BlockBreakAfterEvent = {
@@ -279,6 +280,10 @@ type BlockBreakAfterEvent = {
 }
 
 data BlockBreakAfterEventSignal = BlockBreakAfterEventSignal
+
+instance Event BlockBreakAfterEventSignal BlockBreakAfterEvent where
+  subscribe = subscribe_BlockBreakAfterEventSignal
+  unsubscribe = unsubscribe_BlockBreakAfterEventSignal
 
 type BlockComponent = {
   block :: Block,
@@ -299,6 +304,10 @@ type BlockExplodeAfterEvent = {
 
 data BlockExplodeAfterEventSignal = BlockExplodeAfterEventSignal
 
+instance Event BlockExplodeAfterEventSignal BlockExplodeAfterEvent where
+  subscribe = subscribe_BlockExplodeAfterEventSignal
+  unsubscribe = unsubscribe_BlockExplodeAfterEventSignal
+
 type BlockInventoryComponent = {
   container :: Container,
   block :: Block,
@@ -307,12 +316,12 @@ type BlockInventoryComponent = {
 }
 
 type BlockLavaContainerComponent = {
-  fillLevel :: Number,
+  fillLevel :: Int,
   componentId :: String
 }
 
 type BlockLiquidContainerComponent = {
-  fillLevel :: Number,
+  fillLevel :: Int,
   block :: Block,
   typeId :: String
 }
@@ -342,8 +351,12 @@ type BlockPlaceAfterEvent = {
 
 data BlockPlaceAfterEventSignal = BlockPlaceAfterEventSignal
 
+instance Event BlockPlaceAfterEventSignal BlockPlaceAfterEvent where
+  subscribe = subscribe_BlockPlaceAfterEventSignal
+  unsubscribe = unsubscribe_BlockPlaceAfterEventSignal
+
 type BlockPotionContainerComponent = {
-  fillLevel :: Number,
+  fillLevel :: Int,
   block :: Block,
   typeId :: String,
   componentId :: String
@@ -363,7 +376,7 @@ type BlockSignComponent = {
 }
 
 type BlockSnowContainerComponent = {
-  fillLevel :: Number,
+  fillLevel :: Int,
   block :: Block,
   typeId :: String,
   componentId :: String
@@ -373,7 +386,7 @@ data BlockStates = BlockStates
 
 type BlockStateType = {
   id :: String,
-  validValues :: Array ((Boolean |+| Number |+| String))
+  validValues :: Array ((Boolean |+| Int |+| String))
 }
 
 type BlockType = {
@@ -386,7 +399,7 @@ data BlockTypes = BlockTypes
 data BlockVolumeUtils = BlockVolumeUtils
 
 type BlockWaterContainerComponent = {
-  fillLevel :: Number,
+  fillLevel :: Int,
   block :: Block,
   typeId :: String,
   componentId :: String
@@ -402,6 +415,10 @@ type ButtonPushAfterEvent = {
 
 data ButtonPushAfterEventSignal = ButtonPushAfterEventSignal
 
+instance Event ButtonPushAfterEventSignal ButtonPushAfterEvent where
+  subscribe = subscribe_ButtonPushAfterEventSignal
+  unsubscribe = unsubscribe_ButtonPushAfterEventSignal
+
 data Camera = Camera
 
 type ChatSendAfterEvent = {
@@ -412,6 +429,10 @@ type ChatSendAfterEvent = {
 
 data ChatSendAfterEventSignal = ChatSendAfterEventSignal
 
+instance Event ChatSendAfterEventSignal ChatSendAfterEvent where
+  subscribe = subscribe_ChatSendAfterEventSignal
+  unsubscribe = unsubscribe_ChatSendAfterEventSignal
+
 type ChatSendBeforeEvent = {
   cancel :: Boolean,
   message :: String,
@@ -421,8 +442,12 @@ type ChatSendBeforeEvent = {
 
 data ChatSendBeforeEventSignal = ChatSendBeforeEventSignal
 
+instance Event ChatSendBeforeEventSignal ChatSendBeforeEvent where
+  subscribe = subscribe_ChatSendBeforeEventSignal
+  unsubscribe = unsubscribe_ChatSendBeforeEventSignal
+
 type CommandResult = {
-  successCount :: Number
+  successCount :: Int
 }
 
 type Component = {
@@ -430,21 +455,21 @@ type Component = {
 }
 
 type CompoundBlockVolume = {
-  capacity :: Number,
-  volumeCount :: Number
+  capacity :: Int,
+  volumeCount :: Int
 }
 
 type Container = {
-  emptySlotsCount :: Number,
-  size :: Number
+  emptySlotsCount :: Int,
+  size :: Int
 }
 
 type ContainerSlot = {
-  amount :: Number,
+  amount :: Int,
   isStackable :: Boolean,
   keepOnDeath :: Boolean,
   lockMode :: ItemLockMode,
-  maxAmount :: Number,
+  maxAmount :: Int,
   nameTag :: Nullable (String),
   "type" :: ItemType,
   typeId :: Nullable (String)
@@ -457,6 +482,7 @@ type DataDrivenEntityTriggerAfterEvent = {
 
 data DataDrivenEntityTriggerAfterEventSignal = DataDrivenEntityTriggerAfterEventSignal
 
+
 type DataDrivenEntityTriggerBeforeEvent = {
   cancel :: Boolean,
   entity :: Entity,
@@ -464,6 +490,7 @@ type DataDrivenEntityTriggerBeforeEvent = {
 }
 
 data DataDrivenEntityTriggerBeforeEventSignal = DataDrivenEntityTriggerBeforeEventSignal
+
 
 data DefinitionModifier = DefinitionModifier
 
@@ -480,63 +507,64 @@ data DimensionTypes = DimensionTypes
 data DynamicPropertiesDefinition = DynamicPropertiesDefinition
 
 type Effect = {
-  amplifier :: Number,
+  amplifier :: Int,
   displayName :: String,
-  duration :: Number,
+  duration :: Int,
   typeId :: String
 }
 
 type EffectAddAfterEvent = {
   effect :: Effect,
-  effectState :: Number,
+  effectState :: Int,
   entity :: Entity
 }
 
 data EffectAddAfterEventSignal = EffectAddAfterEventSignal
+
 
 data EffectType = EffectType
 
 data EffectTypes = EffectTypes
 
 type Enchantment = {
-  level :: Number,
+  level :: Int,
   "type" :: EnchantmentType
 }
 
 type EnchantmentList = {
-  slot :: Number
+  slot :: Int
 }
 
 type EnchantmentSlot = {
-  all :: Number,
-  armorFeet :: Number,
-  armorHead :: Number,
-  armorLegs :: Number,
-  armorTorso :: Number,
-  axe :: Number,
-  bow :: Number,
-  carrotStick :: Number,
-  cosmeticHead :: Number,
-  crossbow :: Number,
-  elytra :: Number,
-  fishingRod :: Number,
-  flintsteel :: Number,
-  gArmor :: Number,
-  gDigging :: Number,
-  gTool :: Number,
-  hoe :: Number,
-  none :: Number,
-  pickaxe :: Number,
-  shears :: Number,
-  shield :: Number,
-  shovel :: Number,
-  spear :: Number,
-  sword :: Number
+  all :: Int,
+  armorFeet :: Int,
+  armorHead :: Int,
+  armorLegs :: Int,
+  armorTorso :: Int,
+  axe :: Int,
+  bow :: Int,
+  carrotStick :: Int,
+  cosmeticHead :: Int,
+  crossbow :: Int,
+  elytra :: Int,
+  fishingRod :: Int,
+  flintsteel :: Int,
+  gArmor :: Int,
+  gDigging :: Int,
+  gTool :: Int,
+  hoe :: Int,
+  none :: Int,
+  pickaxe :: Int,
+  shears :: Int,
+  shield :: Int,
+  shovel :: Int,
+  spear :: Int,
+  sword :: Int
 }
 
 type EnchantmentType = {
   id :: String,
-  maxLevel :: Number
+  maxLevel :: Int
 }
 
 data EnchantmentTypes = EnchantmentTypes
@@ -594,8 +622,8 @@ type EntityBreathableComponent = {
   breathesWater :: Boolean,
   generatesBubbles :: Boolean,
   inhaleTime :: Number,
-  suffocateTime :: Number,
-  totalSupply :: Number,
+  suffocateTime :: Int,
+  totalSupply :: Int,
   entity :: Entity,
   componentId :: String
 }
@@ -616,7 +644,7 @@ type EntityCanPowerJumpComponent = {
 }
 
 type EntityColorComponent = {
-  value :: Number,
+  value :: Int,
   entity :: Entity,
   componentId :: String
 }
@@ -637,6 +665,7 @@ type EntityDieAfterEvent = {
 }
 
 data EntityDieAfterEventSignal = EntityDieAfterEventSignal
+
 
 type EntityEquippableComponent = {
   entity :: Entity,
@@ -693,6 +722,7 @@ type EntityHealthChangedAfterEvent = {
 
 data EntityHealthChangedAfterEventSignal = EntityHealthChangedAfterEventSignal
 
+
 type EntityHealthComponent = {
   currentValue :: Number,
   defaultValue :: Number,
@@ -710,12 +740,14 @@ type EntityHitBlockAfterEvent = {
 
 data EntityHitBlockAfterEventSignal = EntityHitBlockAfterEventSignal
 
+
 type EntityHitEntityAfterEvent = {
   damagingEntity :: Entity,
   hitEntity :: Entity
 }
 
 data EntityHitEntityAfterEventSignal = EntityHitEntityAfterEventSignal
+
 
 type EntityHurtAfterEvent = {
   damage :: Number,
@@ -725,12 +757,13 @@ type EntityHurtAfterEvent = {
 
 data EntityHurtAfterEventSignal = EntityHurtAfterEventSignal
 
+
 type EntityInventoryComponent = {
-  additionalSlotsPerStrength :: Number,
+  additionalSlotsPerStrength :: Int,
   canBeSiphonedFrom :: Boolean,
   container :: Container,
   containerType :: String,
-  inventorySize :: Number,
+  inventorySize :: Int,
   private :: Boolean,
   restrictToOwner :: Boolean,
   entity :: Entity,
@@ -842,7 +875,7 @@ type EntityLeashableComponent = {
 }
 
 type EntityMarkVariantComponent = {
-  value :: Number,
+  value :: Int,
   entity :: Entity,
   typeId :: String,
   componentId :: String
@@ -1094,7 +1127,7 @@ type EntityNavigationWalkComponent = {
 }
 
 type EntityOnFireComponent = {
-  onFireTicksRemaining :: Number,
+  onFireTicksRemaining :: Int,
   entity :: Entity,
   typeId :: String,
   componentId :: String
@@ -1113,13 +1146,14 @@ type EntityRemovedAfterEvent = {
 
 data EntityRemovedAfterEventSignal = EntityRemovedAfterEventSignal
 
+
 type EntityRideableComponent = {
-  controllingSeat :: Number,
+  controllingSeat :: Int,
   crouchingSkipInteract :: Boolean,
   interactText :: String,
   pullInEntities :: Boolean,
   riderCanInteract :: Boolean,
-  seatCount :: Number,
+  seatCount :: Int,
   entity :: Entity,
   typeId :: String,
   componentId :: String
@@ -1140,7 +1174,7 @@ type EntityScaleComponent = {
 }
 
 type EntitySkinIdComponent = {
-  value :: Number,
+  value :: Int,
   entity :: Entity,
   typeId :: String,
   componentId :: String
@@ -1152,9 +1186,13 @@ type EntitySpawnAfterEvent = {
 
 data EntitySpawnAfterEventSignal = EntitySpawnAfterEventSignal
 
+instance Event EntitySpawnAfterEventSignal EntitySpawnAfterEvent where
+  subscribe = subscribe_EntitySpawnAfterEventSignal
+  unsubscribe = unsubscribe_EntitySpawnAfterEventSignal
+
 type EntityStrengthComponent = {
-  max :: Number,
-  value :: Number,
+  max :: Int,
+  value :: Int,
   entity :: Entity,
   typeId :: String,
   componentId :: String
@@ -1185,7 +1223,7 @@ type EntityUnderwaterMovementComponent = {
 }
 
 type EntityVariantComponent = {
-  value :: Number,
+  value :: Int,
   entity :: Entity,
   typeId :: String,
   componentId :: String
@@ -1204,6 +1242,10 @@ type ExplosionAfterEvent = {
 
 data ExplosionAfterEventSignal = ExplosionAfterEventSignal
 
+instance Event ExplosionAfterEventSignal ExplosionAfterEvent where
+  subscribe = subscribe_ExplosionAfterEventSignal
+  unsubscribe = unsubscribe_ExplosionAfterEventSignal
+
 type ExplosionBeforeEvent = {
   cancel :: Boolean,
   dimension :: Dimension,
@@ -1212,42 +1254,70 @@ type ExplosionBeforeEvent = {
 
 data ExplosionBeforeEventSignal = ExplosionBeforeEventSignal
 
+instance Event ExplosionBeforeEventSignal ExplosionBeforeEvent where
+  subscribe = subscribe_ExplosionBeforeEventSignal
+  unsubscribe = unsubscribe_ExplosionBeforeEventSignal
+
 type FeedItem = {
-  healAmount :: Number,
+  healAmount :: Int,
   item :: String
 }
 
 type FeedItemEffect = {
-  amplifier :: Number,
+  amplifier :: Int,
   chance :: Number,
-  duration :: Number,
+  duration :: Int,
   name :: String
 }
 
 data FilterGroup = FilterGroup
 
 type FluidContainer = {
-  maxFillLevel :: Number,
-  minFillLevel :: Number
+  maxFillLevel :: Int,
+  minFillLevel :: Int
 }
 
 data IButtonPushAfterEventSignal = IButtonPushAfterEventSignal
 
+instance Event IButtonPushAfterEventSignal ButtonPushAfterEvent where
+  subscribe = subscribe_IButtonPushAfterEventSignal
+  unsubscribe = unsubscribe_IButtonPushAfterEventSignal
+
 data ILeverActionAfterEventSignal = ILeverActionAfterEventSignal
+
+instance Event ILeverActionAfterEventSignal LeverActionAfterEvent where
+  subscribe = subscribe_ILeverActionAfterEventSignal
+  unsubscribe = unsubscribe_ILeverActionAfterEventSignal
 
 data IPlayerJoinAfterEventSignal = IPlayerJoinAfterEventSignal
 
+instance Event IPlayerJoinAfterEventSignal PlayerJoinAfterEvent where
+  subscribe = subscribe_IPlayerJoinAfterEventSignal
+  unsubscribe = unsubscribe_IPlayerJoinAfterEventSignal
+
 data IPlayerLeaveAfterEventSignal = IPlayerLeaveAfterEventSignal
 
+instance Event IPlayerLeaveAfterEventSignal PlayerLeaveAfterEvent where
+  subscribe = subscribe_IPlayerLeaveAfterEventSignal
+  unsubscribe = unsubscribe_IPlayerLeaveAfterEventSignal
+
 data IPlayerSpawnAfterEventSignal = IPlayerSpawnAfterEventSignal
+
+instance Event IPlayerSpawnAfterEventSignal PlayerSpawnAfterEvent where
+  subscribe = subscribe_IPlayerSpawnAfterEventSignal
+  unsubscribe = unsubscribe_IPlayerSpawnAfterEventSignal
 
 type ItemCompleteUseAfterEvent = {
   itemStack :: ItemStack,
   source :: Player,
-  useDuration :: Number
+  useDuration :: Int
 }
 
 data ItemCompleteUseAfterEventSignal = ItemCompleteUseAfterEventSignal
+
+instance Event ItemCompleteUseAfterEventSignal ItemCompleteUseAfterEvent where
+  subscribe = subscribe_ItemCompleteUseAfterEventSignal
+  unsubscribe = unsubscribe_ItemCompleteUseAfterEventSignal
 
 type ItemComponent = {
   typeId :: String
@@ -1255,14 +1325,22 @@ type ItemComponent = {
 
 type ItemCooldownComponent = {
   cooldownCategory :: String,
-  cooldownTicks :: Number,
+  cooldownTicks :: Int,
   typeId :: String,
   componentId :: String
 }
 
 data ItemDefinitionAfterEventSignal = ItemDefinitionAfterEventSignal
 
+instance Event ItemDefinitionAfterEventSignal ItemDefinitionTriggeredAfterEvent where
+  subscribe = subscribe_ItemDefinitionAfterEventSignal
+  unsubscribe = unsubscribe_ItemDefinitionAfterEventSignal
+
 data ItemDefinitionBeforeEventSignal = ItemDefinitionBeforeEventSignal
+
+instance Event ItemDefinitionBeforeEventSignal ItemDefinitionTriggeredBeforeEvent where
+  subscribe = subscribe_ItemDefinitionBeforeEventSignal
+  unsubscribe = unsubscribe_ItemDefinitionBeforeEventSignal
 
 type ItemDefinitionTriggeredAfterEvent = {
   eventName :: String,
@@ -1278,8 +1356,8 @@ type ItemDefinitionTriggeredBeforeEvent = {
 }
 
 type ItemDurabilityComponent = {
-  damage :: Number,
-  maxDurability :: Number,
+  damage :: Int,
+  maxDurability :: Int,
   typeId :: String,
   componentId :: String
 }
@@ -1292,7 +1370,7 @@ type ItemEnchantsComponent = {
 
 type ItemFoodComponent = {
   canAlwaysEat :: Boolean,
-  nutrition :: Number,
+  nutrition :: Int,
   saturationModifier :: Number,
   usingConvertsTo :: String,
   typeId :: String,
@@ -1302,17 +1380,21 @@ type ItemFoodComponent = {
 type ItemReleaseUseAfterEvent = {
   itemStack :: ItemStack,
   source :: Player,
-  useDuration :: Number
+  useDuration :: Int
 }
 
 data ItemReleaseUseAfterEventSignal = ItemReleaseUseAfterEventSignal
 
+instance Event ItemReleaseUseAfterEventSignal ItemReleaseUseAfterEvent where
+  subscribe = subscribe_ItemReleaseUseAfterEventSignal
+  unsubscribe = unsubscribe_ItemReleaseUseAfterEventSignal
+
 type ItemStack = {
-  amount :: Number,
+  amount :: Int,
   isStackable :: Boolean,
   keepOnDeath :: Boolean,
   lockMode :: ItemLockMode,
-  maxAmount :: Number,
+  maxAmount :: Int,
   nameTag :: Nullable (String),
   "type" :: ItemType,
   typeId :: String
@@ -1321,10 +1403,14 @@ type ItemStack = {
 type ItemStartUseAfterEvent = {
   itemStack :: ItemStack,
   source :: Player,
-  useDuration :: Number
+  useDuration :: Int
 }
 
 data ItemStartUseAfterEventSignal = ItemStartUseAfterEventSignal
+
+instance Event ItemStartUseAfterEventSignal ItemStartUseAfterEvent where
+  subscribe = subscribe_ItemStartUseAfterEventSignal
+  unsubscribe = unsubscribe_ItemStartUseAfterEventSignal
 
 type ItemStartUseOnAfterEvent = {
   block :: Block,
@@ -1335,13 +1421,21 @@ type ItemStartUseOnAfterEvent = {
 
 data ItemStartUseOnAfterEventSignal = ItemStartUseOnAfterEventSignal
 
+instance Event ItemStartUseOnAfterEventSignal ItemStartUseOnAfterEvent where
+  subscribe = subscribe_ItemStartUseOnAfterEventSignal
+  unsubscribe = unsubscribe_ItemStartUseOnAfterEventSignal
+
 type ItemStopUseAfterEvent = {
   itemStack :: ItemStack,
   source :: Player,
-  useDuration :: Number
+  useDuration :: Int
 }
 
 data ItemStopUseAfterEventSignal = ItemStopUseAfterEventSignal
+
+instance Event ItemStopUseAfterEventSignal ItemStopUseAfterEvent where
+  subscribe = subscribe_ItemStopUseAfterEventSignal
+  unsubscribe = unsubscribe_ItemStopUseAfterEventSignal
 
 type ItemStopUseOnAfterEvent = {
   block :: Block,
@@ -1350,6 +1444,10 @@ type ItemStopUseOnAfterEvent = {
 }
 
 data ItemStopUseOnAfterEventSignal = ItemStopUseOnAfterEventSignal
+
+instance Event ItemStopUseOnAfterEventSignal ItemStopUseOnAfterEvent where
+  subscribe = subscribe_ItemStopUseOnAfterEventSignal
+  unsubscribe = unsubscribe_ItemStopUseOnAfterEventSignal
 
 type ItemType = {
   id :: String
@@ -1364,6 +1462,10 @@ type ItemUseAfterEvent = {
 
 data ItemUseAfterEventSignal = ItemUseAfterEventSignal
 
+instance Event ItemUseAfterEventSignal ItemUseAfterEvent where
+  subscribe = subscribe_ItemUseAfterEventSignal
+  unsubscribe = unsubscribe_ItemUseAfterEventSignal
+
 type ItemUseBeforeEvent = {
   cancel :: Boolean,
   itemStack :: ItemStack,
@@ -1371,6 +1473,10 @@ type ItemUseBeforeEvent = {
 }
 
 data ItemUseBeforeEventSignal = ItemUseBeforeEventSignal
+
+instance Event ItemUseBeforeEventSignal ItemUseBeforeEvent where
+  subscribe = subscribe_ItemUseBeforeEventSignal
+  unsubscribe = unsubscribe_ItemUseBeforeEventSignal
 
 type ItemUseOnAfterEvent = {
   block :: Block,
@@ -1381,6 +1487,10 @@ type ItemUseOnAfterEvent = {
 }
 
 data ItemUseOnAfterEventSignal = ItemUseOnAfterEventSignal
+
+instance Event ItemUseOnAfterEventSignal ItemUseOnAfterEvent where
+  subscribe = subscribe_ItemUseOnAfterEventSignal
+  unsubscribe = unsubscribe_ItemUseOnAfterEventSignal
 
 type ItemUseOnBeforeEvent = {
   cancel :: Boolean,
@@ -1393,6 +1503,10 @@ type ItemUseOnBeforeEvent = {
 
 data ItemUseOnBeforeEventSignal = ItemUseOnBeforeEventSignal
 
+instance Event ItemUseOnBeforeEventSignal ItemUseOnBeforeEvent where
+  subscribe = subscribe_ItemUseOnBeforeEventSignal
+  unsubscribe = unsubscribe_ItemUseOnBeforeEventSignal
+
 type LeverActionAfterEvent = {
   isPowered :: Boolean,
   player :: Player,
@@ -1401,6 +1515,10 @@ type LeverActionAfterEvent = {
 }
 
 data LeverActionAfterEventSignal = LeverActionAfterEventSignal
+
+instance Event LeverActionAfterEventSignal LeverActionAfterEvent where
+  subscribe = subscribe_LeverActionAfterEventSignal
+  unsubscribe = unsubscribe_LeverActionAfterEventSignal
 
 type MessageReceiveAfterEvent = {
   id :: String,
@@ -1429,6 +1547,10 @@ type PistonActivateAfterEvent = {
 
 data PistonActivateAfterEventSignal = PistonActivateAfterEventSignal
 
+instance Event PistonActivateAfterEventSignal PistonActivateAfterEvent where
+  subscribe = subscribe_PistonActivateAfterEventSignal
+  unsubscribe = unsubscribe_PistonActivateAfterEventSignal
+
 type PistonActivateBeforeEvent = {
   cancel :: Boolean,
   isExpanding :: Boolean,
@@ -1439,17 +1561,21 @@ type PistonActivateBeforeEvent = {
 
 data PistonActivateBeforeEventSignal = PistonActivateBeforeEventSignal
 
+instance Event PistonActivateBeforeEventSignal PistonActivateBeforeEvent where
+  subscribe = subscribe_PistonActivateBeforeEventSignal
+  unsubscribe = unsubscribe_PistonActivateBeforeEventSignal
+
 type Player = {
   camera :: Camera,
   isFlying :: Boolean,
   isGliding :: Boolean,
   isJumping :: Boolean,
-  level :: Number,
+  level :: Int,
   name :: String,
   onScreenDisplay :: ScreenDisplay,
-  selectedSlot :: Number,
-  totalXpNeededForNextLevel :: Number,
-  xpEarnedAtCurrentLevel :: Number,
+  selectedSlot :: Int,
+  totalXpNeededForNextLevel :: Int,
+  xpEarnedAtCurrentLevel :: Int,
   dimension :: Dimension,
   fallDistance :: Number,
   id :: String,
@@ -1477,12 +1603,20 @@ type PlayerJoinAfterEvent = {
 
 data PlayerJoinAfterEventSignal = PlayerJoinAfterEventSignal
 
+instance Event PlayerJoinAfterEventSignal PlayerJoinAfterEvent where
+  subscribe = subscribe_PlayerJoinAfterEventSignal
+  unsubscribe = unsubscribe_PlayerJoinAfterEventSignal
+
 type PlayerLeaveAfterEvent = {
   playerId :: String,
   playerName :: String
 }
 
 data PlayerLeaveAfterEventSignal = PlayerLeaveAfterEventSignal
+
+instance Event PlayerLeaveAfterEventSignal PlayerLeaveAfterEvent where
+  subscribe = subscribe_PlayerLeaveAfterEventSignal
+  unsubscribe = unsubscribe_PlayerLeaveAfterEventSignal
 
 type PlayerSpawnAfterEvent = {
   initialSpawn :: Boolean,
@@ -1491,24 +1625,36 @@ type PlayerSpawnAfterEvent = {
 
 data PlayerSpawnAfterEventSignal = PlayerSpawnAfterEventSignal
 
+instance Event PlayerSpawnAfterEventSignal PlayerSpawnAfterEvent where
+  subscribe = subscribe_PlayerSpawnAfterEventSignal
+  unsubscribe = unsubscribe_PlayerSpawnAfterEventSignal
+
 type PressurePlatePopAfterEvent = {
-  previousRedstonePower :: Number,
-  redstonePower :: Number,
+  previousRedstonePower :: Int,
+  redstonePower :: Int,
   block :: Block,
   dimension :: Dimension
 }
 
 data PressurePlatePopAfterEventSignal = PressurePlatePopAfterEventSignal
 
+instance Event PressurePlatePopAfterEventSignal PressurePlatePopAfterEvent where
+  subscribe = subscribe_PressurePlatePopAfterEventSignal
+  unsubscribe = unsubscribe_PressurePlatePopAfterEventSignal
+
 type PressurePlatePushAfterEvent = {
-  previousRedstonePower :: Number,
-  redstonePower :: Number,
+  previousRedstonePower :: Int,
+  redstonePower :: Int,
   source :: Entity,
   block :: Block,
   dimension :: Dimension
 }
 
 data PressurePlatePushAfterEventSignal = PressurePlatePushAfterEventSignal
+
+instance Event PressurePlatePushAfterEventSignal PressurePlatePushAfterEvent where
+  subscribe = subscribe_PressurePlatePushAfterEventSignal
+  unsubscribe = unsubscribe_PressurePlatePushAfterEventSignal
 
 type ProjectileHitBlockAfterEvent = {
   dimension :: Dimension,
@@ -1520,6 +1666,10 @@ type ProjectileHitBlockAfterEvent = {
 
 data ProjectileHitBlockAfterEventSignal = ProjectileHitBlockAfterEventSignal
 
+instance Event ProjectileHitBlockAfterEventSignal ProjectileHitBlockAfterEvent where
+  subscribe = subscribe_ProjectileHitBlockAfterEventSignal
+  unsubscribe = unsubscribe_ProjectileHitBlockAfterEventSignal
+
 type ProjectileHitEntityAfterEvent = {
   dimension :: Dimension,
   hitVector :: Vector3,
@@ -1530,13 +1680,17 @@ type ProjectileHitEntityAfterEvent = {
 
 data ProjectileHitEntityAfterEventSignal = ProjectileHitEntityAfterEventSignal
 
+instance Event ProjectileHitEntityAfterEventSignal ProjectileHitEntityAfterEvent where
+  subscribe = subscribe_ProjectileHitEntityAfterEventSignal
+  unsubscribe = unsubscribe_ProjectileHitEntityAfterEventSignal
+
 data PropertyRegistry = PropertyRegistry
 
 data Scoreboard = Scoreboard
 
 type ScoreboardIdentity = {
   displayName :: String,
-  id :: Number,
+  id :: Int,
   "type" :: ScoreboardIdentityType
 }
 
@@ -1547,7 +1701,7 @@ type ScoreboardObjective = {
 
 type ScoreboardScoreInfo = {
   participant :: ScoreboardIdentity,
-  score :: Number
+  score :: Int
 }
 
 data ScreenDisplay = ScreenDisplay
@@ -1563,19 +1717,24 @@ type ScriptEventCommandMessageAfterEvent = {
 
 data ScriptEventCommandMessageAfterEventSignal = ScriptEventCommandMessageAfterEventSignal
 
+
 type Seat = {
   lockRiderRotation :: Number,
-  maxRiderCount :: Number,
-  minRiderCount :: Number,
+  maxRiderCount :: Int,
+  minRiderCount :: Int,
   position :: Vector3
 }
 
 data ServerMessageAfterEventSignal = ServerMessageAfterEventSignal
 
+instance Event ServerMessageAfterEventSignal MessageReceiveAfterEvent where
+  subscribe = subscribe_ServerMessageAfterEventSignal
+  unsubscribe = unsubscribe_ServerMessageAfterEventSignal
+
 type System = {
   afterEvents :: SystemAfterEvents,
   beforeEvents :: SystemBeforeEvents,
-  currentTick :: Number
+  currentTick :: Int
 }
 
 type SystemAfterEvents = {
@@ -1588,14 +1747,18 @@ type SystemBeforeEvents = {
 
 type TargetBlockHitAfterEvent = {
   hitVector :: Vector3,
-  previousRedstonePower :: Number,
-  redstonePower :: Number,
+  previousRedstonePower :: Int,
+  redstonePower :: Int,
   source :: Entity,
   block :: Block,
   dimension :: Dimension
 }
 
 data TargetBlockHitAfterEventSignal = TargetBlockHitAfterEventSignal
+
+instance Event TargetBlockHitAfterEventSignal TargetBlockHitAfterEvent where
+  subscribe = subscribe_TargetBlockHitAfterEventSignal
+  unsubscribe = unsubscribe_TargetBlockHitAfterEventSignal
 
 type Trigger = {
   eventName :: String
@@ -1609,6 +1772,10 @@ type TripWireTripAfterEvent = {
 }
 
 data TripWireTripAfterEventSignal = TripWireTripAfterEventSignal
+
+instance Event TripWireTripAfterEventSignal TripWireTripAfterEvent where
+  subscribe = subscribe_TripWireTripAfterEventSignal
+  unsubscribe = unsubscribe_TripWireTripAfterEventSignal
 
 newtype Vector = Vector {
   x :: Number,
@@ -1631,6 +1798,10 @@ type WatchdogTerminateBeforeEvent = {
 
 data WatchdogTerminateBeforeEventSignal = WatchdogTerminateBeforeEventSignal
 
+instance Event WatchdogTerminateBeforeEventSignal WatchdogTerminateBeforeEvent where
+  subscribe = subscribe_WatchdogTerminateBeforeEventSignal
+  unsubscribe = unsubscribe_WatchdogTerminateBeforeEventSignal
+
 type WeatherChangeAfterEvent = {
   dimension :: String,
   lightning :: Boolean,
@@ -1638,6 +1809,10 @@ type WeatherChangeAfterEvent = {
 }
 
 data WeatherChangeAfterEventSignal = WeatherChangeAfterEventSignal
+
+instance Event WeatherChangeAfterEventSignal WeatherChangeAfterEvent where
+  subscribe = subscribe_WeatherChangeAfterEventSignal
+  unsubscribe = unsubscribe_WeatherChangeAfterEventSignal
 
 type World = {
   afterEvents :: WorldAfterEvents,
@@ -1702,16 +1877,20 @@ type WorldInitializeAfterEvent = {
 
 data WorldInitializeAfterEventSignal = WorldInitializeAfterEventSignal
 
-foreign import canPlace_Block :: Block -> (BlockPermutation |+| BlockType |+| String) -> Nullable (Direction) -> Boolean
+instance Event WorldInitializeAfterEventSignal WorldInitializeAfterEvent where
+  subscribe = subscribe_WorldInitializeAfterEventSignal
+  unsubscribe = unsubscribe_WorldInitializeAfterEventSignal
+
+foreign import canPlace :: Block -> (BlockPermutation |+| BlockType |+| String) -> Nullable (Direction) -> Boolean
 foreign import getComponent_Block :: Block -> String -> Nullable (BlockComponent)
-foreign import getItemStack_Block :: Block -> Number -> Boolean -> ItemStack
-foreign import getRedstonePower_Block :: Block -> Nullable (Number)
+foreign import getItemStack_Block :: Block -> Int -> Boolean -> ItemStack
+foreign import getRedstonePower :: Block -> Nullable (Int)
 foreign import getTags_Block :: Block -> Array (String)
 foreign import hasTag_Block :: Block -> String -> Boolean
 foreign import isValid_Block :: Block -> Boolean
-foreign import setPermutation_Block :: Block -> BlockPermutation -> Eff.Effect Unit
-foreign import setType_Block :: Block -> (BlockType |+| String) -> Eff.Effect Unit
-foreign import trySetPermutation_Block :: Block -> BlockPermutation -> Boolean
+foreign import setPermutation :: Block -> BlockPermutation -> Eff.Effect Unit
+foreign import setType :: Block -> (BlockType |+| String) -> Eff.Effect Unit
+foreign import trySetPermutation :: Block -> BlockPermutation -> Boolean
 foreign import mk_BlockAreaSize :: Number -> Number -> Number -> BlockAreaSize
 foreign import equals_BlockAreaSize :: BlockAreaSize -> BlockAreaSize -> Boolean
 foreign import subscribe_BlockBreakAfterEventSignal :: BlockBreakAfterEventSignal -> (BlockBreakAfterEvent -> Eff.Effect Unit) -> (BlockBreakAfterEvent -> Eff.Effect Unit)
@@ -1724,31 +1903,31 @@ foreign import isValidLiquid_BlockLavaContainerComponent :: BlockLavaContainerCo
 foreign import isValidLiquid_BlockLiquidContainerComponent :: BlockLiquidContainerComponent -> Boolean
 foreign import isValid_BlockLiquidContainerComponent :: BlockLiquidContainerComponent -> Boolean
 foreign import clone_BlockPermutation :: BlockPermutation -> BlockPermutation
-foreign import getAllStates_BlockPermutation :: BlockPermutation -> Map String (Boolean |+| Number |+| String)
-foreign import getItemStack_BlockPermutation :: BlockPermutation -> Number -> ItemStack
-foreign import getState_BlockPermutation :: BlockPermutation -> String -> Nullable ((Boolean |+| Number |+| String))
+foreign import getAllStates :: BlockPermutation -> Map String (Boolean |+| Int |+| String)
+foreign import getItemStack_BlockPermutation :: BlockPermutation -> Int -> ItemStack
+foreign import getState :: BlockPermutation -> String -> Nullable ((Boolean |+| Int |+| String))
 foreign import getTags_BlockPermutation :: BlockPermutation -> Array (String)
 foreign import hasTag_BlockPermutation :: BlockPermutation -> String -> Boolean
-foreign import matches_BlockPermutation :: BlockPermutation -> String -> Nullable (Map String (Boolean |+| Number |+| String)) -> Boolean
-foreign import resolve_BlockPermutation :: String -> Nullable (Map String (Boolean |+| Number |+| String)) -> BlockPermutation
-foreign import withState_BlockPermutation :: BlockPermutation -> String -> (Boolean |+| Number |+| String) -> BlockPermutation
-foreign import getAttachedBlocks_BlockPistonComponent :: BlockPistonComponent -> Array (Vector3)
+foreign import matches :: BlockPermutation -> String -> Nullable (Map String (Boolean |+| Int |+| String)) -> Boolean
+foreign import resolve :: String -> Nullable (Map String (Boolean |+| Int |+| String)) -> BlockPermutation
+foreign import withState :: BlockPermutation -> String -> (Boolean |+| Int |+| String) -> BlockPermutation
+foreign import getAttachedBlocks :: BlockPistonComponent -> Array (Vector3)
 foreign import isValid_BlockPistonComponent :: BlockPistonComponent -> Boolean
 foreign import subscribe_BlockPlaceAfterEventSignal :: BlockPlaceAfterEventSignal -> (BlockPlaceAfterEvent -> Eff.Effect Unit) -> (BlockPlaceAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_BlockPlaceAfterEventSignal :: BlockPlaceAfterEventSignal -> (BlockPlaceAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import setPotionType_BlockPotionContainerComponent :: BlockPotionContainerComponent -> ItemStack -> Eff.Effect Unit
+foreign import setPotionType :: BlockPotionContainerComponent -> ItemStack -> Eff.Effect Unit
 foreign import isValidLiquid_BlockPotionContainerComponent :: BlockPotionContainerComponent -> Boolean
 foreign import isValid_BlockPotionContainerComponent :: BlockPotionContainerComponent -> Boolean
-foreign import clearRecord_BlockRecordPlayerComponent :: BlockRecordPlayerComponent -> Eff.Effect Unit
-foreign import isPlaying_BlockRecordPlayerComponent :: BlockRecordPlayerComponent -> Boolean
-foreign import setRecord_BlockRecordPlayerComponent :: BlockRecordPlayerComponent -> (ItemType |+| String) -> Eff.Effect Unit
+foreign import clearRecord :: BlockRecordPlayerComponent -> Eff.Effect Unit
+foreign import isPlaying :: BlockRecordPlayerComponent -> Boolean
+foreign import setRecord :: BlockRecordPlayerComponent -> (ItemType |+| String) -> Eff.Effect Unit
 foreign import isValid_BlockRecordPlayerComponent :: BlockRecordPlayerComponent -> Boolean
-foreign import getRawText_BlockSignComponent :: BlockSignComponent -> SignSide -> Nullable (RawText)
-foreign import getText_BlockSignComponent :: BlockSignComponent -> SignSide -> Nullable (String)
-foreign import getTextDyeColor_BlockSignComponent :: BlockSignComponent -> SignSide -> Nullable (DyeColor)
-foreign import setText_BlockSignComponent :: BlockSignComponent -> (RawMessage |+| RawText |+| String) -> SignSide -> Eff.Effect Unit
-foreign import setTextDyeColor_BlockSignComponent :: BlockSignComponent -> Nullable (DyeColor) -> SignSide -> Eff.Effect Unit
-foreign import setWaxed_BlockSignComponent :: BlockSignComponent -> Eff.Effect Unit
+foreign import getRawText :: BlockSignComponent -> SignSide -> Nullable (RawText)
+foreign import getText :: BlockSignComponent -> SignSide -> Nullable (String)
+foreign import getTextDyeColor :: BlockSignComponent -> SignSide -> Nullable (DyeColor)
+foreign import setText :: BlockSignComponent -> (RawMessage |+| RawText |+| String) -> SignSide -> Eff.Effect Unit
+foreign import setTextDyeColor :: BlockSignComponent -> Nullable (DyeColor) -> SignSide -> Eff.Effect Unit
+foreign import setWaxed :: BlockSignComponent -> Eff.Effect Unit
 foreign import isValid_BlockSignComponent :: BlockSignComponent -> Boolean
 foreign import isValidLiquid_BlockSnowContainerComponent :: BlockSnowContainerComponent -> Boolean
 foreign import isValid_BlockSnowContainerComponent :: BlockSnowContainerComponent -> Boolean
@@ -1756,29 +1935,29 @@ foreign import get_BlockStates :: String -> BlockStateType
 foreign import getAll_BlockStates :: Array (BlockStateType)
 foreign import get_BlockTypes :: String -> Nullable (BlockType)
 foreign import getAll_BlockTypes :: Array (BlockType)
-foreign import doesLocationTouchFaces_BlockVolumeUtils :: BlockVolume -> Vector3 -> Boolean
-foreign import doesVolumeTouchFaces_BlockVolumeUtils :: BlockVolume -> BlockVolume -> Boolean
+foreign import doesLocationTouchFaces :: BlockVolume -> Vector3 -> Boolean
+foreign import doesVolumeTouchFaces :: BlockVolume -> BlockVolume -> Boolean
 foreign import equals_BlockVolumeUtils :: BlockVolume -> BlockVolume -> Boolean
 foreign import getBlockLocationIterator_BlockVolumeUtils :: BlockVolume -> BlockLocationIterator
 foreign import getBoundingBox_BlockVolumeUtils :: BlockVolume -> BoundingBox
-foreign import getCapacity_BlockVolumeUtils :: BlockVolume -> Number
+foreign import getCapacity :: BlockVolume -> Int
 foreign import getMax_BlockVolumeUtils :: BlockVolume -> Vector3
 foreign import getMin_BlockVolumeUtils :: BlockVolume -> Vector3
 foreign import getSpan_BlockVolumeUtils :: BlockVolume -> Vector3
 foreign import intersects_BlockVolumeUtils :: BlockVolume -> BlockVolume -> BlockVolumeIntersection
 foreign import isInside_BlockVolumeUtils :: BlockVolume -> Vector3 -> Boolean
 foreign import translate_BlockVolumeUtils :: BlockVolume -> Vector3 -> BlockVolume
-foreign import addDye_BlockWaterContainerComponent :: BlockWaterContainerComponent -> ItemType -> Eff.Effect Unit
-foreign import getCustomColor_BlockWaterContainerComponent :: BlockWaterContainerComponent -> RGBA
-foreign import setCustomColor_BlockWaterContainerComponent :: BlockWaterContainerComponent -> RGBA -> Eff.Effect Unit
+foreign import addDye :: BlockWaterContainerComponent -> ItemType -> Eff.Effect Unit
+foreign import getCustomColor :: BlockWaterContainerComponent -> RGBA
+foreign import setCustomColor :: BlockWaterContainerComponent -> RGBA -> Eff.Effect Unit
 foreign import isValidLiquid_BlockWaterContainerComponent :: BlockWaterContainerComponent -> Boolean
 foreign import isValid_BlockWaterContainerComponent :: BlockWaterContainerComponent -> Boolean
-foreign import createValid_BoundingBoxUtils :: Vector3 -> Vector3 -> BoundingBox
-foreign import dilate_BoundingBoxUtils :: BoundingBox -> Vector3 -> BoundingBox
+foreign import createValid :: Vector3 -> Vector3 -> BoundingBox
+foreign import dilate :: BoundingBox -> Vector3 -> BoundingBox
 foreign import equals_BoundingBoxUtils :: BoundingBox -> BoundingBox -> Boolean
-foreign import expand_BoundingBoxUtils :: BoundingBox -> BoundingBox -> BoundingBox
-foreign import getCenter_BoundingBoxUtils :: BoundingBox -> Vector3
-foreign import getIntersection_BoundingBoxUtils :: BoundingBox -> BoundingBox -> Nullable (BoundingBox)
+foreign import expand :: BoundingBox -> BoundingBox -> BoundingBox
+foreign import getCenter :: BoundingBox -> Vector3
+foreign import getIntersection :: BoundingBox -> BoundingBox -> Nullable (BoundingBox)
 foreign import getSpan_BoundingBoxUtils :: BoundingBox -> Vector3
 foreign import intersects_BoundingBoxUtils :: BoundingBox -> BoundingBox -> Boolean
 foreign import isInside_BoundingBoxUtils :: BoundingBox -> Vector3 -> Boolean
@@ -1787,12 +1966,12 @@ foreign import translate_BoundingBoxUtils :: BoundingBox -> Vector3 -> BoundingB
 foreign import subscribe_ButtonPushAfterEventSignal :: ButtonPushAfterEventSignal -> (ButtonPushAfterEvent -> Eff.Effect Unit) -> (ButtonPushAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ButtonPushAfterEventSignal :: ButtonPushAfterEventSignal -> (ButtonPushAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import clear_Camera :: Camera -> Eff.Effect Unit
-foreign import fade_Camera :: Camera -> Nullable (CameraFadeOptions) -> Eff.Effect Unit
-foreign import setCamera_Camera :: Camera -> String -> Nullable (Nullable ((ScriptCameraDefaultOptions |+| ScriptCameraSetFacingOptions |+| ScriptCameraSetLocationOptions |+| ScriptCameraSetPosOptions |+| ScriptCameraSetRotOptions))) -> Eff.Effect Unit
+foreign import fade :: Camera -> Nullable (CameraFadeOptions) -> Eff.Effect Unit
+foreign import setCamera :: Camera -> String -> Nullable (Nullable ((ScriptCameraDefaultOptions |+| ScriptCameraSetFacingOptions |+| ScriptCameraSetLocationOptions |+| ScriptCameraSetPosOptions |+| ScriptCameraSetRotOptions))) -> Eff.Effect Unit
 foreign import getTargets_ChatSendAfterEvent :: ChatSendAfterEvent -> Array (Player)
 foreign import subscribe_ChatSendAfterEventSignal :: ChatSendAfterEventSignal -> (ChatSendAfterEvent -> Eff.Effect Unit) -> (ChatSendAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ChatSendAfterEventSignal :: ChatSendAfterEventSignal -> (ChatSendAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import setTargets_ChatSendBeforeEvent :: ChatSendBeforeEvent -> Array (Player) -> Eff.Effect Unit
+foreign import setTargets :: ChatSendBeforeEvent -> Array (Player) -> Eff.Effect Unit
 foreign import getTargets_ChatSendBeforeEvent :: ChatSendBeforeEvent -> Array (Player)
 foreign import subscribe_ChatSendBeforeEventSignal :: ChatSendBeforeEventSignal -> (ChatSendBeforeEvent -> Eff.Effect Unit) -> (ChatSendBeforeEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ChatSendBeforeEventSignal :: ChatSendBeforeEventSignal -> (ChatSendBeforeEvent -> Eff.Effect Unit) -> Eff.Effect Unit
@@ -1803,24 +1982,24 @@ foreign import getBlockLocationIterator_CompoundBlockVolume :: CompoundBlockVolu
 foreign import getBoundingBox_CompoundBlockVolume :: CompoundBlockVolume -> BoundingBox
 foreign import getMax_CompoundBlockVolume :: CompoundBlockVolume -> Vector3
 foreign import getMin_CompoundBlockVolume :: CompoundBlockVolume -> Vector3
-foreign import getOrigin_CompoundBlockVolume :: CompoundBlockVolume -> Vector3
-foreign import isEmpty_CompoundBlockVolume :: CompoundBlockVolume -> Boolean
+foreign import getOrigin :: CompoundBlockVolume -> Vector3
+foreign import isEmpty :: CompoundBlockVolume -> Boolean
 foreign import isInside_CompoundBlockVolume :: CompoundBlockVolume -> Vector3 -> Boolean
-foreign import peekLastVolume_CompoundBlockVolume :: CompoundBlockVolume -> Nullable (CompoundBlockVolumePositionRelativity) -> Nullable (CompoundBlockVolumeItem)
-foreign import popVolume_CompoundBlockVolume :: CompoundBlockVolume -> Boolean
-foreign import pushVolume_CompoundBlockVolume :: CompoundBlockVolume -> CompoundBlockVolumeItem -> Eff.Effect Unit
-foreign import replaceOrAddLastVolume_CompoundBlockVolume :: CompoundBlockVolume -> CompoundBlockVolumeItem -> Boolean
-foreign import setOrigin_CompoundBlockVolume :: CompoundBlockVolume -> Vector3 -> Nullable (Boolean) -> Eff.Effect Unit
-foreign import translateOrigin_CompoundBlockVolume :: CompoundBlockVolume -> Vector3 -> Nullable (Boolean) -> Eff.Effect Unit
-foreign import addItem_Container :: Container -> ItemStack -> ItemStack
-foreign import clearAll_Container :: Container -> Eff.Effect Unit
-foreign import getItem_Container :: Container -> Number -> Nullable (ItemStack)
-foreign import getSlot_Container :: Container -> Number -> ContainerSlot
+foreign import peekLastVolume :: CompoundBlockVolume -> Nullable (CompoundBlockVolumePositionRelativity) -> Nullable (CompoundBlockVolumeItem)
+foreign import popVolume :: CompoundBlockVolume -> Boolean
+foreign import pushVolume :: CompoundBlockVolume -> CompoundBlockVolumeItem -> Eff.Effect Unit
+foreign import replaceOrAddLastVolume :: CompoundBlockVolume -> CompoundBlockVolumeItem -> Boolean
+foreign import setOrigin :: CompoundBlockVolume -> Vector3 -> Nullable (Boolean) -> Eff.Effect Unit
+foreign import translateOrigin :: CompoundBlockVolume -> Vector3 -> Nullable (Boolean) -> Eff.Effect Unit
+foreign import addItem :: Container -> ItemStack -> ItemStack
+foreign import clearAll :: Container -> Eff.Effect Unit
+foreign import getItem_Container :: Container -> Int -> Nullable (ItemStack)
+foreign import getSlot :: Container -> Int -> ContainerSlot
 foreign import isValid_Container :: Container -> Boolean
-foreign import moveItem_Container :: Container -> Number -> Number -> Container -> Eff.Effect Unit
-foreign import setItem_Container :: Container -> Number -> Nullable (ItemStack) -> Eff.Effect Unit
-foreign import swapItems_Container :: Container -> Number -> Number -> Container -> Eff.Effect Unit
-foreign import transferItem_Container :: Container -> Number -> Container -> ItemStack
+foreign import moveItem :: Container -> Int -> Int -> Container -> Eff.Effect Unit
+foreign import setItem_Container :: Container -> Int -> Nullable (ItemStack) -> Eff.Effect Unit
+foreign import swapItems :: Container -> Int -> Int -> Container -> Eff.Effect Unit
+foreign import transferItem :: Container -> Int -> Container -> ItemStack
 foreign import getItem_ContainerSlot :: ContainerSlot -> Nullable (ItemStack)
 foreign import getLore_ContainerSlot :: ContainerSlot -> Array (String)
 foreign import getTags_ContainerSlot :: ContainerSlot -> Array (String)
@@ -1835,52 +2014,52 @@ foreign import getModifiers_DataDrivenEntityTriggerAfterEvent :: DataDrivenEntit
 foreign import subscribe_DataDrivenEntityTriggerAfterEventSignal :: DataDrivenEntityTriggerAfterEventSignal -> (DataDrivenEntityTriggerAfterEvent -> Eff.Effect Unit) -> Nullable (EntityDataDrivenTriggerEventOptions) -> (DataDrivenEntityTriggerAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_DataDrivenEntityTriggerAfterEventSignal :: DataDrivenEntityTriggerAfterEventSignal -> (DataDrivenEntityTriggerAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import getModifiers_DataDrivenEntityTriggerBeforeEvent :: DataDrivenEntityTriggerBeforeEvent -> Array (DefinitionModifier)
-foreign import setModifiers_DataDrivenEntityTriggerBeforeEvent :: DataDrivenEntityTriggerBeforeEvent -> Array (DefinitionModifier) -> Eff.Effect Unit
+foreign import setModifiers :: DataDrivenEntityTriggerBeforeEvent -> Array (DefinitionModifier) -> Eff.Effect Unit
 foreign import subscribe_DataDrivenEntityTriggerBeforeEventSignal :: DataDrivenEntityTriggerBeforeEventSignal -> (DataDrivenEntityTriggerBeforeEvent -> Eff.Effect Unit) -> Nullable (EntityDataDrivenTriggerEventOptions) -> (DataDrivenEntityTriggerBeforeEvent -> Eff.Effect Unit)
 foreign import unsubscribe_DataDrivenEntityTriggerBeforeEventSignal :: DataDrivenEntityTriggerBeforeEventSignal -> (DataDrivenEntityTriggerBeforeEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import mk_DefinitionModifier :: DefinitionModifier
-foreign import getComponentGroupsToAdd_DefinitionModifier :: DefinitionModifier -> Array (String)
-foreign import getComponentGroupsToRemove_DefinitionModifier :: DefinitionModifier -> Array (String)
-foreign import getTriggers_DefinitionModifier :: DefinitionModifier -> Array (Trigger)
-foreign import setComponentGroupsToAdd_DefinitionModifier :: DefinitionModifier -> Array (String) -> Eff.Effect Unit
-foreign import setComponentGroupsToRemove_DefinitionModifier :: DefinitionModifier -> Array (String) -> Eff.Effect Unit
-foreign import setTriggers_DefinitionModifier :: DefinitionModifier -> Array (Trigger) -> Eff.Effect Unit
-foreign import createExplosion_Dimension :: Dimension -> Vector3 -> Number -> Nullable (ExplosionOptions) -> Eff.Effect Unit
-foreign import fillBlocks_Dimension :: Dimension -> Vector3 -> Vector3 -> (BlockPermutation |+| BlockType |+| String) -> Nullable (BlockFillOptions) -> Number
-foreign import getBlock_Dimension :: Dimension -> Vector3 -> Nullable (Block)
-foreign import getBlockFromRay_Dimension :: Dimension -> Vector3 -> Vector3 -> Nullable (BlockRaycastOptions) -> Nullable (BlockRaycastHit)
-foreign import getEntities_Dimension :: Dimension -> Nullable (EntityQueryOptions) -> Array (Entity)
-foreign import getEntitiesAtBlockLocation_Dimension :: Dimension -> Vector3 -> Array (Entity)
-foreign import getEntitiesFromRay_Dimension :: Dimension -> Vector3 -> Vector3 -> Nullable (EntityRaycastOptions) -> Array (EntityRaycastHit)
+foreign import getComponentGroupsToAdd :: DefinitionModifier -> Array (String)
+foreign import getComponentGroupsToRemove :: DefinitionModifier -> Array (String)
+foreign import getTriggers :: DefinitionModifier -> Array (Trigger)
+foreign import setComponentGroupsToAdd :: DefinitionModifier -> Array (String) -> Eff.Effect Unit
+foreign import setComponentGroupsToRemove :: DefinitionModifier -> Array (String) -> Eff.Effect Unit
+foreign import setTriggers :: DefinitionModifier -> Array (Trigger) -> Eff.Effect Unit
+foreign import createExplosion :: Dimension -> Vector3 -> Number -> Nullable (ExplosionOptions) -> Eff.Effect Unit
+foreign import fillBlocks :: Dimension -> Vector3 -> Vector3 -> (BlockPermutation |+| BlockType |+| String) -> Nullable (BlockFillOptions) -> Int
+foreign import getBlock :: Dimension -> Vector3 -> Nullable (Block)
+foreign import getBlockFromRay :: Dimension -> Vector3 -> Vector3 -> Nullable (BlockRaycastOptions) -> Nullable (BlockRaycastHit)
+foreign import getEntities :: Dimension -> Nullable (EntityQueryOptions) -> Array (Entity)
+foreign import getEntitiesAtBlockLocation :: Dimension -> Vector3 -> Array (Entity)
+foreign import getEntitiesFromRay :: Dimension -> Vector3 -> Vector3 -> Nullable (EntityRaycastOptions) -> Array (EntityRaycastHit)
 foreign import getPlayers_Dimension :: Dimension -> Nullable (EntityQueryOptions) -> Array (Player)
 foreign import runCommand_Dimension :: Dimension -> String -> CommandResult
-foreign import runCommandAsync_Dimension :: Dimension -> String -> Promise CommandResult
-foreign import setWeather_Dimension :: Dimension -> WeatherType -> Eff.Effect Unit
-foreign import spawnEntity_Dimension :: Dimension -> String -> Vector3 -> Entity
-foreign import spawnItem_Dimension :: Dimension -> ItemStack -> Vector3 -> Entity
-foreign import spawnParticle_Dimension :: Dimension -> String -> Vector3 -> Nullable (MolangVariableMap) -> Eff.Effect Unit
+foreign import runCommandAsync_Dimension :: Dimension -> String -> Promise (CommandResult)
+foreign import setWeather :: Dimension -> WeatherType -> Eff.Effect Unit
+foreign import spawnEntity :: Dimension -> String -> Vector3 -> Entity
+foreign import spawnItem :: Dimension -> ItemStack -> Vector3 -> Entity
+foreign import spawnParticle :: Dimension -> String -> Vector3 -> Nullable (MolangVariableMap) -> Eff.Effect Unit
 foreign import get_DimensionTypes :: String -> Nullable (DimensionType)
 foreign import getAll_DimensionTypes :: Array (DimensionType)
 foreign import mk_DynamicPropertiesDefinition :: DynamicPropertiesDefinition
-foreign import defineBoolean_DynamicPropertiesDefinition :: DynamicPropertiesDefinition -> String -> Nullable (Boolean) -> DynamicPropertiesDefinition
-foreign import defineNumber_DynamicPropertiesDefinition :: DynamicPropertiesDefinition -> String -> Nullable (Number) -> DynamicPropertiesDefinition
-foreign import defineString_DynamicPropertiesDefinition :: DynamicPropertiesDefinition -> String -> Number -> Nullable (String) -> DynamicPropertiesDefinition
-foreign import defineVector_DynamicPropertiesDefinition :: DynamicPropertiesDefinition -> String -> Nullable (Vector3) -> DynamicPropertiesDefinition
+foreign import defineBoolean :: DynamicPropertiesDefinition -> String -> Nullable (Boolean) -> DynamicPropertiesDefinition
+foreign import defineNumber :: DynamicPropertiesDefinition -> String -> Nullable (Number) -> DynamicPropertiesDefinition
+foreign import defineString :: DynamicPropertiesDefinition -> String -> Int -> Nullable (String) -> DynamicPropertiesDefinition
+foreign import defineVector :: DynamicPropertiesDefinition -> String -> Nullable (Vector3) -> DynamicPropertiesDefinition
 foreign import isValid_Effect :: Effect -> Boolean
 foreign import subscribe_EffectAddAfterEventSignal :: EffectAddAfterEventSignal -> (EffectAddAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EffectAddAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_EffectAddAfterEventSignal :: EffectAddAfterEventSignal -> (EffectAddAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import getName_EffectType :: EffectType -> String
+foreign import getName :: EffectType -> String
 foreign import get_EffectTypes :: String -> Nullable (EffectType)
 foreign import getAll_EffectTypes :: Array (EffectType)
-foreign import mk_Enchantment :: (EnchantmentType |+| String) -> Number -> Enchantment
-foreign import addEnchantment_EnchantmentList :: EnchantmentList -> Enchantment -> Boolean
-foreign import canAddEnchantment_EnchantmentList :: EnchantmentList -> Enchantment -> Boolean
-foreign import mk_EnchantmentList :: Number -> EnchantmentList
-foreign import getEnchantment_EnchantmentList :: EnchantmentList -> (EnchantmentType |+| String) -> Nullable (Enchantment)
-foreign import hasEnchantment_EnchantmentList :: EnchantmentList -> (EnchantmentType |+| String) -> Number
-foreign import removeEnchantment_EnchantmentList :: EnchantmentList -> (EnchantmentType |+| String) -> Eff.Effect Unit
+foreign import mk_Enchantment :: (EnchantmentType |+| String) -> Int -> Enchantment
+foreign import addEnchantment :: EnchantmentList -> Enchantment -> Boolean
+foreign import canAddEnchantment :: EnchantmentList -> Enchantment -> Boolean
+foreign import mk_EnchantmentList :: Int -> EnchantmentList
+foreign import getEnchantment :: EnchantmentList -> (EnchantmentType |+| String) -> Nullable (Enchantment)
+foreign import hasEnchantment :: EnchantmentList -> (EnchantmentType |+| String) -> Int
+foreign import removeEnchantment :: EnchantmentList -> (EnchantmentType |+| String) -> Eff.Effect Unit
 foreign import get_EnchantmentTypes :: String -> Nullable (EnchantmentType)
-foreign import addEffect_Entity :: Entity -> (EffectType |+| String) -> Number -> Nullable (EntityEffectOptions) -> Eff.Effect Unit
+foreign import addEffect_Entity :: Entity -> (EffectType |+| String) -> Int -> Nullable (EntityEffectOptions) -> Eff.Effect Unit
 foreign import addTag_Entity :: Entity -> String -> Boolean
 foreign import applyDamage_Entity :: Entity -> Number -> Nullable ((EntityApplyDamageByProjectileOptions |+| EntityApplyDamageOptions)) -> Boolean
 foreign import applyImpulse_Entity :: Entity -> Vector3 -> Eff.Effect Unit
@@ -1909,28 +2088,28 @@ foreign import removeDynamicProperty_Entity :: Entity -> String -> Boolean
 foreign import removeEffect_Entity :: Entity -> (EffectType |+| String) -> Boolean
 foreign import removeTag_Entity :: Entity -> String -> Boolean
 foreign import runCommand_Entity :: Entity -> String -> CommandResult
-foreign import runCommandAsync_Entity :: Entity -> String -> Promise CommandResult
+foreign import runCommandAsync_Entity :: Entity -> String -> Promise (CommandResult)
 foreign import setDynamicProperty_Entity :: Entity -> String -> (Boolean |+| Number |+| String |+| Vector3) -> Eff.Effect Unit
-foreign import setOnFire_Entity :: Entity -> Number -> Nullable (Boolean) -> Boolean
+foreign import setOnFire_Entity :: Entity -> Int -> Nullable (Boolean) -> Boolean
 foreign import setRotation_Entity :: Entity -> Vector2 -> Eff.Effect Unit
 foreign import teleport_Entity :: Entity -> Vector3 -> Nullable (TeleportOptions) -> Eff.Effect Unit
 foreign import triggerEvent_Entity :: Entity -> String -> Eff.Effect Unit
 foreign import tryTeleport_Entity :: Entity -> Vector3 -> Nullable (TeleportOptions) -> Boolean
-foreign import getDropItems_EntityAgeableComponent :: EntityAgeableComponent -> Array (String)
+foreign import getDropItems :: EntityAgeableComponent -> Array (String)
 foreign import getFeedItems_EntityAgeableComponent :: EntityAgeableComponent -> Array (EntityDefinitionFeedItem)
 foreign import resetToDefaultValue_EntityAttributeComponent :: EntityAttributeComponent -> Eff.Effect Unit
 foreign import resetToMaxValue_EntityAttributeComponent :: EntityAttributeComponent -> Eff.Effect Unit
 foreign import resetToMinValue_EntityAttributeComponent :: EntityAttributeComponent -> Eff.Effect Unit
 foreign import setCurrentValue_EntityAttributeComponent :: EntityAttributeComponent -> Number -> Boolean
-foreign import getBreatheBlocks_EntityBreathableComponent :: EntityBreathableComponent -> Array (BlockPermutation)
-foreign import getNonBreatheBlocks_EntityBreathableComponent :: EntityBreathableComponent -> Array (BlockPermutation)
-foreign import setAirSupply_EntityBreathableComponent :: EntityBreathableComponent -> Number -> Eff.Effect Unit
+foreign import getBreatheBlocks :: EntityBreathableComponent -> Array (BlockPermutation)
+foreign import getNonBreatheBlocks :: EntityBreathableComponent -> Array (BlockPermutation)
+foreign import setAirSupply :: EntityBreathableComponent -> Int -> Eff.Effect Unit
 foreign import isValid_EntityComponent :: EntityComponent -> Boolean
 foreign import subscribe_EntityDieAfterEventSignal :: EntityDieAfterEventSignal -> (EntityDieAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EntityDieAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_EntityDieAfterEventSignal :: EntityDieAfterEventSignal -> (EntityDieAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import getEquipment_EntityEquippableComponent :: EntityEquippableComponent -> EquipmentSlot -> Nullable (ItemStack)
-foreign import getEquipmentSlot_EntityEquippableComponent :: EntityEquippableComponent -> EquipmentSlot -> ContainerSlot
-foreign import setEquipment_EntityEquippableComponent :: EntityEquippableComponent -> EquipmentSlot -> Nullable (ItemStack) -> Boolean
+foreign import getEquipment :: EntityEquippableComponent -> EquipmentSlot -> Nullable (ItemStack)
+foreign import getEquipmentSlot :: EntityEquippableComponent -> EquipmentSlot -> ContainerSlot
+foreign import setEquipment :: EntityEquippableComponent -> EquipmentSlot -> Nullable (ItemStack) -> Boolean
 foreign import isValid_EntityEquippableComponent :: EntityEquippableComponent -> Boolean
 foreign import isValid_EntityFireImmuneComponent :: EntityFireImmuneComponent -> Boolean
 foreign import isValid_EntityFloatsInLiquidComponent :: EntityFloatsInLiquidComponent -> Boolean
@@ -1970,11 +2149,11 @@ foreign import resetToDefaultValue_EntityLavaMovementComponent :: EntityLavaMove
 foreign import resetToMaxValue_EntityLavaMovementComponent :: EntityLavaMovementComponent -> Eff.Effect Unit
 foreign import resetToMinValue_EntityLavaMovementComponent :: EntityLavaMovementComponent -> Eff.Effect Unit
 foreign import setCurrentValue_EntityLavaMovementComponent :: EntityLavaMovementComponent -> Number -> Boolean
-foreign import leash_EntityLeashableComponent :: EntityLeashableComponent -> Entity -> Eff.Effect Unit
-foreign import unleash_EntityLeashableComponent :: EntityLeashableComponent -> Eff.Effect Unit
+foreign import leash :: EntityLeashableComponent -> Entity -> Eff.Effect Unit
+foreign import unleash :: EntityLeashableComponent -> Eff.Effect Unit
 foreign import isValid_EntityLeashableComponent :: EntityLeashableComponent -> Boolean
 foreign import isValid_EntityMarkVariantComponent :: EntityMarkVariantComponent -> Boolean
-foreign import setTamed_EntityMountTamingComponent :: EntityMountTamingComponent -> Boolean -> Eff.Effect Unit
+foreign import setTamed :: EntityMountTamingComponent -> Boolean -> Eff.Effect Unit
 foreign import isValid_EntityMountTamingComponent :: EntityMountTamingComponent -> Boolean
 foreign import resetToDefaultValue_EntityMovementComponent :: EntityMovementComponent -> Eff.Effect Unit
 foreign import resetToMaxValue_EntityMovementComponent :: EntityMovementComponent -> Eff.Effect Unit
@@ -1990,12 +2169,12 @@ foreign import isValid_EntityOnFireComponent :: EntityOnFireComponent -> Boolean
 foreign import isValid_EntityPushThroughComponent :: EntityPushThroughComponent -> Boolean
 foreign import subscribe_EntityRemovedAfterEventSignal :: EntityRemovedAfterEventSignal -> (EntityRemovedAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EntityRemovedAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_EntityRemovedAfterEventSignal :: EntityRemovedAfterEventSignal -> (EntityRemovedAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import addRider_EntityRideableComponent :: EntityRideableComponent -> Entity -> Boolean
-foreign import ejectRider_EntityRideableComponent :: EntityRideableComponent -> Entity -> Eff.Effect Unit
-foreign import ejectRiders_EntityRideableComponent :: EntityRideableComponent -> Eff.Effect Unit
-foreign import getFamilyTypes_EntityRideableComponent :: EntityRideableComponent -> Array (String)
-foreign import getRiders_EntityRideableComponent :: EntityRideableComponent -> Array (Entity)
-foreign import getSeats_EntityRideableComponent :: EntityRideableComponent -> Array (Seat)
+foreign import addRider :: EntityRideableComponent -> Entity -> Boolean
+foreign import ejectRider :: EntityRideableComponent -> Entity -> Eff.Effect Unit
+foreign import ejectRiders :: EntityRideableComponent -> Eff.Effect Unit
+foreign import getFamilyTypes :: EntityRideableComponent -> Array (String)
+foreign import getRiders :: EntityRideableComponent -> Array (Entity)
+foreign import getSeats :: EntityRideableComponent -> Array (Seat)
 foreign import isValid_EntityRideableComponent :: EntityRideableComponent -> Boolean
 foreign import isValid_EntityRidingComponent :: EntityRidingComponent -> Boolean
 foreign import isValid_EntityScaleComponent :: EntityScaleComponent -> Boolean
@@ -2003,8 +2182,8 @@ foreign import isValid_EntitySkinIdComponent :: EntitySkinIdComponent -> Boolean
 foreign import subscribe_EntitySpawnAfterEventSignal :: EntitySpawnAfterEventSignal -> (EntitySpawnAfterEvent -> Eff.Effect Unit) -> (EntitySpawnAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_EntitySpawnAfterEventSignal :: EntitySpawnAfterEventSignal -> (EntitySpawnAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import isValid_EntityStrengthComponent :: EntityStrengthComponent -> Boolean
-foreign import getTameItems_EntityTameableComponent :: EntityTameableComponent -> Array (String)
-foreign import tame_EntityTameableComponent :: EntityTameableComponent -> Boolean
+foreign import getTameItems :: EntityTameableComponent -> Array (String)
+foreign import tame :: EntityTameableComponent -> Boolean
 foreign import isValid_EntityTameableComponent :: EntityTameableComponent -> Boolean
 foreign import get_EntityTypes :: String -> EntityType
 foreign import getAll_EntityTypes :: EntityTypeIterator
@@ -2017,7 +2196,7 @@ foreign import isValid_EntityWantsJockeyComponent :: EntityWantsJockeyComponent 
 foreign import getImpactedBlocks_ExplosionAfterEvent :: ExplosionAfterEvent -> Array (Vector3)
 foreign import subscribe_ExplosionAfterEventSignal :: ExplosionAfterEventSignal -> (ExplosionAfterEvent -> Eff.Effect Unit) -> (ExplosionAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ExplosionAfterEventSignal :: ExplosionAfterEventSignal -> (ExplosionAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import setImpactedBlocks_ExplosionBeforeEvent :: ExplosionBeforeEvent -> Array (Vector3) -> Eff.Effect Unit
+foreign import setImpactedBlocks :: ExplosionBeforeEvent -> Array (Vector3) -> Eff.Effect Unit
 foreign import getImpactedBlocks_ExplosionBeforeEvent :: ExplosionBeforeEvent -> Array (Vector3)
 foreign import subscribe_ExplosionBeforeEventSignal :: ExplosionBeforeEventSignal -> (ExplosionBeforeEvent -> Eff.Effect Unit) -> (ExplosionBeforeEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ExplosionBeforeEventSignal :: ExplosionBeforeEventSignal -> (ExplosionBeforeEvent -> Eff.Effect Unit) -> Eff.Effect Unit
@@ -2035,22 +2214,22 @@ foreign import unsubscribe_IPlayerSpawnAfterEventSignal :: IPlayerSpawnAfterEven
 foreign import subscribe_ItemCompleteUseAfterEventSignal :: ItemCompleteUseAfterEventSignal -> (ItemCompleteUseAfterEvent -> Eff.Effect Unit) -> (ItemCompleteUseAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ItemCompleteUseAfterEventSignal :: ItemCompleteUseAfterEventSignal -> (ItemCompleteUseAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import isValid_ItemComponent :: ItemComponent -> Boolean
-foreign import startCooldown_ItemCooldownComponent :: ItemCooldownComponent -> Player -> Eff.Effect Unit
+foreign import startCooldown :: ItemCooldownComponent -> Player -> Eff.Effect Unit
 foreign import isValid_ItemCooldownComponent :: ItemCooldownComponent -> Boolean
 foreign import subscribe_ItemDefinitionAfterEventSignal :: ItemDefinitionAfterEventSignal -> (ItemDefinitionTriggeredAfterEvent -> Eff.Effect Unit) -> (ItemDefinitionTriggeredAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ItemDefinitionAfterEventSignal :: ItemDefinitionAfterEventSignal -> (ItemDefinitionTriggeredAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import subscribe_ItemDefinitionBeforeEventSignal :: ItemDefinitionBeforeEventSignal -> (ItemDefinitionTriggeredBeforeEvent -> Eff.Effect Unit) -> (ItemDefinitionTriggeredBeforeEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ItemDefinitionBeforeEventSignal :: ItemDefinitionBeforeEventSignal -> (ItemDefinitionTriggeredBeforeEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import getDamageChance_ItemDurabilityComponent :: ItemDurabilityComponent -> Number -> Number
-foreign import getDamageRange_ItemDurabilityComponent :: ItemDurabilityComponent -> NumberRange
+foreign import getDamageChance :: ItemDurabilityComponent -> Int -> Int
+foreign import getDamageRange :: ItemDurabilityComponent -> NumberRange
 foreign import isValid_ItemDurabilityComponent :: ItemDurabilityComponent -> Boolean
-foreign import removeAllEnchantments_ItemEnchantsComponent :: ItemEnchantsComponent -> Eff.Effect Unit
+foreign import removeAllEnchantments :: ItemEnchantsComponent -> Eff.Effect Unit
 foreign import isValid_ItemEnchantsComponent :: ItemEnchantsComponent -> Boolean
 foreign import isValid_ItemFoodComponent :: ItemFoodComponent -> Boolean
 foreign import subscribe_ItemReleaseUseAfterEventSignal :: ItemReleaseUseAfterEventSignal -> (ItemReleaseUseAfterEvent -> Eff.Effect Unit) -> (ItemReleaseUseAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ItemReleaseUseAfterEventSignal :: ItemReleaseUseAfterEventSignal -> (ItemReleaseUseAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import clone_ItemStack :: ItemStack -> ItemStack
-foreign import mk_ItemStack :: (ItemType |+| String) -> Number -> ItemStack
+foreign import mk_ItemStack :: (ItemType |+| String) -> Int -> ItemStack
 foreign import getComponent_ItemStack :: ItemStack -> String -> Nullable (ItemComponent)
 foreign import getComponents_ItemStack :: ItemStack -> Array (ItemComponent)
 foreign import getLore_ItemStack :: ItemStack -> Array (String)
@@ -2083,30 +2262,30 @@ foreign import unsubscribe_ItemUseOnBeforeEventSignal :: ItemUseOnBeforeEventSig
 foreign import subscribe_LeverActionAfterEventSignal :: LeverActionAfterEventSignal -> (LeverActionAfterEvent -> Eff.Effect Unit) -> (LeverActionAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_LeverActionAfterEventSignal :: LeverActionAfterEventSignal -> (LeverActionAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import mk_MolangVariableMap :: MolangVariableMap
-foreign import setColorRGB_MolangVariableMap :: MolangVariableMap -> String -> RGB -> Eff.Effect Unit
-foreign import setColorRGBA_MolangVariableMap :: MolangVariableMap -> String -> RGBA -> Eff.Effect Unit
-foreign import setFloat_MolangVariableMap :: MolangVariableMap -> String -> Number -> Eff.Effect Unit
-foreign import setSpeedAndDirection_MolangVariableMap :: MolangVariableMap -> String -> Number -> Vector3 -> Eff.Effect Unit
-foreign import setVector3_MolangVariableMap :: MolangVariableMap -> String -> Vector3 -> Eff.Effect Unit
-foreign import getPath_NavigationResult :: NavigationResult -> Array (Vector3)
+foreign import setColorRGB :: MolangVariableMap -> String -> RGB -> Eff.Effect Unit
+foreign import setColorRGBA :: MolangVariableMap -> String -> RGBA -> Eff.Effect Unit
+foreign import setFloat :: MolangVariableMap -> String -> Number -> Eff.Effect Unit
+foreign import setSpeedAndDirection :: MolangVariableMap -> String -> Number -> Vector3 -> Eff.Effect Unit
+foreign import setVector3 :: MolangVariableMap -> String -> Vector3 -> Eff.Effect Unit
+foreign import getPath :: NavigationResult -> Array (Vector3)
 foreign import subscribe_PistonActivateAfterEventSignal :: PistonActivateAfterEventSignal -> (PistonActivateAfterEvent -> Eff.Effect Unit) -> (PistonActivateAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_PistonActivateAfterEventSignal :: PistonActivateAfterEventSignal -> (PistonActivateAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import subscribe_PistonActivateBeforeEventSignal :: PistonActivateBeforeEventSignal -> (PistonActivateBeforeEvent -> Eff.Effect Unit) -> (PistonActivateBeforeEvent -> Eff.Effect Unit)
 foreign import unsubscribe_PistonActivateBeforeEventSignal :: PistonActivateBeforeEventSignal -> (PistonActivateBeforeEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import addExperience_Player :: Player -> Number -> Number
-foreign import addLevels_Player :: Player -> Number -> Number
-foreign import getItemCooldown_Player :: Player -> String -> Number
-foreign import getSpawnPoint_Player :: Player -> Nullable (DimensionLocation)
-foreign import getTotalXp_Player :: Player -> Number
-foreign import isOp_Player :: Player -> Boolean
+foreign import addExperience :: Player -> Int -> Int
+foreign import addLevels :: Player -> Int -> Int
+foreign import getItemCooldown :: Player -> String -> Int
+foreign import getSpawnPoint :: Player -> Nullable (DimensionLocation)
+foreign import getTotalXp :: Player -> Int
+foreign import isOp :: Player -> Boolean
 foreign import playSound_Player :: Player -> String -> Nullable (PlayerSoundOptions) -> Eff.Effect Unit
-foreign import postClientMessage_Player :: Player -> String -> String -> Eff.Effect Unit
-foreign import resetLevel_Player :: Player -> Eff.Effect Unit
+foreign import postClientMessage :: Player -> String -> String -> Eff.Effect Unit
+foreign import resetLevel :: Player -> Eff.Effect Unit
 foreign import sendMessage_Player :: Player -> (Array ((RawMessage |+| String)) |+| RawMessage |+| String) -> Eff.Effect Unit
-foreign import setOp_Player :: Player -> Boolean -> Eff.Effect Unit
-foreign import setSpawnPoint_Player :: Player -> Nullable (DimensionLocation) -> Eff.Effect Unit
-foreign import startItemCooldown_Player :: Player -> String -> Number -> Eff.Effect Unit
-foreign import addEffect_Player :: Player -> (EffectType |+| String) -> Number -> Nullable (EntityEffectOptions) -> Eff.Effect Unit
+foreign import setOp :: Player -> Boolean -> Eff.Effect Unit
+foreign import setSpawnPoint :: Player -> Nullable (DimensionLocation) -> Eff.Effect Unit
+foreign import startItemCooldown :: Player -> String -> Int -> Eff.Effect Unit
+foreign import addEffect_Player :: Player -> (EffectType |+| String) -> Int -> Nullable (EntityEffectOptions) -> Eff.Effect Unit
 foreign import addTag_Player :: Player -> String -> Boolean
 foreign import applyDamage_Player :: Player -> Number -> Nullable ((EntityApplyDamageByProjectileOptions |+| EntityApplyDamageOptions)) -> Boolean
 foreign import applyImpulse_Player :: Player -> Vector3 -> Eff.Effect Unit
@@ -2135,9 +2314,9 @@ foreign import removeDynamicProperty_Player :: Player -> String -> Boolean
 foreign import removeEffect_Player :: Player -> (EffectType |+| String) -> Boolean
 foreign import removeTag_Player :: Player -> String -> Boolean
 foreign import runCommand_Player :: Player -> String -> CommandResult
-foreign import runCommandAsync_Player :: Player -> String -> Promise CommandResult
+foreign import runCommandAsync_Player :: Player -> String -> Promise (CommandResult)
 foreign import setDynamicProperty_Player :: Player -> String -> (Boolean |+| Number |+| String |+| Vector3) -> Eff.Effect Unit
-foreign import setOnFire_Player :: Player -> Number -> Nullable (Boolean) -> Boolean
+foreign import setOnFire_Player :: Player -> Int -> Nullable (Boolean) -> Boolean
 foreign import setRotation_Player :: Player -> Vector2 -> Eff.Effect Unit
 foreign import teleport_Player :: Player -> Vector3 -> Nullable (TeleportOptions) -> Eff.Effect Unit
 foreign import triggerEvent_Player :: Player -> String -> Eff.Effect Unit
@@ -2152,89 +2331,89 @@ foreign import subscribe_PressurePlatePopAfterEventSignal :: PressurePlatePopAft
 foreign import unsubscribe_PressurePlatePopAfterEventSignal :: PressurePlatePopAfterEventSignal -> (PressurePlatePopAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import subscribe_PressurePlatePushAfterEventSignal :: PressurePlatePushAfterEventSignal -> (PressurePlatePushAfterEvent -> Eff.Effect Unit) -> (PressurePlatePushAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_PressurePlatePushAfterEventSignal :: PressurePlatePushAfterEventSignal -> (PressurePlatePushAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import getBlockHit_ProjectileHitBlockAfterEvent :: ProjectileHitBlockAfterEvent -> BlockHitInformation
+foreign import getBlockHit :: ProjectileHitBlockAfterEvent -> BlockHitInformation
 foreign import subscribe_ProjectileHitBlockAfterEventSignal :: ProjectileHitBlockAfterEventSignal -> (ProjectileHitBlockAfterEvent -> Eff.Effect Unit) -> (ProjectileHitBlockAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ProjectileHitBlockAfterEventSignal :: ProjectileHitBlockAfterEventSignal -> (ProjectileHitBlockAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import getEntityHit_ProjectileHitEntityAfterEvent :: ProjectileHitEntityAfterEvent -> EntityHitInformation
+foreign import getEntityHit :: ProjectileHitEntityAfterEvent -> EntityHitInformation
 foreign import subscribe_ProjectileHitEntityAfterEventSignal :: ProjectileHitEntityAfterEventSignal -> (ProjectileHitEntityAfterEvent -> Eff.Effect Unit) -> (ProjectileHitEntityAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ProjectileHitEntityAfterEventSignal :: ProjectileHitEntityAfterEventSignal -> (ProjectileHitEntityAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import registerEntityTypeDynamicProperties_PropertyRegistry :: PropertyRegistry -> DynamicPropertiesDefinition -> (EntityType |+| String) -> Eff.Effect Unit
-foreign import registerWorldDynamicProperties_PropertyRegistry :: PropertyRegistry -> DynamicPropertiesDefinition -> Eff.Effect Unit
-foreign import addObjective_Scoreboard :: Scoreboard -> String -> String -> ScoreboardObjective
-foreign import clearObjectiveAtDisplaySlot_Scoreboard :: Scoreboard -> DisplaySlotId -> Nullable (ScoreboardObjective)
-foreign import getObjective_Scoreboard :: Scoreboard -> String -> Nullable (ScoreboardObjective)
-foreign import getObjectiveAtDisplaySlot_Scoreboard :: Scoreboard -> DisplaySlotId -> Nullable (ScoreboardObjectiveDisplayOptions)
-foreign import getObjectives_Scoreboard :: Scoreboard -> Array (ScoreboardObjective)
+foreign import registerEntityTypeDynamicProperties :: PropertyRegistry -> DynamicPropertiesDefinition -> (EntityType |+| String) -> Eff.Effect Unit
+foreign import registerWorldDynamicProperties :: PropertyRegistry -> DynamicPropertiesDefinition -> Eff.Effect Unit
+foreign import addObjective :: Scoreboard -> String -> String -> ScoreboardObjective
+foreign import clearObjectiveAtDisplaySlot :: Scoreboard -> DisplaySlotId -> Nullable (ScoreboardObjective)
+foreign import getObjective :: Scoreboard -> String -> Nullable (ScoreboardObjective)
+foreign import getObjectiveAtDisplaySlot :: Scoreboard -> DisplaySlotId -> Nullable (ScoreboardObjectiveDisplayOptions)
+foreign import getObjectives :: Scoreboard -> Array (ScoreboardObjective)
 foreign import getParticipants_Scoreboard :: Scoreboard -> Array (ScoreboardIdentity)
-foreign import removeObjective_Scoreboard :: Scoreboard -> (ScoreboardObjective |+| String) -> Boolean
-foreign import setObjectiveAtDisplaySlot_Scoreboard :: Scoreboard -> DisplaySlotId -> ScoreboardObjectiveDisplayOptions -> ScoreboardObjective
+foreign import removeObjective :: Scoreboard -> (ScoreboardObjective |+| String) -> Boolean
+foreign import setObjectiveAtDisplaySlot :: Scoreboard -> DisplaySlotId -> ScoreboardObjectiveDisplayOptions -> ScoreboardObjective
 foreign import getEntity_ScoreboardIdentity :: ScoreboardIdentity -> Entity
 foreign import isValid_ScoreboardIdentity :: ScoreboardIdentity -> Boolean
-foreign import addScore_ScoreboardObjective :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Number -> Number
+foreign import addScore :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Int -> Int
 foreign import getParticipants_ScoreboardObjective :: ScoreboardObjective -> Array (ScoreboardIdentity)
-foreign import getScore_ScoreboardObjective :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Nullable (Number)
-foreign import getScores_ScoreboardObjective :: ScoreboardObjective -> Array (ScoreboardScoreInfo)
-foreign import hasParticipant_ScoreboardObjective :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Boolean
+foreign import getScore :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Nullable (Int)
+foreign import getScores :: ScoreboardObjective -> Array (ScoreboardScoreInfo)
+foreign import hasParticipant :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Boolean
 foreign import isValid_ScoreboardObjective :: ScoreboardObjective -> Boolean
-foreign import removeParticipant_ScoreboardObjective :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Boolean
-foreign import setScore_ScoreboardObjective :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Number -> Eff.Effect Unit
+foreign import removeParticipant :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Boolean
+foreign import setScore :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Int -> Eff.Effect Unit
 foreign import isValid_ScreenDisplay :: ScreenDisplay -> Boolean
-foreign import setActionBar_ScreenDisplay :: ScreenDisplay -> (Array ((RawMessage |+| String)) |+| RawMessage |+| String) -> Eff.Effect Unit
-foreign import setTitle_ScreenDisplay :: ScreenDisplay -> (Array ((RawMessage |+| String)) |+| RawMessage |+| String) -> Nullable (TitleDisplayOptions) -> Eff.Effect Unit
-foreign import updateSubtitle_ScreenDisplay :: ScreenDisplay -> (Array ((RawMessage |+| String)) |+| RawMessage |+| String) -> Eff.Effect Unit
+foreign import setActionBar :: ScreenDisplay -> (Array ((RawMessage |+| String)) |+| RawMessage |+| String) -> Eff.Effect Unit
+foreign import setTitle :: ScreenDisplay -> (Array ((RawMessage |+| String)) |+| RawMessage |+| String) -> Nullable (TitleDisplayOptions) -> Eff.Effect Unit
+foreign import updateSubtitle :: ScreenDisplay -> (Array ((RawMessage |+| String)) |+| RawMessage |+| String) -> Eff.Effect Unit
 foreign import subscribe_ScriptEventCommandMessageAfterEventSignal :: ScriptEventCommandMessageAfterEventSignal -> (ScriptEventCommandMessageAfterEvent -> Eff.Effect Unit) -> Nullable (ScriptEventMessageFilterOptions) -> (ScriptEventCommandMessageAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ScriptEventCommandMessageAfterEventSignal :: ScriptEventCommandMessageAfterEventSignal -> (ScriptEventCommandMessageAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import subscribe_ServerMessageAfterEventSignal :: ServerMessageAfterEventSignal -> (MessageReceiveAfterEvent -> Eff.Effect Unit) -> (MessageReceiveAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ServerMessageAfterEventSignal :: ServerMessageAfterEventSignal -> (MessageReceiveAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import clearRun_System :: System -> Number -> Eff.Effect Unit
-foreign import run_System :: System -> (Unit -> Eff.Effect Unit) -> Number
-foreign import runInterval_System :: System -> (Unit -> Eff.Effect Unit) -> Nullable (Number) -> Number
-foreign import runTimeout_System :: System -> (Unit -> Eff.Effect Unit) -> Nullable (Number) -> Number
+foreign import clearRun :: System -> Int -> Eff.Effect Unit
+foreign import run :: System -> (Unit -> Eff.Effect Unit) -> Int
+foreign import runInterval :: System -> (Unit -> Eff.Effect Unit) -> Nullable (Int) -> Int
+foreign import runTimeout :: System -> (Unit -> Eff.Effect Unit) -> Nullable (Int) -> Int
 foreign import subscribe_TargetBlockHitAfterEventSignal :: TargetBlockHitAfterEventSignal -> (TargetBlockHitAfterEvent -> Eff.Effect Unit) -> (TargetBlockHitAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_TargetBlockHitAfterEventSignal :: TargetBlockHitAfterEventSignal -> (TargetBlockHitAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import mk_Trigger :: String -> Trigger
 foreign import subscribe_TripWireTripAfterEventSignal :: TripWireTripAfterEventSignal -> (TripWireTripAfterEvent -> Eff.Effect Unit) -> (TripWireTripAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_TripWireTripAfterEventSignal :: TripWireTripAfterEventSignal -> (TripWireTripAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import add_Vector :: Vector3 -> Vector3 -> Vector
+foreign import add :: Vector3 -> Vector3 -> Vector
 foreign import mk_Vector :: Number -> Number -> Number -> Vector
-foreign import cross_Vector :: Vector3 -> Vector3 -> Vector
-foreign import distance_Vector :: Vector3 -> Vector3 -> Number
-foreign import divide_Vector :: Vector3 -> (Number |+| Vector3) -> Vector
+foreign import cross :: Vector3 -> Vector3 -> Vector
+foreign import distance :: Vector3 -> Vector3 -> Number
+foreign import divide :: Vector3 -> (Number |+| Vector3) -> Vector
 foreign import equals_Vector :: Vector -> Vector -> Boolean
-foreign import length_Vector :: Vector -> Number
-foreign import lengthSquared_Vector :: Vector -> Number
-foreign import lerp_Vector :: Vector3 -> Vector3 -> Number -> Vector
-foreign import max_Vector :: Vector3 -> Vector3 -> Vector
-foreign import min_Vector :: Vector3 -> Vector3 -> Vector
-foreign import multiply_Vector :: Vector3 -> (Number |+| Vector3) -> Vector
-foreign import normalized_Vector :: Vector -> Vector
-foreign import slerp_Vector :: Vector3 -> Vector3 -> Number -> Vector
-foreign import subtract_Vector :: Vector3 -> Vector3 -> Vector
+foreign import length :: Vector -> Number
+foreign import lengthSquared :: Vector -> Number
+foreign import lerp :: Vector3 -> Vector3 -> Number -> Vector
+foreign import max :: Vector3 -> Vector3 -> Vector
+foreign import min :: Vector3 -> Vector3 -> Vector
+foreign import multiply :: Vector3 -> (Number |+| Vector3) -> Vector
+foreign import normalized :: Vector -> Vector
+foreign import slerp :: Vector3 -> Vector3 -> Number -> Vector
+foreign import subtract :: Vector3 -> Vector3 -> Vector
 foreign import subscribe_WatchdogTerminateBeforeEventSignal :: WatchdogTerminateBeforeEventSignal -> (WatchdogTerminateBeforeEvent -> Eff.Effect Unit) -> (WatchdogTerminateBeforeEvent -> Eff.Effect Unit)
 foreign import unsubscribe_WatchdogTerminateBeforeEventSignal :: WatchdogTerminateBeforeEventSignal -> (WatchdogTerminateBeforeEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import subscribe_WeatherChangeAfterEventSignal :: WeatherChangeAfterEventSignal -> (WeatherChangeAfterEvent -> Eff.Effect Unit) -> (WeatherChangeAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_WeatherChangeAfterEventSignal :: WeatherChangeAfterEventSignal -> (WeatherChangeAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import broadcastClientMessage_World :: World -> String -> String -> Eff.Effect Unit
-foreign import getAbsoluteTime_World :: World -> Number
-foreign import getAllPlayers_World :: World -> Array (Player)
-foreign import getDay_World :: World -> Number
-foreign import getDefaultSpawnLocation_World :: World -> Vector3
-foreign import getDimension_World :: World -> String -> Dimension
+foreign import broadcastClientMessage :: World -> String -> String -> Eff.Effect Unit
+foreign import getAbsoluteTime :: World -> Int
+foreign import getAllPlayers :: World -> Array (Player)
+foreign import getDay :: World -> Int
+foreign import getDefaultSpawnLocation :: World -> Vector3
+foreign import getDimension :: World -> String -> Dimension
 foreign import getDynamicProperty_World :: World -> String -> Nullable ((Boolean |+| Number |+| String |+| Vector3))
 foreign import getEntity_World :: World -> String -> Nullable (Entity)
-foreign import getMoonPhase_World :: World -> MoonPhase
+foreign import getMoonPhase :: World -> MoonPhase
 foreign import getPlayers_World :: World -> Nullable (EntityQueryOptions) -> Array (Player)
-foreign import getTimeOfDay_World :: World -> Number
-foreign import playMusic_World :: World -> String -> Nullable (MusicOptions) -> Eff.Effect Unit
+foreign import getTimeOfDay :: World -> Int
+foreign import playMusic :: World -> String -> Nullable (MusicOptions) -> Eff.Effect Unit
 foreign import playSound_World :: World -> String -> Vector3 -> Nullable (WorldSoundOptions) -> Eff.Effect Unit
-foreign import queueMusic_World :: World -> String -> Nullable (MusicOptions) -> Eff.Effect Unit
+foreign import queueMusic :: World -> String -> Nullable (MusicOptions) -> Eff.Effect Unit
 foreign import removeDynamicProperty_World :: World -> String -> Boolean
 foreign import sendMessage_World :: World -> (Array ((RawMessage |+| String)) |+| RawMessage |+| String) -> Eff.Effect Unit
-foreign import setAbsoluteTime_World :: World -> Number -> Eff.Effect Unit
-foreign import setDefaultSpawnLocation_World :: World -> Vector3 -> Eff.Effect Unit
+foreign import setAbsoluteTime :: World -> Int -> Eff.Effect Unit
+foreign import setDefaultSpawnLocation :: World -> Vector3 -> Eff.Effect Unit
 foreign import setDynamicProperty_World :: World -> String -> (Boolean |+| Number |+| String |+| Vector3) -> Eff.Effect Unit
-foreign import setTimeOfDay_World :: World -> (Number |+| TimeOfDay) -> Eff.Effect Unit
-foreign import stopMusic_World :: World -> Eff.Effect Unit
+foreign import setTimeOfDay :: World -> (Int |+| TimeOfDay) -> Eff.Effect Unit
+foreign import stopMusic :: World -> Eff.Effect Unit
 foreign import subscribe_WorldInitializeAfterEventSignal :: WorldInitializeAfterEventSignal -> (WorldInitializeAfterEvent -> Eff.Effect Unit) -> (WorldInitializeAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_WorldInitializeAfterEventSignal :: WorldInitializeAfterEventSignal -> (WorldInitializeAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import system :: System

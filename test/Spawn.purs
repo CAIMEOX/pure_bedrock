@@ -8,12 +8,12 @@ import Data.List (List, range, filter)
 import Effect (Effect)
 
 overworld :: Dimension
-overworld = getDimension_World world "overworld"
+overworld = getDimension world "overworld"
 
 spawn_entity :: BlockPlaceAfterEvent -> Effect Unit
-spawn_entity e = run $ spawnEntity_Dimension overworld "minecraft:pig" e.block.location
+spawn_entity e = runEff $ spawnEntity overworld "minecraft:pig" e.block.location
 
-sub_block_place = subscribe_BlockPlaceAfterEventSignal world.afterEvents.blockPlace
+sub_block_place = subscribe world.afterEvents.blockPlace
 
 main :: Effect Unit
-main = run (sub_block_place spawn_entity)
+main = runEff (sub_block_place spawn_entity)
