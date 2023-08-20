@@ -286,7 +286,7 @@ function run(path, purs) {
     );
   }
   function instance_is_valid(name) {
-    return `instance Valid ${name} where\n` + `  isValid = isValid_${name}`;
+    return `instance Valid Boolean ${name} where\n` + `  isValid = isValid_${name}`;
   }
 
   if (g["enums"])

@@ -9,8 +9,6 @@ class Event s e | s -> e where
     subscribe :: s -> (e -> Effect Unit) -> (e -> Effect Unit)
     unsubscribe :: s -> (e -> Effect Unit) -> Effect Unit
 
-class Valid a where
-    isValid :: a -> Boolean
 
 unwrapGet :: forall t a b. Newtype t a => t -> (a -> b) -> b
 unwrapGet = flip identity <<< unwrap

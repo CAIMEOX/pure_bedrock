@@ -1,15 +1,16 @@
 module Test.Sphere where
 
-import Prelude
-import Data.List (List, range)
-import Data.Int (toNumber)
+import Data.Maybe
 import Minecraft.Server
 import Minecraft.Utils
-import Untagged.Union (asOneOf)
-import Data.Nullable (toMaybe)
-import Data.Maybe
+import Prelude
+
 import Control.Alternative (guard)
+import Data.Int (toNumber)
+import Data.List (List, range)
+import Data.Nullable (toMaybe)
 import Effect (Effect)
+import Untagged.Union (asOneOf)
 
 overworld :: Dimension
 overworld = getDimension world "overworld"
@@ -30,6 +31,7 @@ set_block b v = case toMaybe $ getBlock overworld v of
 on_place :: BlockPlaceAfterEvent -> Effect Unit
 on_place e = runEff $ map (set_block (e.block.type)) (sphere 4 (e.block.location))
 
+sub_block_place :: (BlockPlaceAfterEvent -> Effect Unit) -> (BlockPlaceAfterEvent -> Effect Unit)
 sub_block_place = subscribe (world.afterEvents.blockPlace)
 
 main :: Effect Unit
