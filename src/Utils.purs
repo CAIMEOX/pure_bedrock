@@ -3,6 +3,7 @@ import Prelude
 import Data.Maybe
 import Data.Nullable
 import Effect (Effect)
+import Data.Generic.Rep (class Generic)
 import Data.Newtype
 
 class Event s e | s -> e where
@@ -26,3 +27,5 @@ cancelEvent e = setProp e "cancel" true
 
 runEff :: forall a. a -> Effect Unit
 runEff x = void $ pure x
+
+ 

@@ -4,12 +4,17 @@ const table = [
   ["boolean", "Boolean"],
   ["int32", "Int"],
   ["int16", "Int"],
+  ["int8", "Int"],
   ["float", "Number"],
   ["string", "String"],
   ["int64", "Int"],
   ["uInt", "Int"],
   ["undefined", "Eff.Effect Unit"],
 ];
+
+function any(arr, cond) {
+  return arr.map((x) => cond(x)).includes(true);
+}
 
 function cap(n) {
   return n.charAt(0).toUpperCase() + n.slice(1);
@@ -44,10 +49,10 @@ function pure_closure(t) {
     read_type(t.return_type),
   ].join(" -> ");
 }
-function read_type(o) {
+function read_type(o, t) {
   switch (o.name) {
     case "optional":
-      return `Nullable (${read_type(o.optional_type)})`;
+      return `${t ? "Maybe" : "Nullable"} (${read_type(o.optional_type)})`;
     case "array":
       return `Array (${read_type(o.element_type)})`;
     case "closure":
@@ -69,16 +74,43 @@ function pure_type(s) {
 }
 
 class MetaFunction {
-  constructor(m, cn, cf) {
+  constructor(m, cn, cf, ens) {
     this.name = m.name;
+    this.enums_tables = ens;
     this.conflict = cf;
     this.class_name = cn;
     this.args = m.arguments;
     this.static = m.is_static;
     this.cons = m.is_constructor;
+    this.return_type_raw = m.return_type;
     this.return_type = read_type(m.return_type);
   }
 
+  // Only Top level Nullable will be detected.
+  has_arg_nullable() {
+    return any(this.args, (x) => x.type.name === "optional");
+  }
+
+  has_ret_nullable() {
+    return this.return_type_raw.name === "optional";
+  }
+
+  has_enums() {
+    return any(this.args, (x) =>
+      [...this.enums_tables.keys()].includes(x.type.name)
+    );
+  }
+
+  has_enums_x(x){
+    return false;
+    // return [...this.enums_tables.keys()].includes(x.type.name)
+  }
+  has_conflict() {
+    return this.conflict;
+  }
+  is_static() {
+    return this.static;
+  }
   js_code() {
     if (this.cons) {
       this.static = true;
@@ -87,13 +119,22 @@ class MetaFunction {
     const args = new Array(len).fill(1).map((_, i) => nth_letter(i + 1));
     const z = args.length === 0 ? "()" : args.join(" => ");
     if (this.cons) {
-      return `export const mk_${this.class_name} = ${z} => new M.${
-        this.class_name
-      }(${args.join(",")})`;
+      const n =
+        this.has_arg_nullable() || this.has_ret_nullable() || this.has_enums()
+          ? "_prim_mk_" + this.class_name
+          : "mk_" + this.class_name;
+      return `export const ${n} = ${z} => new M.${this.class_name}(${args.join(
+        ","
+      )})`;
     }
-    const n = this.conflict
-      ? `${this.name}_${this.class_name}`
-      : `${this.name}`;
+    let n = this.conflict ? `${this.name}_${this.class_name}` : `${this.name}`;
+    if (
+      this.has_arg_nullable() ||
+      this.has_ret_nullable() ||
+      this.has_enums()
+    ) {
+      n = "_prim_" + n;
+    }
     return this.static
       ? `export const ${n} = ${z} => M.${this.class_name}.${
           this.name
@@ -111,16 +152,49 @@ class MetaFunction {
     const n = this.conflict
       ? `${this.name}_${this.class_name}`
       : `${this.name}`;
-    return `foreign import ${n} :: ${this.pure_sign().join(" -> ")}`;
+    if (
+      this.has_arg_nullable() ||
+      this.has_ret_nullable() ||
+      this.has_enums()
+    ) {
+      const len = this.pure_sign().length - 1;
+      const args = new Array(len).fill(1).map((_, i) => nth_letter(i + 1));
+      let xrgs =
+        this.args.length != len
+          ? [{ type: { name: this.class_name } }, ...this.args]
+          : this.args;
+      const app = xrgs.map((a, i) => {
+        const p = this.has_enums_x(a)
+          ? `(prim${a.type.name} ${args[i]})`
+          : args[i];
+        return a.type.name === "optional" ? `(toNullable ${p})` : p;
+      });
+      return [
+        `foreign import _prim_${n} :: ${this.pure_sign()
+          // .map((s) =>
+          //   [...this.enums_tables.keys()].includes(s) ? this.enums_tables.get(s) : s
+          // )
+          .join(" -> ")}`,
+        `${n} :: ${this.pure_sign(true).join(" -> ")}`,
+        `${n} ${args.join(" ")} = ${
+          this.has_ret_nullable() ? "toMaybe" : ""
+        } (_prim_${n} ${app.join(" ")})`,
+      ].join("\n");
+    } else {
+      return `foreign import ${n} :: ${this.pure_sign().join(" -> ")}`;
+    }
   }
 
-  pure_sign() {
-    return this.static
-      ? [...this.args.map((x) => read_type(x.type)), this.return_type]
+  pure_sign(prim) {
+    return this.is_static()
+      ? [
+          ...this.args.map((x) => read_type(x.type, prim)),
+          read_type(this.return_type_raw, prim),
+        ]
       : [
           this.class_name,
-          ...this.args.map((x) => read_type(x.type)),
-          this.return_type,
+          ...this.args.map((x) => read_type(x.type, prim)),
+          read_type(this.return_type_raw, prim),
         ];
   }
 }
@@ -190,22 +264,37 @@ class MetaInterface {
 }
 
 class MetaEnum {
-  constructor(m) {
+  constructor(m, cf) {
+    this.cf = cf;
     this.name = m.name;
     this.constants = m.constants;
   }
 
-  code() {
-    return `data ${this.name} = ${this.name} ${
-      this.constants[0].type.name === "string" ? "String" : "Number"
-    }`;
+  prim_type() {
+    return this.constants[0].type.name === "string" ? "String" : "Int";
   }
 
-  // code() {
-  //   return `data ${this.name} = ${this.constants
-  //     .map((x) => this.name + "_" + cap(x.name))
-  //     .join(" | ")}`;
-  // }
+  code(){
+    return `data ${this.name} = ${this.name} ${this.prim_type()}`
+  }
+
+  code0() {
+    return [
+      !this.cf
+        ? `data ${this.name} = ${this.constants
+            .map((x) => this.name + "_" + cap(x.name))
+            .join(" | ")}`
+        : `data ${this.name} = ${this.constants
+            .map((x) => cap(x.name))
+            .join(" | ")}`,
+      `prim${this.name} :: ${this.name} -> ${this.prim_type()}`,
+      ...this.constants.map((x) => {
+        return `prim${this.name} ${
+          this.cf ? cap(x.name) : this.name + "_" + cap(x.name)
+        } = ${this.prim_type() === "String" ? '"' + x.value + '"' : x.value}`;
+      }),
+    ].join("\n");
+  }
 }
 
 class MetaProp {
@@ -222,6 +311,8 @@ class MetaProp {
 
 function run(path, purs) {
   const ft = new Map();
+  const ect = new Map();
+  const et = new Map();
   const f = fs.readFileSync(path).toString();
   const g = JSON.parse(f);
 
@@ -231,12 +322,13 @@ function run(path, purs) {
     purs: [
       `module Minecraft.${n.join(".")} where`,
       "import Minecraft.Utils (class Event)",
-      "import Prelude",
-      "import Data.Map",
-      "import Data.Newtype",
+      "import Prelude (Unit)",
+      "import Data.Map (Map)",
+      "import Data.Newtype (class Newtype)",
       "import Data.Nullable",
-      "import Untagged.Union",
-      "import Control.Promise",
+      "import Data.Maybe (Maybe)",
+      "import Untagged.Union (type (|+|))",
+      "import Control.Promise (Promise)",
       "import Effect (Effect) as Eff",
     ],
   };
@@ -259,7 +351,20 @@ function run(path, purs) {
       })
     );
   }
-  const is_conflict = (n) => {
+
+  if (g["enums"]) {
+    g["enums"].map((y) => {
+      y["constants"].map((x) => {
+        const cap_name = cap(x.name);
+        ect.set(cap_name, ect.get(cap_name) ? ect.get(cap_name) + 1 : 1);
+      });
+    });
+  }
+  const is_conflict_enum = (cs) => {
+    return cs.filter((c) => ect.get(cap(c.name)) == 1).length === cs.length;
+  };
+
+  const is_conflict_fn = (n) => {
     return ft.get(n) > 1;
   };
   function instance_event(name) {
@@ -286,13 +391,16 @@ function run(path, purs) {
     );
   }
   function instance_is_valid(name) {
-    return `instance Valid Boolean ${name} where\n` + `  isValid = isValid_${name}`;
+    return (
+      `instance Valid Boolean ${name} where\n` + `  isValid = isValid_${name}`
+    );
   }
 
   if (g["enums"])
     g["enums"].forEach((x) => {
-      const y = new MetaEnum(x).code();
-      if (purs) code.push(y);
+      const y0 = new MetaEnum(x, is_conflict_enum(x.constants));
+      et.set(y0.name, y0.prim_type());
+      if (purs) code.push(y0.code());
     });
 
   if (g["interfaces"])
@@ -323,7 +431,7 @@ function run(path, purs) {
     g["classes"].forEach((x) => {
       let fns = x["functions"];
       fns.forEach((z) => {
-        const y0 = new MetaFunction(z, x.name, is_conflict(z.name));
+        const y0 = new MetaFunction(z, x.name, is_conflict_fn(z.name), et);
         const y1 = y0.pure_code();
         const y2 = y0.js_code();
         code.push(purs ? y1 : y2);

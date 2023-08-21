@@ -5,6 +5,13 @@ import Effect (Effect)
 import Minecraft.Utils (runEff, subscribe)
 import Prelude (Unit)
 
+type V r = {ax :: String | r}
+
+type VX = {ax :: String,ay :: String}
+
+t1 :: forall r. V r -> String
+t1 x = x.ax
+
 kill :: ChatSendAfterEvent -> Effect Unit
 kill e = runEff (kill_Player e.sender)
 

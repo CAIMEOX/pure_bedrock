@@ -10,7 +10,6 @@
   , "nullable"
   , "ordered-collections"
   , "prelude"
-  , "profunctor-lenses"
   , "untagged-union"
   ]
 , packages = ./packages.dhall

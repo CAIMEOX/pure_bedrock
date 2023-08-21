@@ -1,15 +1,862 @@
-module Minecraft.Server where
+module Minecraft.Server
+  ( Block
+  , BlockAreaSize
+  , BlockBreakAfterEvent
+  , BlockBreakAfterEventSignal(..)
+  , BlockComponent
+  , BlockEvent
+  , BlockExplodeAfterEvent
+  , BlockExplodeAfterEventSignal(..)
+  , BlockFillOptions
+  , BlockHitInformation
+  , BlockInventoryComponent
+  , BlockLavaContainerComponent
+  , BlockLiquidContainerComponent
+  , BlockLocationIterator(..)
+  , BlockPermutation
+  , BlockPistonComponent
+  , BlockPlaceAfterEvent
+  , BlockPlaceAfterEventSignal(..)
+  , BlockPotionContainerComponent
+  , BlockRaycastHit
+  , BlockRaycastOptions
+  , BlockRecordPlayerComponent
+  , BlockSignComponent
+  , BlockSnowContainerComponent
+  , BlockStateType
+  , BlockStates(..)
+  , BlockType
+  , BlockTypes(..)
+  , BlockVolume
+  , BlockVolumeIntersection(..)
+  , BlockVolumeUtils(..)
+  , BlockWaterContainerComponent
+  , BoundingBox
+  , BoundingBoxUtils(..)
+  , ButtonPushAfterEvent
+  , ButtonPushAfterEventSignal(..)
+  , Camera(..)
+  , CameraEaseOptions
+  , CameraFadeOptions
+  , CameraFadeTimeOptions
+  , ChatSendAfterEvent
+  , ChatSendAfterEventSignal(..)
+  , ChatSendBeforeEvent
+  , ChatSendBeforeEventSignal(..)
+  , CommandResult
+  , Component
+  , CompoundBlockVolume
+  , CompoundBlockVolumeAction(..)
+  , CompoundBlockVolumeItem
+  , CompoundBlockVolumePositionRelativity(..)
+  , Container
+  , ContainerSlot
+  , DataDrivenEntityTriggerAfterEvent
+  , DataDrivenEntityTriggerAfterEventSignal(..)
+  , DataDrivenEntityTriggerBeforeEvent
+  , DataDrivenEntityTriggerBeforeEventSignal(..)
+  , DefinitionModifier(..)
+  , Dimension
+  , DimensionLocation
+  , DimensionType
+  , DimensionTypes(..)
+  , Direction(..)
+  , DisplaySlotId(..)
+  , DyeColor(..)
+  , DynamicPropertiesDefinition(..)
+  , EasingType(..)
+  , Effect
+  , EffectAddAfterEvent
+  , EffectAddAfterEventSignal(..)
+  , EffectType(..)
+  , EffectTypes(..)
+  , Enchantment
+  , EnchantmentList
+  , EnchantmentSlot
+  , EnchantmentType
+  , EnchantmentTypes(..)
+  , Entity(..)
+  , EntityAddRiderComponent
+  , EntityAgeableComponent
+  , EntityApplyDamageByProjectileOptions
+  , EntityApplyDamageOptions
+  , EntityAttributeComponent
+  , EntityBaseMovementComponent
+  , EntityBreathableComponent
+  , EntityCanClimbComponent
+  , EntityCanFlyComponent
+  , EntityCanPowerJumpComponent
+  , EntityColorComponent
+  , EntityComponent
+  , EntityDamageCause(..)
+  , EntityDamageSource
+  , EntityDataDrivenTriggerEventOptions
+  , EntityDefinitionFeedItem
+  , EntityDieAfterEvent
+  , EntityDieAfterEventSignal(..)
+  , EntityEffectOptions
+  , EntityEquippableComponent
+  , EntityEventOptions
+  , EntityFireImmuneComponent
+  , EntityFloatsInLiquidComponent
+  , EntityFlyingSpeedComponent
+  , EntityFrictionModifierComponent
+  , EntityGroundOffsetComponent
+  , EntityHealableComponent
+  , EntityHealthChangedAfterEvent
+  , EntityHealthChangedAfterEventSignal(..)
+  , EntityHealthComponent
+  , EntityHitBlockAfterEvent
+  , EntityHitBlockAfterEventSignal(..)
+  , EntityHitEntityAfterEvent
+  , EntityHitEntityAfterEventSignal(..)
+  , EntityHitInformation
+  , EntityHurtAfterEvent
+  , EntityHurtAfterEventSignal(..)
+  , EntityInventoryComponent
+  , EntityIsBabyComponent
+  , EntityIsChargedComponent
+  , EntityIsChestedComponent
+  , EntityIsDyeableComponent
+  , EntityIsHiddenWhenInvisibleComponent
+  , EntityIsIgnitedComponent
+  , EntityIsIllagerCaptainComponent
+  , EntityIsSaddledComponent
+  , EntityIsShakingComponent
+  , EntityIsShearedComponent
+  , EntityIsStackableComponent
+  , EntityIsStunnedComponent
+  , EntityIsTamedComponent
+  , EntityItemComponent
+  , EntityIterator(..)
+  , EntityLavaMovementComponent
+  , EntityLeashableComponent
+  , EntityLifetimeState(..)
+  , EntityMarkVariantComponent
+  , EntityMountTamingComponent
+  , EntityMovementAmphibiousComponent
+  , EntityMovementBasicComponent
+  , EntityMovementComponent
+  , EntityMovementFlyComponent
+  , EntityMovementGenericComponent
+  , EntityMovementGlideComponent
+  , EntityMovementHoverComponent
+  , EntityMovementJumpComponent
+  , EntityMovementSkipComponent
+  , EntityMovementSwayComponent
+  , EntityNavigationClimbComponent
+  , EntityNavigationComponent
+  , EntityNavigationFloatComponent
+  , EntityNavigationFlyComponent
+  , EntityNavigationGenericComponent
+  , EntityNavigationHoverComponent
+  , EntityNavigationWalkComponent
+  , EntityOnFireComponent
+  , EntityPushThroughComponent
+  , EntityQueryOptions
+  , EntityQueryScoreOptions
+  , EntityRaycastHit
+  , EntityRaycastOptions
+  , EntityRemovedAfterEvent
+  , EntityRemovedAfterEventSignal(..)
+  , EntityRideableComponent
+  , EntityRidingComponent
+  , EntityScaleComponent
+  , EntitySkinIdComponent
+  , EntitySpawnAfterEvent
+  , EntitySpawnAfterEventSignal(..)
+  , EntityStrengthComponent
+  , EntityTameableComponent
+  , EntityType
+  , EntityTypeIterator(..)
+  , EntityTypes(..)
+  , EntityUnderwaterMovementComponent
+  , EntityVariantComponent
+  , EntityWantsJockeyComponent
+  , EquipmentSlot(..)
+  , ExplosionAfterEvent
+  , ExplosionAfterEventSignal(..)
+  , ExplosionBeforeEvent
+  , ExplosionBeforeEventSignal(..)
+  , ExplosionOptions
+  , FeedItem
+  , FeedItemEffect
+  , FilterGroup(..)
+  , FluidContainer
+  , FluidType(..)
+  , GameMode(..)
+  , IButtonPushAfterEventSignal(..)
+  , ILeverActionAfterEventSignal(..)
+  , IPlayerJoinAfterEventSignal(..)
+  , IPlayerLeaveAfterEventSignal(..)
+  , IPlayerSpawnAfterEventSignal(..)
+  , ItemCompleteUseAfterEvent
+  , ItemCompleteUseAfterEventSignal(..)
+  , ItemComponent
+  , ItemCooldownComponent
+  , ItemDefinitionAfterEventSignal(..)
+  , ItemDefinitionBeforeEventSignal(..)
+  , ItemDefinitionTriggeredAfterEvent
+  , ItemDefinitionTriggeredBeforeEvent
+  , ItemDurabilityComponent
+  , ItemEnchantsComponent
+  , ItemFoodComponent
+  , ItemLockMode(..)
+  , ItemReleaseUseAfterEvent
+  , ItemReleaseUseAfterEventSignal(..)
+  , ItemStack
+  , ItemStartUseAfterEvent
+  , ItemStartUseAfterEventSignal(..)
+  , ItemStartUseOnAfterEvent
+  , ItemStartUseOnAfterEventSignal(..)
+  , ItemStopUseAfterEvent
+  , ItemStopUseAfterEventSignal(..)
+  , ItemStopUseOnAfterEvent
+  , ItemStopUseOnAfterEventSignal(..)
+  , ItemType
+  , ItemTypes(..)
+  , ItemUseAfterEvent
+  , ItemUseAfterEventSignal(..)
+  , ItemUseBeforeEvent
+  , ItemUseBeforeEventSignal(..)
+  , ItemUseOnAfterEvent
+  , ItemUseOnAfterEventSignal(..)
+  , ItemUseOnBeforeEvent
+  , ItemUseOnBeforeEventSignal(..)
+  , LeverActionAfterEvent
+  , LeverActionAfterEventSignal(..)
+  , MessageReceiveAfterEvent
+  , MinecraftDimensionTypes
+  , MolangVariableMap(..)
+  , MoonPhase(..)
+  , MusicOptions
+  , NavigationResult
+  , NumberRange
+  , ObjectiveSortOrder(..)
+  , PistonActivateAfterEvent
+  , PistonActivateAfterEventSignal(..)
+  , PistonActivateBeforeEvent
+  , PistonActivateBeforeEventSignal(..)
+  , PlayAnimationOptions
+  , Player
+  , PlayerIterator(..)
+  , PlayerJoinAfterEvent
+  , PlayerJoinAfterEventSignal(..)
+  , PlayerLeaveAfterEvent
+  , PlayerLeaveAfterEventSignal(..)
+  , PlayerSoundOptions
+  , PlayerSpawnAfterEvent
+  , PlayerSpawnAfterEventSignal(..)
+  , PressurePlatePopAfterEvent
+  , PressurePlatePopAfterEventSignal(..)
+  , PressurePlatePushAfterEvent
+  , PressurePlatePushAfterEventSignal(..)
+  , ProjectileHitBlockAfterEvent
+  , ProjectileHitBlockAfterEventSignal(..)
+  , ProjectileHitEntityAfterEvent
+  , ProjectileHitEntityAfterEventSignal(..)
+  , PropertyRegistry(..)
+  , RGB
+  , RGBA
+  , RawMessage(..)
+  , RawMessageScore
+  , RawText
+  , Scoreboard(..)
+  , ScoreboardIdentity
+  , ScoreboardIdentityType(..)
+  , ScoreboardObjective
+  , ScoreboardObjectiveDisplayOptions
+  , ScoreboardScoreInfo
+  , ScreenDisplay(..)
+  , ScriptCameraDefaultOptions
+  , ScriptCameraSetFacingOptions
+  , ScriptCameraSetLocationOptions
+  , ScriptCameraSetPosOptions
+  , ScriptCameraSetRotOptions
+  , ScriptEventCommandMessageAfterEvent
+  , ScriptEventCommandMessageAfterEventSignal(..)
+  , ScriptEventMessageFilterOptions
+  , ScriptEventSource(..)
+  , Seat
+  , ServerMessageAfterEventSignal(..)
+  , SignSide(..)
+  , System
+  , SystemAfterEvents
+  , SystemBeforeEvents
+  , TargetBlockHitAfterEvent
+  , TargetBlockHitAfterEventSignal(..)
+  , TeleportOptions
+  , TimeOfDay(..)
+  , TitleDisplayOptions
+  , Trigger
+  , TripWireTripAfterEvent
+  , TripWireTripAfterEventSignal(..)
+  , Vector(..)
+  , Vector2
+  , Vector3
+  , WatchdogTerminateBeforeEvent
+  , WatchdogTerminateBeforeEventSignal(..)
+  , WatchdogTerminateReason(..)
+  , WeatherChangeAfterEvent
+  , WeatherChangeAfterEventSignal(..)
+  , WeatherType(..)
+  , World
+  , WorldAfterEvents
+  , WorldBeforeEvents
+  , WorldInitializeAfterEvent
+  , WorldInitializeAfterEventSignal(..)
+  , WorldSoundOptions
+  , add
+  , addDye
+  , addEffect_Entity
+  , addEffect_Player
+  , addEnchantment
+  , addExperience
+  , addItem
+  , addLevels
+  , addObjective
+  , addRider
+  , addScore
+  , addTag_Entity
+  , addTag_Player
+  , applyDamage_Entity
+  , applyDamage_Player
+  , applyImpulse_Entity
+  , applyImpulse_Player
+  , applyKnockback_Entity
+  , applyKnockback_Player
+  , broadcastClientMessage
+  , canAddEnchantment
+  , canPlace
+  , clearAll
+  , clearObjectiveAtDisplaySlot
+  , clearRecord
+  , clearRun
+  , clearVelocity_Entity
+  , clearVelocity_Player
+  , clear_Camera
+  , clear_CompoundBlockVolume
+  , clone_BlockPermutation
+  , clone_ItemStack
+  , createExplosion
+  , createValid
+  , cross
+  , defineBoolean
+  , defineNumber
+  , defineString
+  , defineVector
+  , dilate
+  , distance
+  , divide
+  , doesLocationTouchFaces
+  , doesVolumeTouchFaces
+  , ejectRider
+  , ejectRiders
+  , equals_BlockAreaSize
+  , equals_BlockVolumeUtils
+  , equals_BoundingBoxUtils
+  , equals_Vector
+  , expand
+  , extinguishFire_Entity
+  , extinguishFire_Player
+  , fade
+  , fillBlocks
+  , getAbsoluteTime
+  , getAllPlayers
+  , getAllStates
+  , getAll_BlockStates
+  , getAll_BlockTypes
+  , getAll_DimensionTypes
+  , getAll_EffectTypes
+  , getAll_EntityTypes
+  , getAll_ItemTypes
+  , getAttachedBlocks
+  , getBlock
+  , getBlockFromRay
+  , getBlockFromViewDirection_Entity
+  , getBlockFromViewDirection_Player
+  , getBlockHit
+  , getBlockLocationIterator_BlockVolumeUtils
+  , getBlockLocationIterator_CompoundBlockVolume
+  , getBoundingBox_BlockVolumeUtils
+  , getBoundingBox_CompoundBlockVolume
+  , getBreatheBlocks
+  , getCapacity
+  , getCenter
+  , getComponentGroupsToAdd
+  , getComponentGroupsToRemove
+  , getComponent_Block
+  , getComponent_Entity
+  , getComponent_ItemStack
+  , getComponent_Player
+  , getComponents_Entity
+  , getComponents_ItemStack
+  , getComponents_Player
+  , getCustomColor
+  , getDamageChance
+  , getDamageRange
+  , getDay
+  , getDefaultSpawnLocation
+  , getDimension
+  , getDropItems
+  , getDynamicProperty_Entity
+  , getDynamicProperty_Player
+  , getDynamicProperty_World
+  , getEffect_Entity
+  , getEffect_Player
+  , getEffects_Entity
+  , getEffects_FeedItem
+  , getEffects_Player
+  , getEnchantment
+  , getEntities
+  , getEntitiesAtBlockLocation
+  , getEntitiesFromRay
+  , getEntitiesFromViewDirection_Entity
+  , getEntitiesFromViewDirection_Player
+  , getEntityHit
+  , getEntity_ScoreboardIdentity
+  , getEntity_World
+  , getEquipment
+  , getEquipmentSlot
+  , getFamilyTypes
+  , getFeedItems_EntityAgeableComponent
+  , getFeedItems_EntityHealableComponent
+  , getHeadLocation_Entity
+  , getHeadLocation_Player
+  , getImpactedBlocks_ExplosionAfterEvent
+  , getImpactedBlocks_ExplosionBeforeEvent
+  , getIntersection
+  , getItemCooldown
+  , getItemStack_Block
+  , getItemStack_BlockPermutation
+  , getItem_Container
+  , getItem_ContainerSlot
+  , getLore_ContainerSlot
+  , getLore_ItemStack
+  , getMax_BlockVolumeUtils
+  , getMax_CompoundBlockVolume
+  , getMin_BlockVolumeUtils
+  , getMin_CompoundBlockVolume
+  , getModifiers_DataDrivenEntityTriggerAfterEvent
+  , getModifiers_DataDrivenEntityTriggerBeforeEvent
+  , getMoonPhase
+  , getName
+  , getNonBreatheBlocks
+  , getObjective
+  , getObjectiveAtDisplaySlot
+  , getObjectives
+  , getOrigin
+  , getParticipants_Scoreboard
+  , getParticipants_ScoreboardObjective
+  , getPath
+  , getPlayers_Dimension
+  , getPlayers_World
+  , getRawText
+  , getRedstonePower
+  , getRiders
+  , getRotation_Entity
+  , getRotation_Player
+  , getScore
+  , getScores
+  , getSeats
+  , getSlot
+  , getSpan_BlockVolumeUtils
+  , getSpan_BoundingBoxUtils
+  , getSpawnPoint
+  , getState
+  , getTags_Block
+  , getTags_BlockPermutation
+  , getTags_ContainerSlot
+  , getTags_Entity
+  , getTags_ItemStack
+  , getTags_Player
+  , getTameItems
+  , getTargets_ChatSendAfterEvent
+  , getTargets_ChatSendBeforeEvent
+  , getText
+  , getTextDyeColor
+  , getTimeOfDay
+  , getTotalXp
+  , getTriggers
+  , getVelocity_Entity
+  , getVelocity_Player
+  , getViewDirection_Entity
+  , getViewDirection_Player
+  , get_BlockStates
+  , get_BlockTypes
+  , get_DimensionTypes
+  , get_EffectTypes
+  , get_EnchantmentTypes
+  , get_EntityTypes
+  , get_ItemTypes
+  , hasComponent_Entity
+  , hasComponent_ItemStack
+  , hasComponent_Player
+  , hasEnchantment
+  , hasParticipant
+  , hasTag_Block
+  , hasTag_BlockPermutation
+  , hasTag_ContainerSlot
+  , hasTag_Entity
+  , hasTag_ItemStack
+  , hasTag_Player
+  , intersects_BlockVolumeUtils
+  , intersects_BoundingBoxUtils
+  , isEmpty
+  , isInside_BlockVolumeUtils
+  , isInside_BoundingBoxUtils
+  , isInside_CompoundBlockVolume
+  , isOp
+  , isPlaying
+  , isStackableWith_ContainerSlot
+  , isStackableWith_ItemStack
+  , isValidLiquid_BlockLavaContainerComponent
+  , isValidLiquid_BlockLiquidContainerComponent
+  , isValidLiquid_BlockPotionContainerComponent
+  , isValidLiquid_BlockSnowContainerComponent
+  , isValidLiquid_BlockWaterContainerComponent
+  , isValid_Block
+  , isValid_BlockComponent
+  , isValid_BlockInventoryComponent
+  , isValid_BlockLiquidContainerComponent
+  , isValid_BlockPistonComponent
+  , isValid_BlockPotionContainerComponent
+  , isValid_BlockRecordPlayerComponent
+  , isValid_BlockSignComponent
+  , isValid_BlockSnowContainerComponent
+  , isValid_BlockWaterContainerComponent
+  , isValid_BoundingBoxUtils
+  , isValid_Component
+  , isValid_Container
+  , isValid_ContainerSlot
+  , isValid_Effect
+  , isValid_Entity
+  , isValid_EntityComponent
+  , isValid_EntityEquippableComponent
+  , isValid_EntityFireImmuneComponent
+  , isValid_EntityFloatsInLiquidComponent
+  , isValid_EntityFlyingSpeedComponent
+  , isValid_EntityFrictionModifierComponent
+  , isValid_EntityGroundOffsetComponent
+  , isValid_EntityHealableComponent
+  , isValid_EntityInventoryComponent
+  , isValid_EntityIsBabyComponent
+  , isValid_EntityIsChargedComponent
+  , isValid_EntityIsChestedComponent
+  , isValid_EntityIsDyeableComponent
+  , isValid_EntityIsHiddenWhenInvisibleComponent
+  , isValid_EntityIsIgnitedComponent
+  , isValid_EntityIsIllagerCaptainComponent
+  , isValid_EntityIsSaddledComponent
+  , isValid_EntityIsShakingComponent
+  , isValid_EntityIsShearedComponent
+  , isValid_EntityIsStackableComponent
+  , isValid_EntityIsStunnedComponent
+  , isValid_EntityIsTamedComponent
+  , isValid_EntityItemComponent
+  , isValid_EntityLeashableComponent
+  , isValid_EntityMarkVariantComponent
+  , isValid_EntityMountTamingComponent
+  , isValid_EntityNavigationComponent
+  , isValid_EntityNavigationFloatComponent
+  , isValid_EntityNavigationFlyComponent
+  , isValid_EntityNavigationGenericComponent
+  , isValid_EntityNavigationHoverComponent
+  , isValid_EntityNavigationWalkComponent
+  , isValid_EntityOnFireComponent
+  , isValid_EntityPushThroughComponent
+  , isValid_EntityRideableComponent
+  , isValid_EntityRidingComponent
+  , isValid_EntityScaleComponent
+  , isValid_EntitySkinIdComponent
+  , isValid_EntityStrengthComponent
+  , isValid_EntityTameableComponent
+  , isValid_EntityVariantComponent
+  , isValid_EntityWantsJockeyComponent
+  , isValid_ItemComponent
+  , isValid_ItemCooldownComponent
+  , isValid_ItemDurabilityComponent
+  , isValid_ItemEnchantsComponent
+  , isValid_ItemFoodComponent
+  , isValid_Player
+  , isValid_ScoreboardIdentity
+  , isValid_ScoreboardObjective
+  , isValid_ScreenDisplay
+  , kill_Entity
+  , kill_Player
+  , leash
+  , length
+  , lengthSquared
+  , lerp
+  , matches
+  , max
+  , min
+  , mk_BlockAreaSize
+  , mk_CompoundBlockVolume
+  , mk_DefinitionModifier
+  , mk_DynamicPropertiesDefinition
+  , mk_Enchantment
+  , mk_EnchantmentList
+  , mk_ItemStack
+  , mk_MolangVariableMap
+  , mk_Trigger
+  , mk_Vector
+  , moveItem
+  , multiply
+  , normalized
+  , peekLastVolume
+  , playAnimation_Entity
+  , playAnimation_Player
+  , playMusic
+  , playSound_Player
+  , playSound_World
+  , popVolume
+  , postClientMessage
+  , pushVolume
+  , queueMusic
+  , registerEntityTypeDynamicProperties
+  , registerWorldDynamicProperties
+  , removeAllEnchantments
+  , removeDynamicProperty_Entity
+  , removeDynamicProperty_Player
+  , removeDynamicProperty_World
+  , removeEffect_Entity
+  , removeEffect_Player
+  , removeEnchantment
+  , removeObjective
+  , removeParticipant
+  , removeTag_Entity
+  , removeTag_Player
+  , remove_Entity
+  , remove_Player
+  , replaceOrAddLastVolume
+  , resetLevel
+  , resetToDefaultValue_EntityAttributeComponent
+  , resetToDefaultValue_EntityHealthComponent
+  , resetToDefaultValue_EntityLavaMovementComponent
+  , resetToDefaultValue_EntityMovementComponent
+  , resetToDefaultValue_EntityUnderwaterMovementComponent
+  , resetToMaxValue_EntityAttributeComponent
+  , resetToMaxValue_EntityHealthComponent
+  , resetToMaxValue_EntityLavaMovementComponent
+  , resetToMaxValue_EntityMovementComponent
+  , resetToMaxValue_EntityUnderwaterMovementComponent
+  , resetToMinValue_EntityAttributeComponent
+  , resetToMinValue_EntityHealthComponent
+  , resetToMinValue_EntityLavaMovementComponent
+  , resetToMinValue_EntityMovementComponent
+  , resetToMinValue_EntityUnderwaterMovementComponent
+  , resolve
+  , run
+  , runCommandAsync_Dimension
+  , runCommandAsync_Entity
+  , runCommandAsync_Player
+  , runCommand_Dimension
+  , runCommand_Entity
+  , runCommand_Player
+  , runInterval
+  , runTimeout
+  , sendMessage_Player
+  , sendMessage_World
+  , setAbsoluteTime
+  , setActionBar
+  , setAirSupply
+  , setCamera
+  , setCanDestroy_ContainerSlot
+  , setCanDestroy_ItemStack
+  , setCanPlaceOn_ContainerSlot
+  , setCanPlaceOn_ItemStack
+  , setColorRGB
+  , setColorRGBA
+  , setComponentGroupsToAdd
+  , setComponentGroupsToRemove
+  , setCurrentValue_EntityAttributeComponent
+  , setCurrentValue_EntityHealthComponent
+  , setCurrentValue_EntityLavaMovementComponent
+  , setCurrentValue_EntityMovementComponent
+  , setCurrentValue_EntityUnderwaterMovementComponent
+  , setCustomColor
+  , setDefaultSpawnLocation
+  , setDynamicProperty_Entity
+  , setDynamicProperty_Player
+  , setDynamicProperty_World
+  , setEquipment
+  , setFloat
+  , setImpactedBlocks
+  , setItem_Container
+  , setItem_ContainerSlot
+  , setLore_ContainerSlot
+  , setLore_ItemStack
+  , setModifiers
+  , setObjectiveAtDisplaySlot
+  , setOnFire_Entity
+  , setOnFire_Player
+  , setOp
+  , setOrigin
+  , setPermutation
+  , setPotionType
+  , setRecord
+  , setRotation_Entity
+  , setRotation_Player
+  , setScore
+  , setSpawnPoint
+  , setSpeedAndDirection
+  , setTamed
+  , setTargets
+  , setText
+  , setTextDyeColor
+  , setTimeOfDay
+  , setTitle
+  , setTriggers
+  , setType
+  , setVector3
+  , setWaxed
+  , setWeather
+  , slerp
+  , spawnEntity
+  , spawnItem
+  , spawnParticle
+  , startCooldown
+  , startItemCooldown
+  , stopMusic
+  , subscribe_BlockBreakAfterEventSignal
+  , subscribe_BlockExplodeAfterEventSignal
+  , subscribe_BlockPlaceAfterEventSignal
+  , subscribe_ButtonPushAfterEventSignal
+  , subscribe_ChatSendAfterEventSignal
+  , subscribe_ChatSendBeforeEventSignal
+  , subscribe_DataDrivenEntityTriggerAfterEventSignal
+  , subscribe_DataDrivenEntityTriggerBeforeEventSignal
+  , subscribe_EffectAddAfterEventSignal
+  , subscribe_EntityDieAfterEventSignal
+  , subscribe_EntityHealthChangedAfterEventSignal
+  , subscribe_EntityHitBlockAfterEventSignal
+  , subscribe_EntityHitEntityAfterEventSignal
+  , subscribe_EntityHurtAfterEventSignal
+  , subscribe_EntityRemovedAfterEventSignal
+  , subscribe_EntitySpawnAfterEventSignal
+  , subscribe_ExplosionAfterEventSignal
+  , subscribe_ExplosionBeforeEventSignal
+  , subscribe_IButtonPushAfterEventSignal
+  , subscribe_ILeverActionAfterEventSignal
+  , subscribe_IPlayerJoinAfterEventSignal
+  , subscribe_IPlayerLeaveAfterEventSignal
+  , subscribe_IPlayerSpawnAfterEventSignal
+  , subscribe_ItemCompleteUseAfterEventSignal
+  , subscribe_ItemDefinitionAfterEventSignal
+  , subscribe_ItemDefinitionBeforeEventSignal
+  , subscribe_ItemReleaseUseAfterEventSignal
+  , subscribe_ItemStartUseAfterEventSignal
+  , subscribe_ItemStartUseOnAfterEventSignal
+  , subscribe_ItemStopUseAfterEventSignal
+  , subscribe_ItemStopUseOnAfterEventSignal
+  , subscribe_ItemUseAfterEventSignal
+  , subscribe_ItemUseBeforeEventSignal
+  , subscribe_ItemUseOnAfterEventSignal
+  , subscribe_ItemUseOnBeforeEventSignal
+  , subscribe_LeverActionAfterEventSignal
+  , subscribe_PistonActivateAfterEventSignal
+  , subscribe_PistonActivateBeforeEventSignal
+  , subscribe_PlayerJoinAfterEventSignal
+  , subscribe_PlayerLeaveAfterEventSignal
+  , subscribe_PlayerSpawnAfterEventSignal
+  , subscribe_PressurePlatePopAfterEventSignal
+  , subscribe_PressurePlatePushAfterEventSignal
+  , subscribe_ProjectileHitBlockAfterEventSignal
+  , subscribe_ProjectileHitEntityAfterEventSignal
+  , subscribe_ScriptEventCommandMessageAfterEventSignal
+  , subscribe_ServerMessageAfterEventSignal
+  , subscribe_TargetBlockHitAfterEventSignal
+  , subscribe_TripWireTripAfterEventSignal
+  , subscribe_WatchdogTerminateBeforeEventSignal
+  , subscribe_WeatherChangeAfterEventSignal
+  , subscribe_WorldInitializeAfterEventSignal
+  , subtract
+  , swapItems
+  , system
+  , tame
+  , teleport_Entity
+  , teleport_Player
+  , transferItem
+  , translateOrigin
+  , translate_BlockVolumeUtils
+  , translate_BoundingBoxUtils
+  , triggerEvent_Entity
+  , triggerEvent_ItemStack
+  , triggerEvent_Player
+  , trySetPermutation
+  , tryTeleport_Entity
+  , tryTeleport_Player
+  , unleash
+  , unsubscribe_BlockBreakAfterEventSignal
+  , unsubscribe_BlockExplodeAfterEventSignal
+  , unsubscribe_BlockPlaceAfterEventSignal
+  , unsubscribe_ButtonPushAfterEventSignal
+  , unsubscribe_ChatSendAfterEventSignal
+  , unsubscribe_ChatSendBeforeEventSignal
+  , unsubscribe_DataDrivenEntityTriggerAfterEventSignal
+  , unsubscribe_DataDrivenEntityTriggerBeforeEventSignal
+  , unsubscribe_EffectAddAfterEventSignal
+  , unsubscribe_EntityDieAfterEventSignal
+  , unsubscribe_EntityHealthChangedAfterEventSignal
+  , unsubscribe_EntityHitBlockAfterEventSignal
+  , unsubscribe_EntityHitEntityAfterEventSignal
+  , unsubscribe_EntityHurtAfterEventSignal
+  , unsubscribe_EntityRemovedAfterEventSignal
+  , unsubscribe_EntitySpawnAfterEventSignal
+  , unsubscribe_ExplosionAfterEventSignal
+  , unsubscribe_ExplosionBeforeEventSignal
+  , unsubscribe_IButtonPushAfterEventSignal
+  , unsubscribe_ILeverActionAfterEventSignal
+  , unsubscribe_IPlayerJoinAfterEventSignal
+  , unsubscribe_IPlayerLeaveAfterEventSignal
+  , unsubscribe_IPlayerSpawnAfterEventSignal
+  , unsubscribe_ItemCompleteUseAfterEventSignal
+  , unsubscribe_ItemDefinitionAfterEventSignal
+  , unsubscribe_ItemDefinitionBeforeEventSignal
+  , unsubscribe_ItemReleaseUseAfterEventSignal
+  , unsubscribe_ItemStartUseAfterEventSignal
+  , unsubscribe_ItemStartUseOnAfterEventSignal
+  , unsubscribe_ItemStopUseAfterEventSignal
+  , unsubscribe_ItemStopUseOnAfterEventSignal
+  , unsubscribe_ItemUseAfterEventSignal
+  , unsubscribe_ItemUseBeforeEventSignal
+  , unsubscribe_ItemUseOnAfterEventSignal
+  , unsubscribe_ItemUseOnBeforeEventSignal
+  , unsubscribe_LeverActionAfterEventSignal
+  , unsubscribe_PistonActivateAfterEventSignal
+  , unsubscribe_PistonActivateBeforeEventSignal
+  , unsubscribe_PlayerJoinAfterEventSignal
+  , unsubscribe_PlayerLeaveAfterEventSignal
+  , unsubscribe_PlayerSpawnAfterEventSignal
+  , unsubscribe_PressurePlatePopAfterEventSignal
+  , unsubscribe_PressurePlatePushAfterEventSignal
+  , unsubscribe_ProjectileHitBlockAfterEventSignal
+  , unsubscribe_ProjectileHitEntityAfterEventSignal
+  , unsubscribe_ScriptEventCommandMessageAfterEventSignal
+  , unsubscribe_ServerMessageAfterEventSignal
+  , unsubscribe_TargetBlockHitAfterEventSignal
+  , unsubscribe_TripWireTripAfterEventSignal
+  , unsubscribe_WatchdogTerminateBeforeEventSignal
+  , unsubscribe_WeatherChangeAfterEventSignal
+  , unsubscribe_WorldInitializeAfterEventSignal
+  , updateSubtitle
+  , withState
+  , world
+  )
+  where
 import Minecraft.Utils (class Event)
-import Prelude
-import Data.Map
-import Data.Newtype
+import Prelude (Unit)
+import Data.Map (Map)
+import Data.Newtype (class Newtype)
 import Data.Nullable
-import Untagged.Union
-import Control.Promise
+import Data.Maybe (Maybe)
+import Untagged.Union (type (|+|))
+import Control.Promise (Promise)
 import Effect (Effect) as Eff
-data BlockVolumeIntersection = BlockVolumeIntersection Number
-data CompoundBlockVolumeAction = CompoundBlockVolumeAction Number
-data CompoundBlockVolumePositionRelativity = CompoundBlockVolumePositionRelativity Number
+data BlockVolumeIntersection = BlockVolumeIntersection Int
+data CompoundBlockVolumeAction = CompoundBlockVolumeAction Int
+data CompoundBlockVolumePositionRelativity = CompoundBlockVolumePositionRelativity Int
 data Direction = Direction String
 data DisplaySlotId = DisplaySlotId String
 data DyeColor = DyeColor String
@@ -20,12 +867,12 @@ data EquipmentSlot = EquipmentSlot String
 data FluidType = FluidType String
 data GameMode = GameMode String
 data ItemLockMode = ItemLockMode String
-data MoonPhase = MoonPhase Number
-data ObjectiveSortOrder = ObjectiveSortOrder Number
+data MoonPhase = MoonPhase Int
+data ObjectiveSortOrder = ObjectiveSortOrder Int
 data ScoreboardIdentityType = ScoreboardIdentityType String
 data ScriptEventSource = ScriptEventSource String
 data SignSide = SignSide String
-data TimeOfDay = TimeOfDay Number
+data TimeOfDay = TimeOfDay Int
 data WatchdogTerminateReason = WatchdogTerminateReason String
 data WeatherType = WeatherType String
 type BlockFillOptions = {
@@ -1881,10 +2728,16 @@ instance Event WorldInitializeAfterEventSignal WorldInitializeAfterEvent where
   subscribe = subscribe_WorldInitializeAfterEventSignal
   unsubscribe = unsubscribe_WorldInitializeAfterEventSignal
 
-foreign import canPlace :: Block -> (BlockPermutation |+| BlockType |+| String) -> Nullable (Direction) -> Boolean
-foreign import getComponent_Block :: Block -> String -> Nullable (BlockComponent)
+foreign import _prim_canPlace :: Block -> (BlockPermutation |+| BlockType |+| String) -> Nullable (Direction) -> Boolean
+canPlace :: Block -> (BlockPermutation |+| BlockType |+| String) -> Maybe (Direction) -> Boolean
+canPlace a b c =  (_prim_canPlace a b (toNullable c))
+foreign import _prim_getComponent_Block :: Block -> String -> Nullable (BlockComponent)
+getComponent_Block :: Block -> String -> Maybe (BlockComponent)
+getComponent_Block a b = toMaybe (_prim_getComponent_Block a b)
 foreign import getItemStack_Block :: Block -> Int -> Boolean -> ItemStack
-foreign import getRedstonePower :: Block -> Nullable (Int)
+foreign import _prim_getRedstonePower :: Block -> Nullable (Int)
+getRedstonePower :: Block -> Maybe (Int)
+getRedstonePower a = toMaybe (_prim_getRedstonePower a)
 foreign import getTags_Block :: Block -> Array (String)
 foreign import hasTag_Block :: Block -> String -> Boolean
 foreign import isValid_Block :: Block -> Boolean
@@ -1905,11 +2758,17 @@ foreign import isValid_BlockLiquidContainerComponent :: BlockLiquidContainerComp
 foreign import clone_BlockPermutation :: BlockPermutation -> BlockPermutation
 foreign import getAllStates :: BlockPermutation -> Map String (Boolean |+| Int |+| String)
 foreign import getItemStack_BlockPermutation :: BlockPermutation -> Int -> ItemStack
-foreign import getState :: BlockPermutation -> String -> Nullable ((Boolean |+| Int |+| String))
+foreign import _prim_getState :: BlockPermutation -> String -> Nullable ((Boolean |+| Int |+| String))
+getState :: BlockPermutation -> String -> Maybe ((Boolean |+| Int |+| String))
+getState a b = toMaybe (_prim_getState a b)
 foreign import getTags_BlockPermutation :: BlockPermutation -> Array (String)
 foreign import hasTag_BlockPermutation :: BlockPermutation -> String -> Boolean
-foreign import matches :: BlockPermutation -> String -> Nullable (Map String (Boolean |+| Int |+| String)) -> Boolean
-foreign import resolve :: String -> Nullable (Map String (Boolean |+| Int |+| String)) -> BlockPermutation
+foreign import _prim_matches :: BlockPermutation -> String -> Nullable (Map String (Boolean |+| Int |+| String)) -> Boolean
+matches :: BlockPermutation -> String -> Maybe (Map String (Boolean |+| Int |+| String)) -> Boolean
+matches a b c =  (_prim_matches a b (toNullable c))
+foreign import _prim_resolve :: String -> Nullable (Map String (Boolean |+| Int |+| String)) -> BlockPermutation
+resolve :: String -> Maybe (Map String (Boolean |+| Int |+| String)) -> BlockPermutation
+resolve a b =  (_prim_resolve a (toNullable b))
 foreign import withState :: BlockPermutation -> String -> (Boolean |+| Int |+| String) -> BlockPermutation
 foreign import getAttachedBlocks :: BlockPistonComponent -> Array (Vector3)
 foreign import isValid_BlockPistonComponent :: BlockPistonComponent -> Boolean
@@ -1922,18 +2781,30 @@ foreign import clearRecord :: BlockRecordPlayerComponent -> Eff.Effect Unit
 foreign import isPlaying :: BlockRecordPlayerComponent -> Boolean
 foreign import setRecord :: BlockRecordPlayerComponent -> (ItemType |+| String) -> Eff.Effect Unit
 foreign import isValid_BlockRecordPlayerComponent :: BlockRecordPlayerComponent -> Boolean
-foreign import getRawText :: BlockSignComponent -> SignSide -> Nullable (RawText)
-foreign import getText :: BlockSignComponent -> SignSide -> Nullable (String)
-foreign import getTextDyeColor :: BlockSignComponent -> SignSide -> Nullable (DyeColor)
-foreign import setText :: BlockSignComponent -> (RawMessage |+| RawText |+| String) -> SignSide -> Eff.Effect Unit
-foreign import setTextDyeColor :: BlockSignComponent -> Nullable (DyeColor) -> SignSide -> Eff.Effect Unit
+foreign import _prim_getRawText :: BlockSignComponent -> SignSide -> Nullable (RawText)
+getRawText :: BlockSignComponent -> SignSide -> Maybe (RawText)
+getRawText a b = toMaybe (_prim_getRawText a b)
+foreign import _prim_getText :: BlockSignComponent -> SignSide -> Nullable (String)
+getText :: BlockSignComponent -> SignSide -> Maybe (String)
+getText a b = toMaybe (_prim_getText a b)
+foreign import _prim_getTextDyeColor :: BlockSignComponent -> SignSide -> Nullable (DyeColor)
+getTextDyeColor :: BlockSignComponent -> SignSide -> Maybe (DyeColor)
+getTextDyeColor a b = toMaybe (_prim_getTextDyeColor a b)
+foreign import _prim_setText :: BlockSignComponent -> (RawMessage |+| RawText |+| String) -> SignSide -> Eff.Effect Unit
+setText :: BlockSignComponent -> (RawMessage |+| RawText |+| String) -> SignSide -> Eff.Effect Unit
+setText a b c =  (_prim_setText a b c)
+foreign import _prim_setTextDyeColor :: BlockSignComponent -> Nullable (DyeColor) -> SignSide -> Eff.Effect Unit
+setTextDyeColor :: BlockSignComponent -> Maybe (DyeColor) -> SignSide -> Eff.Effect Unit
+setTextDyeColor a b c =  (_prim_setTextDyeColor a (toNullable b) c)
 foreign import setWaxed :: BlockSignComponent -> Eff.Effect Unit
 foreign import isValid_BlockSignComponent :: BlockSignComponent -> Boolean
 foreign import isValidLiquid_BlockSnowContainerComponent :: BlockSnowContainerComponent -> Boolean
 foreign import isValid_BlockSnowContainerComponent :: BlockSnowContainerComponent -> Boolean
 foreign import get_BlockStates :: String -> BlockStateType
 foreign import getAll_BlockStates :: Array (BlockStateType)
-foreign import get_BlockTypes :: String -> Nullable (BlockType)
+foreign import _prim_get_BlockTypes :: String -> Nullable (BlockType)
+get_BlockTypes :: String -> Maybe (BlockType)
+get_BlockTypes a = toMaybe (_prim_get_BlockTypes a)
 foreign import getAll_BlockTypes :: Array (BlockType)
 foreign import doesLocationTouchFaces :: BlockVolume -> Vector3 -> Boolean
 foreign import doesVolumeTouchFaces :: BlockVolume -> BlockVolume -> Boolean
@@ -1957,7 +2828,9 @@ foreign import dilate :: BoundingBox -> Vector3 -> BoundingBox
 foreign import equals_BoundingBoxUtils :: BoundingBox -> BoundingBox -> Boolean
 foreign import expand :: BoundingBox -> BoundingBox -> BoundingBox
 foreign import getCenter :: BoundingBox -> Vector3
-foreign import getIntersection :: BoundingBox -> BoundingBox -> Nullable (BoundingBox)
+foreign import _prim_getIntersection :: BoundingBox -> BoundingBox -> Nullable (BoundingBox)
+getIntersection :: BoundingBox -> BoundingBox -> Maybe (BoundingBox)
+getIntersection a b = toMaybe (_prim_getIntersection a b)
 foreign import getSpan_BoundingBoxUtils :: BoundingBox -> Vector3
 foreign import intersects_BoundingBoxUtils :: BoundingBox -> BoundingBox -> Boolean
 foreign import isInside_BoundingBoxUtils :: BoundingBox -> Vector3 -> Boolean
@@ -1966,8 +2839,12 @@ foreign import translate_BoundingBoxUtils :: BoundingBox -> Vector3 -> BoundingB
 foreign import subscribe_ButtonPushAfterEventSignal :: ButtonPushAfterEventSignal -> (ButtonPushAfterEvent -> Eff.Effect Unit) -> (ButtonPushAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ButtonPushAfterEventSignal :: ButtonPushAfterEventSignal -> (ButtonPushAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import clear_Camera :: Camera -> Eff.Effect Unit
-foreign import fade :: Camera -> Nullable (CameraFadeOptions) -> Eff.Effect Unit
-foreign import setCamera :: Camera -> String -> Nullable (Nullable ((ScriptCameraDefaultOptions |+| ScriptCameraSetFacingOptions |+| ScriptCameraSetLocationOptions |+| ScriptCameraSetPosOptions |+| ScriptCameraSetRotOptions))) -> Eff.Effect Unit
+foreign import _prim_fade :: Camera -> Nullable (CameraFadeOptions) -> Eff.Effect Unit
+fade :: Camera -> Maybe (CameraFadeOptions) -> Eff.Effect Unit
+fade a b =  (_prim_fade a (toNullable b))
+foreign import _prim_setCamera :: Camera -> String -> Nullable (Nullable ((ScriptCameraDefaultOptions |+| ScriptCameraSetFacingOptions |+| ScriptCameraSetLocationOptions |+| ScriptCameraSetPosOptions |+| ScriptCameraSetRotOptions))) -> Eff.Effect Unit
+setCamera :: Camera -> String -> Maybe (Nullable ((ScriptCameraDefaultOptions |+| ScriptCameraSetFacingOptions |+| ScriptCameraSetLocationOptions |+| ScriptCameraSetPosOptions |+| ScriptCameraSetRotOptions))) -> Eff.Effect Unit
+setCamera a b c =  (_prim_setCamera a b (toNullable c))
 foreign import getTargets_ChatSendAfterEvent :: ChatSendAfterEvent -> Array (Player)
 foreign import subscribe_ChatSendAfterEventSignal :: ChatSendAfterEventSignal -> (ChatSendAfterEvent -> Eff.Effect Unit) -> (ChatSendAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ChatSendAfterEventSignal :: ChatSendAfterEventSignal -> (ChatSendAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
@@ -1977,7 +2854,9 @@ foreign import subscribe_ChatSendBeforeEventSignal :: ChatSendBeforeEventSignal 
 foreign import unsubscribe_ChatSendBeforeEventSignal :: ChatSendBeforeEventSignal -> (ChatSendBeforeEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import isValid_Component :: Component -> Boolean
 foreign import clear_CompoundBlockVolume :: CompoundBlockVolume -> Eff.Effect Unit
-foreign import mk_CompoundBlockVolume :: Nullable (Vector3) -> CompoundBlockVolume
+foreign import _prim_mk_CompoundBlockVolume :: Nullable (Vector3) -> CompoundBlockVolume
+mk_CompoundBlockVolume :: Maybe (Vector3) -> CompoundBlockVolume
+mk_CompoundBlockVolume a =  (_prim_mk_CompoundBlockVolume (toNullable a))
 foreign import getBlockLocationIterator_CompoundBlockVolume :: CompoundBlockVolume -> BlockLocationIterator
 foreign import getBoundingBox_CompoundBlockVolume :: CompoundBlockVolume -> BoundingBox
 foreign import getMax_CompoundBlockVolume :: CompoundBlockVolume -> Vector3
@@ -1985,37 +2864,61 @@ foreign import getMin_CompoundBlockVolume :: CompoundBlockVolume -> Vector3
 foreign import getOrigin :: CompoundBlockVolume -> Vector3
 foreign import isEmpty :: CompoundBlockVolume -> Boolean
 foreign import isInside_CompoundBlockVolume :: CompoundBlockVolume -> Vector3 -> Boolean
-foreign import peekLastVolume :: CompoundBlockVolume -> Nullable (CompoundBlockVolumePositionRelativity) -> Nullable (CompoundBlockVolumeItem)
+foreign import _prim_peekLastVolume :: CompoundBlockVolume -> Nullable (CompoundBlockVolumePositionRelativity) -> Nullable (CompoundBlockVolumeItem)
+peekLastVolume :: CompoundBlockVolume -> Maybe (CompoundBlockVolumePositionRelativity) -> Maybe (CompoundBlockVolumeItem)
+peekLastVolume a b = toMaybe (_prim_peekLastVolume a (toNullable b))
 foreign import popVolume :: CompoundBlockVolume -> Boolean
 foreign import pushVolume :: CompoundBlockVolume -> CompoundBlockVolumeItem -> Eff.Effect Unit
 foreign import replaceOrAddLastVolume :: CompoundBlockVolume -> CompoundBlockVolumeItem -> Boolean
-foreign import setOrigin :: CompoundBlockVolume -> Vector3 -> Nullable (Boolean) -> Eff.Effect Unit
-foreign import translateOrigin :: CompoundBlockVolume -> Vector3 -> Nullable (Boolean) -> Eff.Effect Unit
+foreign import _prim_setOrigin :: CompoundBlockVolume -> Vector3 -> Nullable (Boolean) -> Eff.Effect Unit
+setOrigin :: CompoundBlockVolume -> Vector3 -> Maybe (Boolean) -> Eff.Effect Unit
+setOrigin a b c =  (_prim_setOrigin a b (toNullable c))
+foreign import _prim_translateOrigin :: CompoundBlockVolume -> Vector3 -> Nullable (Boolean) -> Eff.Effect Unit
+translateOrigin :: CompoundBlockVolume -> Vector3 -> Maybe (Boolean) -> Eff.Effect Unit
+translateOrigin a b c =  (_prim_translateOrigin a b (toNullable c))
 foreign import addItem :: Container -> ItemStack -> ItemStack
 foreign import clearAll :: Container -> Eff.Effect Unit
-foreign import getItem_Container :: Container -> Int -> Nullable (ItemStack)
+foreign import _prim_getItem_Container :: Container -> Int -> Nullable (ItemStack)
+getItem_Container :: Container -> Int -> Maybe (ItemStack)
+getItem_Container a b = toMaybe (_prim_getItem_Container a b)
 foreign import getSlot :: Container -> Int -> ContainerSlot
 foreign import isValid_Container :: Container -> Boolean
 foreign import moveItem :: Container -> Int -> Int -> Container -> Eff.Effect Unit
-foreign import setItem_Container :: Container -> Int -> Nullable (ItemStack) -> Eff.Effect Unit
+foreign import _prim_setItem_Container :: Container -> Int -> Nullable (ItemStack) -> Eff.Effect Unit
+setItem_Container :: Container -> Int -> Maybe (ItemStack) -> Eff.Effect Unit
+setItem_Container a b c =  (_prim_setItem_Container a b (toNullable c))
 foreign import swapItems :: Container -> Int -> Int -> Container -> Eff.Effect Unit
 foreign import transferItem :: Container -> Int -> Container -> ItemStack
-foreign import getItem_ContainerSlot :: ContainerSlot -> Nullable (ItemStack)
+foreign import _prim_getItem_ContainerSlot :: ContainerSlot -> Nullable (ItemStack)
+getItem_ContainerSlot :: ContainerSlot -> Maybe (ItemStack)
+getItem_ContainerSlot a = toMaybe (_prim_getItem_ContainerSlot a)
 foreign import getLore_ContainerSlot :: ContainerSlot -> Array (String)
 foreign import getTags_ContainerSlot :: ContainerSlot -> Array (String)
 foreign import hasTag_ContainerSlot :: ContainerSlot -> String -> Boolean
 foreign import isStackableWith_ContainerSlot :: ContainerSlot -> ItemStack -> Boolean
 foreign import isValid_ContainerSlot :: ContainerSlot -> Boolean
-foreign import setCanDestroy_ContainerSlot :: ContainerSlot -> Nullable (Array (String)) -> Eff.Effect Unit
-foreign import setCanPlaceOn_ContainerSlot :: ContainerSlot -> Nullable (Array (String)) -> Eff.Effect Unit
-foreign import setItem_ContainerSlot :: ContainerSlot -> Nullable (ItemStack) -> Eff.Effect Unit
-foreign import setLore_ContainerSlot :: ContainerSlot -> Nullable (Array (String)) -> Eff.Effect Unit
+foreign import _prim_setCanDestroy_ContainerSlot :: ContainerSlot -> Nullable (Array (String)) -> Eff.Effect Unit
+setCanDestroy_ContainerSlot :: ContainerSlot -> Maybe (Array (String)) -> Eff.Effect Unit
+setCanDestroy_ContainerSlot a b =  (_prim_setCanDestroy_ContainerSlot a (toNullable b))
+foreign import _prim_setCanPlaceOn_ContainerSlot :: ContainerSlot -> Nullable (Array (String)) -> Eff.Effect Unit
+setCanPlaceOn_ContainerSlot :: ContainerSlot -> Maybe (Array (String)) -> Eff.Effect Unit
+setCanPlaceOn_ContainerSlot a b =  (_prim_setCanPlaceOn_ContainerSlot a (toNullable b))
+foreign import _prim_setItem_ContainerSlot :: ContainerSlot -> Nullable (ItemStack) -> Eff.Effect Unit
+setItem_ContainerSlot :: ContainerSlot -> Maybe (ItemStack) -> Eff.Effect Unit
+setItem_ContainerSlot a b =  (_prim_setItem_ContainerSlot a (toNullable b))
+foreign import _prim_setLore_ContainerSlot :: ContainerSlot -> Nullable (Array (String)) -> Eff.Effect Unit
+setLore_ContainerSlot :: ContainerSlot -> Maybe (Array (String)) -> Eff.Effect Unit
+setLore_ContainerSlot a b =  (_prim_setLore_ContainerSlot a (toNullable b))
 foreign import getModifiers_DataDrivenEntityTriggerAfterEvent :: DataDrivenEntityTriggerAfterEvent -> Array (DefinitionModifier)
-foreign import subscribe_DataDrivenEntityTriggerAfterEventSignal :: DataDrivenEntityTriggerAfterEventSignal -> (DataDrivenEntityTriggerAfterEvent -> Eff.Effect Unit) -> Nullable (EntityDataDrivenTriggerEventOptions) -> (DataDrivenEntityTriggerAfterEvent -> Eff.Effect Unit)
+foreign import _prim_subscribe_DataDrivenEntityTriggerAfterEventSignal :: DataDrivenEntityTriggerAfterEventSignal -> (DataDrivenEntityTriggerAfterEvent -> Eff.Effect Unit) -> Nullable (EntityDataDrivenTriggerEventOptions) -> (DataDrivenEntityTriggerAfterEvent -> Eff.Effect Unit)
+subscribe_DataDrivenEntityTriggerAfterEventSignal :: DataDrivenEntityTriggerAfterEventSignal -> (DataDrivenEntityTriggerAfterEvent -> Eff.Effect Unit) -> Maybe (EntityDataDrivenTriggerEventOptions) -> (DataDrivenEntityTriggerAfterEvent -> Eff.Effect Unit)
+subscribe_DataDrivenEntityTriggerAfterEventSignal a b c =  (_prim_subscribe_DataDrivenEntityTriggerAfterEventSignal a b (toNullable c))
 foreign import unsubscribe_DataDrivenEntityTriggerAfterEventSignal :: DataDrivenEntityTriggerAfterEventSignal -> (DataDrivenEntityTriggerAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import getModifiers_DataDrivenEntityTriggerBeforeEvent :: DataDrivenEntityTriggerBeforeEvent -> Array (DefinitionModifier)
 foreign import setModifiers :: DataDrivenEntityTriggerBeforeEvent -> Array (DefinitionModifier) -> Eff.Effect Unit
-foreign import subscribe_DataDrivenEntityTriggerBeforeEventSignal :: DataDrivenEntityTriggerBeforeEventSignal -> (DataDrivenEntityTriggerBeforeEvent -> Eff.Effect Unit) -> Nullable (EntityDataDrivenTriggerEventOptions) -> (DataDrivenEntityTriggerBeforeEvent -> Eff.Effect Unit)
+foreign import _prim_subscribe_DataDrivenEntityTriggerBeforeEventSignal :: DataDrivenEntityTriggerBeforeEventSignal -> (DataDrivenEntityTriggerBeforeEvent -> Eff.Effect Unit) -> Nullable (EntityDataDrivenTriggerEventOptions) -> (DataDrivenEntityTriggerBeforeEvent -> Eff.Effect Unit)
+subscribe_DataDrivenEntityTriggerBeforeEventSignal :: DataDrivenEntityTriggerBeforeEventSignal -> (DataDrivenEntityTriggerBeforeEvent -> Eff.Effect Unit) -> Maybe (EntityDataDrivenTriggerEventOptions) -> (DataDrivenEntityTriggerBeforeEvent -> Eff.Effect Unit)
+subscribe_DataDrivenEntityTriggerBeforeEventSignal a b c =  (_prim_subscribe_DataDrivenEntityTriggerBeforeEventSignal a b (toNullable c))
 foreign import unsubscribe_DataDrivenEntityTriggerBeforeEventSignal :: DataDrivenEntityTriggerBeforeEventSignal -> (DataDrivenEntityTriggerBeforeEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import mk_DefinitionModifier :: DefinitionModifier
 foreign import getComponentGroupsToAdd :: DefinitionModifier -> Array (String)
@@ -2024,55 +2927,107 @@ foreign import getTriggers :: DefinitionModifier -> Array (Trigger)
 foreign import setComponentGroupsToAdd :: DefinitionModifier -> Array (String) -> Eff.Effect Unit
 foreign import setComponentGroupsToRemove :: DefinitionModifier -> Array (String) -> Eff.Effect Unit
 foreign import setTriggers :: DefinitionModifier -> Array (Trigger) -> Eff.Effect Unit
-foreign import createExplosion :: Dimension -> Vector3 -> Number -> Nullable (ExplosionOptions) -> Eff.Effect Unit
-foreign import fillBlocks :: Dimension -> Vector3 -> Vector3 -> (BlockPermutation |+| BlockType |+| String) -> Nullable (BlockFillOptions) -> Int
-foreign import getBlock :: Dimension -> Vector3 -> Nullable (Block)
-foreign import getBlockFromRay :: Dimension -> Vector3 -> Vector3 -> Nullable (BlockRaycastOptions) -> Nullable (BlockRaycastHit)
-foreign import getEntities :: Dimension -> Nullable (EntityQueryOptions) -> Array (Entity)
+foreign import _prim_createExplosion :: Dimension -> Vector3 -> Number -> Nullable (ExplosionOptions) -> Eff.Effect Unit
+createExplosion :: Dimension -> Vector3 -> Number -> Maybe (ExplosionOptions) -> Eff.Effect Unit
+createExplosion a b c d =  (_prim_createExplosion a b c (toNullable d))
+foreign import _prim_fillBlocks :: Dimension -> Vector3 -> Vector3 -> (BlockPermutation |+| BlockType |+| String) -> Nullable (BlockFillOptions) -> Int
+fillBlocks :: Dimension -> Vector3 -> Vector3 -> (BlockPermutation |+| BlockType |+| String) -> Maybe (BlockFillOptions) -> Int
+fillBlocks a b c d e =  (_prim_fillBlocks a b c d (toNullable e))
+foreign import _prim_getBlock :: Dimension -> Vector3 -> Nullable (Block)
+getBlock :: Dimension -> Vector3 -> Maybe (Block)
+getBlock a b = toMaybe (_prim_getBlock a b)
+foreign import _prim_getBlockFromRay :: Dimension -> Vector3 -> Vector3 -> Nullable (BlockRaycastOptions) -> Nullable (BlockRaycastHit)
+getBlockFromRay :: Dimension -> Vector3 -> Vector3 -> Maybe (BlockRaycastOptions) -> Maybe (BlockRaycastHit)
+getBlockFromRay a b c d = toMaybe (_prim_getBlockFromRay a b c (toNullable d))
+foreign import _prim_getEntities :: Dimension -> Nullable (EntityQueryOptions) -> Array (Entity)
+getEntities :: Dimension -> Maybe (EntityQueryOptions) -> Array (Entity)
+getEntities a b =  (_prim_getEntities a (toNullable b))
 foreign import getEntitiesAtBlockLocation :: Dimension -> Vector3 -> Array (Entity)
-foreign import getEntitiesFromRay :: Dimension -> Vector3 -> Vector3 -> Nullable (EntityRaycastOptions) -> Array (EntityRaycastHit)
-foreign import getPlayers_Dimension :: Dimension -> Nullable (EntityQueryOptions) -> Array (Player)
+foreign import _prim_getEntitiesFromRay :: Dimension -> Vector3 -> Vector3 -> Nullable (EntityRaycastOptions) -> Array (EntityRaycastHit)
+getEntitiesFromRay :: Dimension -> Vector3 -> Vector3 -> Maybe (EntityRaycastOptions) -> Array (EntityRaycastHit)
+getEntitiesFromRay a b c d =  (_prim_getEntitiesFromRay a b c (toNullable d))
+foreign import _prim_getPlayers_Dimension :: Dimension -> Nullable (EntityQueryOptions) -> Array (Player)
+getPlayers_Dimension :: Dimension -> Maybe (EntityQueryOptions) -> Array (Player)
+getPlayers_Dimension a b =  (_prim_getPlayers_Dimension a (toNullable b))
 foreign import runCommand_Dimension :: Dimension -> String -> CommandResult
 foreign import runCommandAsync_Dimension :: Dimension -> String -> Promise (CommandResult)
-foreign import setWeather :: Dimension -> WeatherType -> Eff.Effect Unit
+foreign import _prim_setWeather :: Dimension -> WeatherType -> Eff.Effect Unit
+setWeather :: Dimension -> WeatherType -> Eff.Effect Unit
+setWeather a b =  (_prim_setWeather a b)
 foreign import spawnEntity :: Dimension -> String -> Vector3 -> Entity
 foreign import spawnItem :: Dimension -> ItemStack -> Vector3 -> Entity
-foreign import spawnParticle :: Dimension -> String -> Vector3 -> Nullable (MolangVariableMap) -> Eff.Effect Unit
-foreign import get_DimensionTypes :: String -> Nullable (DimensionType)
+foreign import _prim_spawnParticle :: Dimension -> String -> Vector3 -> Nullable (MolangVariableMap) -> Eff.Effect Unit
+spawnParticle :: Dimension -> String -> Vector3 -> Maybe (MolangVariableMap) -> Eff.Effect Unit
+spawnParticle a b c d =  (_prim_spawnParticle a b c (toNullable d))
+foreign import _prim_get_DimensionTypes :: String -> Nullable (DimensionType)
+get_DimensionTypes :: String -> Maybe (DimensionType)
+get_DimensionTypes a = toMaybe (_prim_get_DimensionTypes a)
 foreign import getAll_DimensionTypes :: Array (DimensionType)
 foreign import mk_DynamicPropertiesDefinition :: DynamicPropertiesDefinition
-foreign import defineBoolean :: DynamicPropertiesDefinition -> String -> Nullable (Boolean) -> DynamicPropertiesDefinition
-foreign import defineNumber :: DynamicPropertiesDefinition -> String -> Nullable (Number) -> DynamicPropertiesDefinition
-foreign import defineString :: DynamicPropertiesDefinition -> String -> Int -> Nullable (String) -> DynamicPropertiesDefinition
-foreign import defineVector :: DynamicPropertiesDefinition -> String -> Nullable (Vector3) -> DynamicPropertiesDefinition
+foreign import _prim_defineBoolean :: DynamicPropertiesDefinition -> String -> Nullable (Boolean) -> DynamicPropertiesDefinition
+defineBoolean :: DynamicPropertiesDefinition -> String -> Maybe (Boolean) -> DynamicPropertiesDefinition
+defineBoolean a b c =  (_prim_defineBoolean a b (toNullable c))
+foreign import _prim_defineNumber :: DynamicPropertiesDefinition -> String -> Nullable (Number) -> DynamicPropertiesDefinition
+defineNumber :: DynamicPropertiesDefinition -> String -> Maybe (Number) -> DynamicPropertiesDefinition
+defineNumber a b c =  (_prim_defineNumber a b (toNullable c))
+foreign import _prim_defineString :: DynamicPropertiesDefinition -> String -> Int -> Nullable (String) -> DynamicPropertiesDefinition
+defineString :: DynamicPropertiesDefinition -> String -> Int -> Maybe (String) -> DynamicPropertiesDefinition
+defineString a b c d =  (_prim_defineString a b c (toNullable d))
+foreign import _prim_defineVector :: DynamicPropertiesDefinition -> String -> Nullable (Vector3) -> DynamicPropertiesDefinition
+defineVector :: DynamicPropertiesDefinition -> String -> Maybe (Vector3) -> DynamicPropertiesDefinition
+defineVector a b c =  (_prim_defineVector a b (toNullable c))
 foreign import isValid_Effect :: Effect -> Boolean
-foreign import subscribe_EffectAddAfterEventSignal :: EffectAddAfterEventSignal -> (EffectAddAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EffectAddAfterEvent -> Eff.Effect Unit)
+foreign import _prim_subscribe_EffectAddAfterEventSignal :: EffectAddAfterEventSignal -> (EffectAddAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EffectAddAfterEvent -> Eff.Effect Unit)
+subscribe_EffectAddAfterEventSignal :: EffectAddAfterEventSignal -> (EffectAddAfterEvent -> Eff.Effect Unit) -> Maybe (EntityEventOptions) -> (EffectAddAfterEvent -> Eff.Effect Unit)
+subscribe_EffectAddAfterEventSignal a b c =  (_prim_subscribe_EffectAddAfterEventSignal a b (toNullable c))
 foreign import unsubscribe_EffectAddAfterEventSignal :: EffectAddAfterEventSignal -> (EffectAddAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import getName :: EffectType -> String
-foreign import get_EffectTypes :: String -> Nullable (EffectType)
+foreign import _prim_get_EffectTypes :: String -> Nullable (EffectType)
+get_EffectTypes :: String -> Maybe (EffectType)
+get_EffectTypes a = toMaybe (_prim_get_EffectTypes a)
 foreign import getAll_EffectTypes :: Array (EffectType)
 foreign import mk_Enchantment :: (EnchantmentType |+| String) -> Int -> Enchantment
 foreign import addEnchantment :: EnchantmentList -> Enchantment -> Boolean
 foreign import canAddEnchantment :: EnchantmentList -> Enchantment -> Boolean
 foreign import mk_EnchantmentList :: Int -> EnchantmentList
-foreign import getEnchantment :: EnchantmentList -> (EnchantmentType |+| String) -> Nullable (Enchantment)
+foreign import _prim_getEnchantment :: EnchantmentList -> (EnchantmentType |+| String) -> Nullable (Enchantment)
+getEnchantment :: EnchantmentList -> (EnchantmentType |+| String) -> Maybe (Enchantment)
+getEnchantment a b = toMaybe (_prim_getEnchantment a b)
 foreign import hasEnchantment :: EnchantmentList -> (EnchantmentType |+| String) -> Int
 foreign import removeEnchantment :: EnchantmentList -> (EnchantmentType |+| String) -> Eff.Effect Unit
-foreign import get_EnchantmentTypes :: String -> Nullable (EnchantmentType)
-foreign import addEffect_Entity :: Entity -> (EffectType |+| String) -> Int -> Nullable (EntityEffectOptions) -> Eff.Effect Unit
+foreign import _prim_get_EnchantmentTypes :: String -> Nullable (EnchantmentType)
+get_EnchantmentTypes :: String -> Maybe (EnchantmentType)
+get_EnchantmentTypes a = toMaybe (_prim_get_EnchantmentTypes a)
+foreign import _prim_addEffect_Entity :: Entity -> (EffectType |+| String) -> Int -> Nullable (EntityEffectOptions) -> Eff.Effect Unit
+addEffect_Entity :: Entity -> (EffectType |+| String) -> Int -> Maybe (EntityEffectOptions) -> Eff.Effect Unit
+addEffect_Entity a b c d =  (_prim_addEffect_Entity a b c (toNullable d))
 foreign import addTag_Entity :: Entity -> String -> Boolean
-foreign import applyDamage_Entity :: Entity -> Number -> Nullable ((EntityApplyDamageByProjectileOptions |+| EntityApplyDamageOptions)) -> Boolean
+foreign import _prim_applyDamage_Entity :: Entity -> Number -> Nullable ((EntityApplyDamageByProjectileOptions |+| EntityApplyDamageOptions)) -> Boolean
+applyDamage_Entity :: Entity -> Number -> Maybe ((EntityApplyDamageByProjectileOptions |+| EntityApplyDamageOptions)) -> Boolean
+applyDamage_Entity a b c =  (_prim_applyDamage_Entity a b (toNullable c))
 foreign import applyImpulse_Entity :: Entity -> Vector3 -> Eff.Effect Unit
 foreign import applyKnockback_Entity :: Entity -> Number -> Number -> Number -> Number -> Eff.Effect Unit
 foreign import clearVelocity_Entity :: Entity -> Eff.Effect Unit
-foreign import extinguishFire_Entity :: Entity -> Nullable (Boolean) -> Boolean
-foreign import getBlockFromViewDirection_Entity :: Entity -> Nullable (BlockRaycastOptions) -> Nullable (BlockRaycastHit)
-foreign import getComponent_Entity :: Entity -> String -> Nullable (EntityComponent)
+foreign import _prim_extinguishFire_Entity :: Entity -> Nullable (Boolean) -> Boolean
+extinguishFire_Entity :: Entity -> Maybe (Boolean) -> Boolean
+extinguishFire_Entity a b =  (_prim_extinguishFire_Entity a (toNullable b))
+foreign import _prim_getBlockFromViewDirection_Entity :: Entity -> Nullable (BlockRaycastOptions) -> Nullable (BlockRaycastHit)
+getBlockFromViewDirection_Entity :: Entity -> Maybe (BlockRaycastOptions) -> Maybe (BlockRaycastHit)
+getBlockFromViewDirection_Entity a b = toMaybe (_prim_getBlockFromViewDirection_Entity a (toNullable b))
+foreign import _prim_getComponent_Entity :: Entity -> String -> Nullable (EntityComponent)
+getComponent_Entity :: Entity -> String -> Maybe (EntityComponent)
+getComponent_Entity a b = toMaybe (_prim_getComponent_Entity a b)
 foreign import getComponents_Entity :: Entity -> Array (EntityComponent)
-foreign import getDynamicProperty_Entity :: Entity -> String -> Nullable ((Boolean |+| Number |+| String |+| Vector3))
-foreign import getEffect_Entity :: Entity -> (EffectType |+| String) -> Nullable (Effect)
+foreign import _prim_getDynamicProperty_Entity :: Entity -> String -> Nullable ((Boolean |+| Number |+| String |+| Vector3))
+getDynamicProperty_Entity :: Entity -> String -> Maybe ((Boolean |+| Number |+| String |+| Vector3))
+getDynamicProperty_Entity a b = toMaybe (_prim_getDynamicProperty_Entity a b)
+foreign import _prim_getEffect_Entity :: Entity -> (EffectType |+| String) -> Nullable (Effect)
+getEffect_Entity :: Entity -> (EffectType |+| String) -> Maybe (Effect)
+getEffect_Entity a b = toMaybe (_prim_getEffect_Entity a b)
 foreign import getEffects_Entity :: Entity -> Array (Effect)
-foreign import getEntitiesFromViewDirection_Entity :: Entity -> Nullable (EntityRaycastOptions) -> Array (EntityRaycastHit)
+foreign import _prim_getEntitiesFromViewDirection_Entity :: Entity -> Nullable (EntityRaycastOptions) -> Array (EntityRaycastHit)
+getEntitiesFromViewDirection_Entity :: Entity -> Maybe (EntityRaycastOptions) -> Array (EntityRaycastHit)
+getEntitiesFromViewDirection_Entity a b =  (_prim_getEntitiesFromViewDirection_Entity a (toNullable b))
 foreign import getHeadLocation_Entity :: Entity -> Vector3
 foreign import getRotation_Entity :: Entity -> Vector2
 foreign import getTags_Entity :: Entity -> Array (String)
@@ -2082,7 +3037,9 @@ foreign import hasComponent_Entity :: Entity -> String -> Boolean
 foreign import hasTag_Entity :: Entity -> String -> Boolean
 foreign import isValid_Entity :: Entity -> Boolean
 foreign import kill_Entity :: Entity -> Boolean
-foreign import playAnimation_Entity :: Entity -> String -> Nullable (PlayAnimationOptions) -> Eff.Effect Unit
+foreign import _prim_playAnimation_Entity :: Entity -> String -> Nullable (PlayAnimationOptions) -> Eff.Effect Unit
+playAnimation_Entity :: Entity -> String -> Maybe (PlayAnimationOptions) -> Eff.Effect Unit
+playAnimation_Entity a b c =  (_prim_playAnimation_Entity a b (toNullable c))
 foreign import remove_Entity :: Entity -> Eff.Effect Unit
 foreign import removeDynamicProperty_Entity :: Entity -> String -> Boolean
 foreign import removeEffect_Entity :: Entity -> (EffectType |+| String) -> Boolean
@@ -2090,11 +3047,17 @@ foreign import removeTag_Entity :: Entity -> String -> Boolean
 foreign import runCommand_Entity :: Entity -> String -> CommandResult
 foreign import runCommandAsync_Entity :: Entity -> String -> Promise (CommandResult)
 foreign import setDynamicProperty_Entity :: Entity -> String -> (Boolean |+| Number |+| String |+| Vector3) -> Eff.Effect Unit
-foreign import setOnFire_Entity :: Entity -> Int -> Nullable (Boolean) -> Boolean
+foreign import _prim_setOnFire_Entity :: Entity -> Int -> Nullable (Boolean) -> Boolean
+setOnFire_Entity :: Entity -> Int -> Maybe (Boolean) -> Boolean
+setOnFire_Entity a b c =  (_prim_setOnFire_Entity a b (toNullable c))
 foreign import setRotation_Entity :: Entity -> Vector2 -> Eff.Effect Unit
-foreign import teleport_Entity :: Entity -> Vector3 -> Nullable (TeleportOptions) -> Eff.Effect Unit
+foreign import _prim_teleport_Entity :: Entity -> Vector3 -> Nullable (TeleportOptions) -> Eff.Effect Unit
+teleport_Entity :: Entity -> Vector3 -> Maybe (TeleportOptions) -> Eff.Effect Unit
+teleport_Entity a b c =  (_prim_teleport_Entity a b (toNullable c))
 foreign import triggerEvent_Entity :: Entity -> String -> Eff.Effect Unit
-foreign import tryTeleport_Entity :: Entity -> Vector3 -> Nullable (TeleportOptions) -> Boolean
+foreign import _prim_tryTeleport_Entity :: Entity -> Vector3 -> Nullable (TeleportOptions) -> Boolean
+tryTeleport_Entity :: Entity -> Vector3 -> Maybe (TeleportOptions) -> Boolean
+tryTeleport_Entity a b c =  (_prim_tryTeleport_Entity a b (toNullable c))
 foreign import getDropItems :: EntityAgeableComponent -> Array (String)
 foreign import getFeedItems_EntityAgeableComponent :: EntityAgeableComponent -> Array (EntityDefinitionFeedItem)
 foreign import resetToDefaultValue_EntityAttributeComponent :: EntityAttributeComponent -> Eff.Effect Unit
@@ -2105,11 +3068,19 @@ foreign import getBreatheBlocks :: EntityBreathableComponent -> Array (BlockPerm
 foreign import getNonBreatheBlocks :: EntityBreathableComponent -> Array (BlockPermutation)
 foreign import setAirSupply :: EntityBreathableComponent -> Int -> Eff.Effect Unit
 foreign import isValid_EntityComponent :: EntityComponent -> Boolean
-foreign import subscribe_EntityDieAfterEventSignal :: EntityDieAfterEventSignal -> (EntityDieAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EntityDieAfterEvent -> Eff.Effect Unit)
+foreign import _prim_subscribe_EntityDieAfterEventSignal :: EntityDieAfterEventSignal -> (EntityDieAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EntityDieAfterEvent -> Eff.Effect Unit)
+subscribe_EntityDieAfterEventSignal :: EntityDieAfterEventSignal -> (EntityDieAfterEvent -> Eff.Effect Unit) -> Maybe (EntityEventOptions) -> (EntityDieAfterEvent -> Eff.Effect Unit)
+subscribe_EntityDieAfterEventSignal a b c =  (_prim_subscribe_EntityDieAfterEventSignal a b (toNullable c))
 foreign import unsubscribe_EntityDieAfterEventSignal :: EntityDieAfterEventSignal -> (EntityDieAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import getEquipment :: EntityEquippableComponent -> EquipmentSlot -> Nullable (ItemStack)
-foreign import getEquipmentSlot :: EntityEquippableComponent -> EquipmentSlot -> ContainerSlot
-foreign import setEquipment :: EntityEquippableComponent -> EquipmentSlot -> Nullable (ItemStack) -> Boolean
+foreign import _prim_getEquipment :: EntityEquippableComponent -> EquipmentSlot -> Nullable (ItemStack)
+getEquipment :: EntityEquippableComponent -> EquipmentSlot -> Maybe (ItemStack)
+getEquipment a b = toMaybe (_prim_getEquipment a b)
+foreign import _prim_getEquipmentSlot :: EntityEquippableComponent -> EquipmentSlot -> ContainerSlot
+getEquipmentSlot :: EntityEquippableComponent -> EquipmentSlot -> ContainerSlot
+getEquipmentSlot a b =  (_prim_getEquipmentSlot a b)
+foreign import _prim_setEquipment :: EntityEquippableComponent -> EquipmentSlot -> Nullable (ItemStack) -> Boolean
+setEquipment :: EntityEquippableComponent -> EquipmentSlot -> Maybe (ItemStack) -> Boolean
+setEquipment a b c =  (_prim_setEquipment a b (toNullable c))
 foreign import isValid_EntityEquippableComponent :: EntityEquippableComponent -> Boolean
 foreign import isValid_EntityFireImmuneComponent :: EntityFireImmuneComponent -> Boolean
 foreign import isValid_EntityFloatsInLiquidComponent :: EntityFloatsInLiquidComponent -> Boolean
@@ -2118,17 +3089,25 @@ foreign import isValid_EntityFrictionModifierComponent :: EntityFrictionModifier
 foreign import isValid_EntityGroundOffsetComponent :: EntityGroundOffsetComponent -> Boolean
 foreign import getFeedItems_EntityHealableComponent :: EntityHealableComponent -> Array (FeedItem)
 foreign import isValid_EntityHealableComponent :: EntityHealableComponent -> Boolean
-foreign import subscribe_EntityHealthChangedAfterEventSignal :: EntityHealthChangedAfterEventSignal -> (EntityHealthChangedAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EntityHealthChangedAfterEvent -> Eff.Effect Unit)
+foreign import _prim_subscribe_EntityHealthChangedAfterEventSignal :: EntityHealthChangedAfterEventSignal -> (EntityHealthChangedAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EntityHealthChangedAfterEvent -> Eff.Effect Unit)
+subscribe_EntityHealthChangedAfterEventSignal :: EntityHealthChangedAfterEventSignal -> (EntityHealthChangedAfterEvent -> Eff.Effect Unit) -> Maybe (EntityEventOptions) -> (EntityHealthChangedAfterEvent -> Eff.Effect Unit)
+subscribe_EntityHealthChangedAfterEventSignal a b c =  (_prim_subscribe_EntityHealthChangedAfterEventSignal a b (toNullable c))
 foreign import unsubscribe_EntityHealthChangedAfterEventSignal :: EntityHealthChangedAfterEventSignal -> (EntityHealthChangedAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import resetToDefaultValue_EntityHealthComponent :: EntityHealthComponent -> Eff.Effect Unit
 foreign import resetToMaxValue_EntityHealthComponent :: EntityHealthComponent -> Eff.Effect Unit
 foreign import resetToMinValue_EntityHealthComponent :: EntityHealthComponent -> Eff.Effect Unit
 foreign import setCurrentValue_EntityHealthComponent :: EntityHealthComponent -> Number -> Boolean
-foreign import subscribe_EntityHitBlockAfterEventSignal :: EntityHitBlockAfterEventSignal -> (EntityHitBlockAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EntityHitBlockAfterEvent -> Eff.Effect Unit)
+foreign import _prim_subscribe_EntityHitBlockAfterEventSignal :: EntityHitBlockAfterEventSignal -> (EntityHitBlockAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EntityHitBlockAfterEvent -> Eff.Effect Unit)
+subscribe_EntityHitBlockAfterEventSignal :: EntityHitBlockAfterEventSignal -> (EntityHitBlockAfterEvent -> Eff.Effect Unit) -> Maybe (EntityEventOptions) -> (EntityHitBlockAfterEvent -> Eff.Effect Unit)
+subscribe_EntityHitBlockAfterEventSignal a b c =  (_prim_subscribe_EntityHitBlockAfterEventSignal a b (toNullable c))
 foreign import unsubscribe_EntityHitBlockAfterEventSignal :: EntityHitBlockAfterEventSignal -> (EntityHitBlockAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import subscribe_EntityHitEntityAfterEventSignal :: EntityHitEntityAfterEventSignal -> (EntityHitEntityAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EntityHitEntityAfterEvent -> Eff.Effect Unit)
+foreign import _prim_subscribe_EntityHitEntityAfterEventSignal :: EntityHitEntityAfterEventSignal -> (EntityHitEntityAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EntityHitEntityAfterEvent -> Eff.Effect Unit)
+subscribe_EntityHitEntityAfterEventSignal :: EntityHitEntityAfterEventSignal -> (EntityHitEntityAfterEvent -> Eff.Effect Unit) -> Maybe (EntityEventOptions) -> (EntityHitEntityAfterEvent -> Eff.Effect Unit)
+subscribe_EntityHitEntityAfterEventSignal a b c =  (_prim_subscribe_EntityHitEntityAfterEventSignal a b (toNullable c))
 foreign import unsubscribe_EntityHitEntityAfterEventSignal :: EntityHitEntityAfterEventSignal -> (EntityHitEntityAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
-foreign import subscribe_EntityHurtAfterEventSignal :: EntityHurtAfterEventSignal -> (EntityHurtAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EntityHurtAfterEvent -> Eff.Effect Unit)
+foreign import _prim_subscribe_EntityHurtAfterEventSignal :: EntityHurtAfterEventSignal -> (EntityHurtAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EntityHurtAfterEvent -> Eff.Effect Unit)
+subscribe_EntityHurtAfterEventSignal :: EntityHurtAfterEventSignal -> (EntityHurtAfterEvent -> Eff.Effect Unit) -> Maybe (EntityEventOptions) -> (EntityHurtAfterEvent -> Eff.Effect Unit)
+subscribe_EntityHurtAfterEventSignal a b c =  (_prim_subscribe_EntityHurtAfterEventSignal a b (toNullable c))
 foreign import unsubscribe_EntityHurtAfterEventSignal :: EntityHurtAfterEventSignal -> (EntityHurtAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import isValid_EntityInventoryComponent :: EntityInventoryComponent -> Boolean
 foreign import isValid_EntityIsBabyComponent :: EntityIsBabyComponent -> Boolean
@@ -2167,7 +3146,9 @@ foreign import isValid_EntityNavigationHoverComponent :: EntityNavigationHoverCo
 foreign import isValid_EntityNavigationWalkComponent :: EntityNavigationWalkComponent -> Boolean
 foreign import isValid_EntityOnFireComponent :: EntityOnFireComponent -> Boolean
 foreign import isValid_EntityPushThroughComponent :: EntityPushThroughComponent -> Boolean
-foreign import subscribe_EntityRemovedAfterEventSignal :: EntityRemovedAfterEventSignal -> (EntityRemovedAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EntityRemovedAfterEvent -> Eff.Effect Unit)
+foreign import _prim_subscribe_EntityRemovedAfterEventSignal :: EntityRemovedAfterEventSignal -> (EntityRemovedAfterEvent -> Eff.Effect Unit) -> Nullable (EntityEventOptions) -> (EntityRemovedAfterEvent -> Eff.Effect Unit)
+subscribe_EntityRemovedAfterEventSignal :: EntityRemovedAfterEventSignal -> (EntityRemovedAfterEvent -> Eff.Effect Unit) -> Maybe (EntityEventOptions) -> (EntityRemovedAfterEvent -> Eff.Effect Unit)
+subscribe_EntityRemovedAfterEventSignal a b c =  (_prim_subscribe_EntityRemovedAfterEventSignal a b (toNullable c))
 foreign import unsubscribe_EntityRemovedAfterEventSignal :: EntityRemovedAfterEventSignal -> (EntityRemovedAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import addRider :: EntityRideableComponent -> Entity -> Boolean
 foreign import ejectRider :: EntityRideableComponent -> Entity -> Eff.Effect Unit
@@ -2230,16 +3211,24 @@ foreign import subscribe_ItemReleaseUseAfterEventSignal :: ItemReleaseUseAfterEv
 foreign import unsubscribe_ItemReleaseUseAfterEventSignal :: ItemReleaseUseAfterEventSignal -> (ItemReleaseUseAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import clone_ItemStack :: ItemStack -> ItemStack
 foreign import mk_ItemStack :: (ItemType |+| String) -> Int -> ItemStack
-foreign import getComponent_ItemStack :: ItemStack -> String -> Nullable (ItemComponent)
+foreign import _prim_getComponent_ItemStack :: ItemStack -> String -> Nullable (ItemComponent)
+getComponent_ItemStack :: ItemStack -> String -> Maybe (ItemComponent)
+getComponent_ItemStack a b = toMaybe (_prim_getComponent_ItemStack a b)
 foreign import getComponents_ItemStack :: ItemStack -> Array (ItemComponent)
 foreign import getLore_ItemStack :: ItemStack -> Array (String)
 foreign import getTags_ItemStack :: ItemStack -> Array (String)
 foreign import hasComponent_ItemStack :: ItemStack -> String -> Boolean
 foreign import hasTag_ItemStack :: ItemStack -> String -> Boolean
 foreign import isStackableWith_ItemStack :: ItemStack -> ItemStack -> Boolean
-foreign import setCanDestroy_ItemStack :: ItemStack -> Nullable (Array (String)) -> Eff.Effect Unit
-foreign import setCanPlaceOn_ItemStack :: ItemStack -> Nullable (Array (String)) -> Eff.Effect Unit
-foreign import setLore_ItemStack :: ItemStack -> Nullable (Array (String)) -> Eff.Effect Unit
+foreign import _prim_setCanDestroy_ItemStack :: ItemStack -> Nullable (Array (String)) -> Eff.Effect Unit
+setCanDestroy_ItemStack :: ItemStack -> Maybe (Array (String)) -> Eff.Effect Unit
+setCanDestroy_ItemStack a b =  (_prim_setCanDestroy_ItemStack a (toNullable b))
+foreign import _prim_setCanPlaceOn_ItemStack :: ItemStack -> Nullable (Array (String)) -> Eff.Effect Unit
+setCanPlaceOn_ItemStack :: ItemStack -> Maybe (Array (String)) -> Eff.Effect Unit
+setCanPlaceOn_ItemStack a b =  (_prim_setCanPlaceOn_ItemStack a (toNullable b))
+foreign import _prim_setLore_ItemStack :: ItemStack -> Nullable (Array (String)) -> Eff.Effect Unit
+setLore_ItemStack :: ItemStack -> Maybe (Array (String)) -> Eff.Effect Unit
+setLore_ItemStack a b =  (_prim_setLore_ItemStack a (toNullable b))
 foreign import triggerEvent_ItemStack :: ItemStack -> String -> Eff.Effect Unit
 foreign import subscribe_ItemStartUseAfterEventSignal :: ItemStartUseAfterEventSignal -> (ItemStartUseAfterEvent -> Eff.Effect Unit) -> (ItemStartUseAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ItemStartUseAfterEventSignal :: ItemStartUseAfterEventSignal -> (ItemStartUseAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
@@ -2275,30 +3264,52 @@ foreign import unsubscribe_PistonActivateBeforeEventSignal :: PistonActivateBefo
 foreign import addExperience :: Player -> Int -> Int
 foreign import addLevels :: Player -> Int -> Int
 foreign import getItemCooldown :: Player -> String -> Int
-foreign import getSpawnPoint :: Player -> Nullable (DimensionLocation)
+foreign import _prim_getSpawnPoint :: Player -> Nullable (DimensionLocation)
+getSpawnPoint :: Player -> Maybe (DimensionLocation)
+getSpawnPoint a = toMaybe (_prim_getSpawnPoint a)
 foreign import getTotalXp :: Player -> Int
 foreign import isOp :: Player -> Boolean
-foreign import playSound_Player :: Player -> String -> Nullable (PlayerSoundOptions) -> Eff.Effect Unit
+foreign import _prim_playSound_Player :: Player -> String -> Nullable (PlayerSoundOptions) -> Eff.Effect Unit
+playSound_Player :: Player -> String -> Maybe (PlayerSoundOptions) -> Eff.Effect Unit
+playSound_Player a b c =  (_prim_playSound_Player a b (toNullable c))
 foreign import postClientMessage :: Player -> String -> String -> Eff.Effect Unit
 foreign import resetLevel :: Player -> Eff.Effect Unit
 foreign import sendMessage_Player :: Player -> (Array ((RawMessage |+| String)) |+| RawMessage |+| String) -> Eff.Effect Unit
 foreign import setOp :: Player -> Boolean -> Eff.Effect Unit
-foreign import setSpawnPoint :: Player -> Nullable (DimensionLocation) -> Eff.Effect Unit
+foreign import _prim_setSpawnPoint :: Player -> Nullable (DimensionLocation) -> Eff.Effect Unit
+setSpawnPoint :: Player -> Maybe (DimensionLocation) -> Eff.Effect Unit
+setSpawnPoint a b =  (_prim_setSpawnPoint a (toNullable b))
 foreign import startItemCooldown :: Player -> String -> Int -> Eff.Effect Unit
-foreign import addEffect_Player :: Player -> (EffectType |+| String) -> Int -> Nullable (EntityEffectOptions) -> Eff.Effect Unit
+foreign import _prim_addEffect_Player :: Player -> (EffectType |+| String) -> Int -> Nullable (EntityEffectOptions) -> Eff.Effect Unit
+addEffect_Player :: Player -> (EffectType |+| String) -> Int -> Maybe (EntityEffectOptions) -> Eff.Effect Unit
+addEffect_Player a b c d =  (_prim_addEffect_Player a b c (toNullable d))
 foreign import addTag_Player :: Player -> String -> Boolean
-foreign import applyDamage_Player :: Player -> Number -> Nullable ((EntityApplyDamageByProjectileOptions |+| EntityApplyDamageOptions)) -> Boolean
+foreign import _prim_applyDamage_Player :: Player -> Number -> Nullable ((EntityApplyDamageByProjectileOptions |+| EntityApplyDamageOptions)) -> Boolean
+applyDamage_Player :: Player -> Number -> Maybe ((EntityApplyDamageByProjectileOptions |+| EntityApplyDamageOptions)) -> Boolean
+applyDamage_Player a b c =  (_prim_applyDamage_Player a b (toNullable c))
 foreign import applyImpulse_Player :: Player -> Vector3 -> Eff.Effect Unit
 foreign import applyKnockback_Player :: Player -> Number -> Number -> Number -> Number -> Eff.Effect Unit
 foreign import clearVelocity_Player :: Player -> Eff.Effect Unit
-foreign import extinguishFire_Player :: Player -> Nullable (Boolean) -> Boolean
-foreign import getBlockFromViewDirection_Player :: Player -> Nullable (BlockRaycastOptions) -> Nullable (BlockRaycastHit)
-foreign import getComponent_Player :: Player -> String -> Nullable (EntityComponent)
+foreign import _prim_extinguishFire_Player :: Player -> Nullable (Boolean) -> Boolean
+extinguishFire_Player :: Player -> Maybe (Boolean) -> Boolean
+extinguishFire_Player a b =  (_prim_extinguishFire_Player a (toNullable b))
+foreign import _prim_getBlockFromViewDirection_Player :: Player -> Nullable (BlockRaycastOptions) -> Nullable (BlockRaycastHit)
+getBlockFromViewDirection_Player :: Player -> Maybe (BlockRaycastOptions) -> Maybe (BlockRaycastHit)
+getBlockFromViewDirection_Player a b = toMaybe (_prim_getBlockFromViewDirection_Player a (toNullable b))
+foreign import _prim_getComponent_Player :: Player -> String -> Nullable (EntityComponent)
+getComponent_Player :: Player -> String -> Maybe (EntityComponent)
+getComponent_Player a b = toMaybe (_prim_getComponent_Player a b)
 foreign import getComponents_Player :: Player -> Array (EntityComponent)
-foreign import getDynamicProperty_Player :: Player -> String -> Nullable ((Boolean |+| Number |+| String |+| Vector3))
-foreign import getEffect_Player :: Player -> (EffectType |+| String) -> Nullable (Effect)
+foreign import _prim_getDynamicProperty_Player :: Player -> String -> Nullable ((Boolean |+| Number |+| String |+| Vector3))
+getDynamicProperty_Player :: Player -> String -> Maybe ((Boolean |+| Number |+| String |+| Vector3))
+getDynamicProperty_Player a b = toMaybe (_prim_getDynamicProperty_Player a b)
+foreign import _prim_getEffect_Player :: Player -> (EffectType |+| String) -> Nullable (Effect)
+getEffect_Player :: Player -> (EffectType |+| String) -> Maybe (Effect)
+getEffect_Player a b = toMaybe (_prim_getEffect_Player a b)
 foreign import getEffects_Player :: Player -> Array (Effect)
-foreign import getEntitiesFromViewDirection_Player :: Player -> Nullable (EntityRaycastOptions) -> Array (EntityRaycastHit)
+foreign import _prim_getEntitiesFromViewDirection_Player :: Player -> Nullable (EntityRaycastOptions) -> Array (EntityRaycastHit)
+getEntitiesFromViewDirection_Player :: Player -> Maybe (EntityRaycastOptions) -> Array (EntityRaycastHit)
+getEntitiesFromViewDirection_Player a b =  (_prim_getEntitiesFromViewDirection_Player a (toNullable b))
 foreign import getHeadLocation_Player :: Player -> Vector3
 foreign import getRotation_Player :: Player -> Vector2
 foreign import getTags_Player :: Player -> Array (String)
@@ -2308,7 +3319,9 @@ foreign import hasComponent_Player :: Player -> String -> Boolean
 foreign import hasTag_Player :: Player -> String -> Boolean
 foreign import isValid_Player :: Player -> Boolean
 foreign import kill_Player :: Player -> Boolean
-foreign import playAnimation_Player :: Player -> String -> Nullable (PlayAnimationOptions) -> Eff.Effect Unit
+foreign import _prim_playAnimation_Player :: Player -> String -> Nullable (PlayAnimationOptions) -> Eff.Effect Unit
+playAnimation_Player :: Player -> String -> Maybe (PlayAnimationOptions) -> Eff.Effect Unit
+playAnimation_Player a b c =  (_prim_playAnimation_Player a b (toNullable c))
 foreign import remove_Player :: Player -> Eff.Effect Unit
 foreign import removeDynamicProperty_Player :: Player -> String -> Boolean
 foreign import removeEffect_Player :: Player -> (EffectType |+| String) -> Boolean
@@ -2316,11 +3329,17 @@ foreign import removeTag_Player :: Player -> String -> Boolean
 foreign import runCommand_Player :: Player -> String -> CommandResult
 foreign import runCommandAsync_Player :: Player -> String -> Promise (CommandResult)
 foreign import setDynamicProperty_Player :: Player -> String -> (Boolean |+| Number |+| String |+| Vector3) -> Eff.Effect Unit
-foreign import setOnFire_Player :: Player -> Int -> Nullable (Boolean) -> Boolean
+foreign import _prim_setOnFire_Player :: Player -> Int -> Nullable (Boolean) -> Boolean
+setOnFire_Player :: Player -> Int -> Maybe (Boolean) -> Boolean
+setOnFire_Player a b c =  (_prim_setOnFire_Player a b (toNullable c))
 foreign import setRotation_Player :: Player -> Vector2 -> Eff.Effect Unit
-foreign import teleport_Player :: Player -> Vector3 -> Nullable (TeleportOptions) -> Eff.Effect Unit
+foreign import _prim_teleport_Player :: Player -> Vector3 -> Nullable (TeleportOptions) -> Eff.Effect Unit
+teleport_Player :: Player -> Vector3 -> Maybe (TeleportOptions) -> Eff.Effect Unit
+teleport_Player a b c =  (_prim_teleport_Player a b (toNullable c))
 foreign import triggerEvent_Player :: Player -> String -> Eff.Effect Unit
-foreign import tryTeleport_Player :: Player -> Vector3 -> Nullable (TeleportOptions) -> Boolean
+foreign import _prim_tryTeleport_Player :: Player -> Vector3 -> Nullable (TeleportOptions) -> Boolean
+tryTeleport_Player :: Player -> Vector3 -> Maybe (TeleportOptions) -> Boolean
+tryTeleport_Player a b c =  (_prim_tryTeleport_Player a b (toNullable c))
 foreign import subscribe_PlayerJoinAfterEventSignal :: PlayerJoinAfterEventSignal -> (PlayerJoinAfterEvent -> Eff.Effect Unit) -> (PlayerJoinAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_PlayerJoinAfterEventSignal :: PlayerJoinAfterEventSignal -> (PlayerJoinAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import subscribe_PlayerLeaveAfterEventSignal :: PlayerLeaveAfterEventSignal -> (PlayerLeaveAfterEvent -> Eff.Effect Unit) -> (PlayerLeaveAfterEvent -> Eff.Effect Unit)
@@ -2340,18 +3359,28 @@ foreign import unsubscribe_ProjectileHitEntityAfterEventSignal :: ProjectileHitE
 foreign import registerEntityTypeDynamicProperties :: PropertyRegistry -> DynamicPropertiesDefinition -> (EntityType |+| String) -> Eff.Effect Unit
 foreign import registerWorldDynamicProperties :: PropertyRegistry -> DynamicPropertiesDefinition -> Eff.Effect Unit
 foreign import addObjective :: Scoreboard -> String -> String -> ScoreboardObjective
-foreign import clearObjectiveAtDisplaySlot :: Scoreboard -> DisplaySlotId -> Nullable (ScoreboardObjective)
-foreign import getObjective :: Scoreboard -> String -> Nullable (ScoreboardObjective)
-foreign import getObjectiveAtDisplaySlot :: Scoreboard -> DisplaySlotId -> Nullable (ScoreboardObjectiveDisplayOptions)
+foreign import _prim_clearObjectiveAtDisplaySlot :: Scoreboard -> DisplaySlotId -> Nullable (ScoreboardObjective)
+clearObjectiveAtDisplaySlot :: Scoreboard -> DisplaySlotId -> Maybe (ScoreboardObjective)
+clearObjectiveAtDisplaySlot a b = toMaybe (_prim_clearObjectiveAtDisplaySlot a b)
+foreign import _prim_getObjective :: Scoreboard -> String -> Nullable (ScoreboardObjective)
+getObjective :: Scoreboard -> String -> Maybe (ScoreboardObjective)
+getObjective a b = toMaybe (_prim_getObjective a b)
+foreign import _prim_getObjectiveAtDisplaySlot :: Scoreboard -> DisplaySlotId -> Nullable (ScoreboardObjectiveDisplayOptions)
+getObjectiveAtDisplaySlot :: Scoreboard -> DisplaySlotId -> Maybe (ScoreboardObjectiveDisplayOptions)
+getObjectiveAtDisplaySlot a b = toMaybe (_prim_getObjectiveAtDisplaySlot a b)
 foreign import getObjectives :: Scoreboard -> Array (ScoreboardObjective)
 foreign import getParticipants_Scoreboard :: Scoreboard -> Array (ScoreboardIdentity)
 foreign import removeObjective :: Scoreboard -> (ScoreboardObjective |+| String) -> Boolean
-foreign import setObjectiveAtDisplaySlot :: Scoreboard -> DisplaySlotId -> ScoreboardObjectiveDisplayOptions -> ScoreboardObjective
+foreign import _prim_setObjectiveAtDisplaySlot :: Scoreboard -> DisplaySlotId -> ScoreboardObjectiveDisplayOptions -> ScoreboardObjective
+setObjectiveAtDisplaySlot :: Scoreboard -> DisplaySlotId -> ScoreboardObjectiveDisplayOptions -> ScoreboardObjective
+setObjectiveAtDisplaySlot a b c =  (_prim_setObjectiveAtDisplaySlot a b c)
 foreign import getEntity_ScoreboardIdentity :: ScoreboardIdentity -> Entity
 foreign import isValid_ScoreboardIdentity :: ScoreboardIdentity -> Boolean
 foreign import addScore :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Int -> Int
 foreign import getParticipants_ScoreboardObjective :: ScoreboardObjective -> Array (ScoreboardIdentity)
-foreign import getScore :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Nullable (Int)
+foreign import _prim_getScore :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Nullable (Int)
+getScore :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Maybe (Int)
+getScore a b = toMaybe (_prim_getScore a b)
 foreign import getScores :: ScoreboardObjective -> Array (ScoreboardScoreInfo)
 foreign import hasParticipant :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Boolean
 foreign import isValid_ScoreboardObjective :: ScoreboardObjective -> Boolean
@@ -2359,16 +3388,24 @@ foreign import removeParticipant :: ScoreboardObjective -> (Entity |+| Scoreboar
 foreign import setScore :: ScoreboardObjective -> (Entity |+| ScoreboardIdentity |+| String) -> Int -> Eff.Effect Unit
 foreign import isValid_ScreenDisplay :: ScreenDisplay -> Boolean
 foreign import setActionBar :: ScreenDisplay -> (Array ((RawMessage |+| String)) |+| RawMessage |+| String) -> Eff.Effect Unit
-foreign import setTitle :: ScreenDisplay -> (Array ((RawMessage |+| String)) |+| RawMessage |+| String) -> Nullable (TitleDisplayOptions) -> Eff.Effect Unit
+foreign import _prim_setTitle :: ScreenDisplay -> (Array ((RawMessage |+| String)) |+| RawMessage |+| String) -> Nullable (TitleDisplayOptions) -> Eff.Effect Unit
+setTitle :: ScreenDisplay -> (Array ((RawMessage |+| String)) |+| RawMessage |+| String) -> Maybe (TitleDisplayOptions) -> Eff.Effect Unit
+setTitle a b c =  (_prim_setTitle a b (toNullable c))
 foreign import updateSubtitle :: ScreenDisplay -> (Array ((RawMessage |+| String)) |+| RawMessage |+| String) -> Eff.Effect Unit
-foreign import subscribe_ScriptEventCommandMessageAfterEventSignal :: ScriptEventCommandMessageAfterEventSignal -> (ScriptEventCommandMessageAfterEvent -> Eff.Effect Unit) -> Nullable (ScriptEventMessageFilterOptions) -> (ScriptEventCommandMessageAfterEvent -> Eff.Effect Unit)
+foreign import _prim_subscribe_ScriptEventCommandMessageAfterEventSignal :: ScriptEventCommandMessageAfterEventSignal -> (ScriptEventCommandMessageAfterEvent -> Eff.Effect Unit) -> Nullable (ScriptEventMessageFilterOptions) -> (ScriptEventCommandMessageAfterEvent -> Eff.Effect Unit)
+subscribe_ScriptEventCommandMessageAfterEventSignal :: ScriptEventCommandMessageAfterEventSignal -> (ScriptEventCommandMessageAfterEvent -> Eff.Effect Unit) -> Maybe (ScriptEventMessageFilterOptions) -> (ScriptEventCommandMessageAfterEvent -> Eff.Effect Unit)
+subscribe_ScriptEventCommandMessageAfterEventSignal a b c =  (_prim_subscribe_ScriptEventCommandMessageAfterEventSignal a b (toNullable c))
 foreign import unsubscribe_ScriptEventCommandMessageAfterEventSignal :: ScriptEventCommandMessageAfterEventSignal -> (ScriptEventCommandMessageAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import subscribe_ServerMessageAfterEventSignal :: ServerMessageAfterEventSignal -> (MessageReceiveAfterEvent -> Eff.Effect Unit) -> (MessageReceiveAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_ServerMessageAfterEventSignal :: ServerMessageAfterEventSignal -> (MessageReceiveAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import clearRun :: System -> Int -> Eff.Effect Unit
 foreign import run :: System -> (Unit -> Eff.Effect Unit) -> Int
-foreign import runInterval :: System -> (Unit -> Eff.Effect Unit) -> Nullable (Int) -> Int
-foreign import runTimeout :: System -> (Unit -> Eff.Effect Unit) -> Nullable (Int) -> Int
+foreign import _prim_runInterval :: System -> (Unit -> Eff.Effect Unit) -> Nullable (Int) -> Int
+runInterval :: System -> (Unit -> Eff.Effect Unit) -> Maybe (Int) -> Int
+runInterval a b c =  (_prim_runInterval a b (toNullable c))
+foreign import _prim_runTimeout :: System -> (Unit -> Eff.Effect Unit) -> Nullable (Int) -> Int
+runTimeout :: System -> (Unit -> Eff.Effect Unit) -> Maybe (Int) -> Int
+runTimeout a b c =  (_prim_runTimeout a b (toNullable c))
 foreign import subscribe_TargetBlockHitAfterEventSignal :: TargetBlockHitAfterEventSignal -> (TargetBlockHitAfterEvent -> Eff.Effect Unit) -> (TargetBlockHitAfterEvent -> Eff.Effect Unit)
 foreign import unsubscribe_TargetBlockHitAfterEventSignal :: TargetBlockHitAfterEventSignal -> (TargetBlockHitAfterEvent -> Eff.Effect Unit) -> Eff.Effect Unit
 foreign import mk_Trigger :: String -> Trigger
@@ -2399,14 +3436,26 @@ foreign import getAllPlayers :: World -> Array (Player)
 foreign import getDay :: World -> Int
 foreign import getDefaultSpawnLocation :: World -> Vector3
 foreign import getDimension :: World -> String -> Dimension
-foreign import getDynamicProperty_World :: World -> String -> Nullable ((Boolean |+| Number |+| String |+| Vector3))
-foreign import getEntity_World :: World -> String -> Nullable (Entity)
+foreign import _prim_getDynamicProperty_World :: World -> String -> Nullable ((Boolean |+| Number |+| String |+| Vector3))
+getDynamicProperty_World :: World -> String -> Maybe ((Boolean |+| Number |+| String |+| Vector3))
+getDynamicProperty_World a b = toMaybe (_prim_getDynamicProperty_World a b)
+foreign import _prim_getEntity_World :: World -> String -> Nullable (Entity)
+getEntity_World :: World -> String -> Maybe (Entity)
+getEntity_World a b = toMaybe (_prim_getEntity_World a b)
 foreign import getMoonPhase :: World -> MoonPhase
-foreign import getPlayers_World :: World -> Nullable (EntityQueryOptions) -> Array (Player)
+foreign import _prim_getPlayers_World :: World -> Nullable (EntityQueryOptions) -> Array (Player)
+getPlayers_World :: World -> Maybe (EntityQueryOptions) -> Array (Player)
+getPlayers_World a b =  (_prim_getPlayers_World a (toNullable b))
 foreign import getTimeOfDay :: World -> Int
-foreign import playMusic :: World -> String -> Nullable (MusicOptions) -> Eff.Effect Unit
-foreign import playSound_World :: World -> String -> Vector3 -> Nullable (WorldSoundOptions) -> Eff.Effect Unit
-foreign import queueMusic :: World -> String -> Nullable (MusicOptions) -> Eff.Effect Unit
+foreign import _prim_playMusic :: World -> String -> Nullable (MusicOptions) -> Eff.Effect Unit
+playMusic :: World -> String -> Maybe (MusicOptions) -> Eff.Effect Unit
+playMusic a b c =  (_prim_playMusic a b (toNullable c))
+foreign import _prim_playSound_World :: World -> String -> Vector3 -> Nullable (WorldSoundOptions) -> Eff.Effect Unit
+playSound_World :: World -> String -> Vector3 -> Maybe (WorldSoundOptions) -> Eff.Effect Unit
+playSound_World a b c d =  (_prim_playSound_World a b c (toNullable d))
+foreign import _prim_queueMusic :: World -> String -> Nullable (MusicOptions) -> Eff.Effect Unit
+queueMusic :: World -> String -> Maybe (MusicOptions) -> Eff.Effect Unit
+queueMusic a b c =  (_prim_queueMusic a b (toNullable c))
 foreign import removeDynamicProperty_World :: World -> String -> Boolean
 foreign import sendMessage_World :: World -> (Array ((RawMessage |+| String)) |+| RawMessage |+| String) -> Eff.Effect Unit
 foreign import setAbsoluteTime :: World -> Int -> Eff.Effect Unit

@@ -8,7 +8,6 @@ import Prelude
 import Control.Alternative (guard)
 import Data.Int (toNumber)
 import Data.List (List, range)
-import Data.Nullable (toMaybe)
 import Effect (Effect)
 import Untagged.Union (asOneOf)
 
@@ -24,7 +23,7 @@ sphere r v = do
   pure $ { x: toNumber x + v.x, y: toNumber y + v.y, z: toNumber z + v.z }
 
 set_block :: BlockType -> Vector3 -> Effect Unit
-set_block b v = case toMaybe $ getBlock overworld v of
+set_block b v = case getBlock overworld v of
   Just block -> setType block (asOneOf b)
   Nothing -> pure unit
 

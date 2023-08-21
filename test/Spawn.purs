@@ -13,6 +13,7 @@ overworld = getDimension world "overworld"
 spawn_entity :: BlockPlaceAfterEvent -> Effect Unit
 spawn_entity e = runEff $ spawnEntity overworld "minecraft:pig" e.block.location
 
+sub_block_place :: (BlockPlaceAfterEvent -> Effect Unit) -> (BlockPlaceAfterEvent -> Effect Unit)
 sub_block_place = subscribe world.afterEvents.blockPlace
 
 main :: Effect Unit
